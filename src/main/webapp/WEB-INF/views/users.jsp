@@ -15,21 +15,39 @@
 <h3>
 	<c:if test="${not empty errorMessage}">
 		<c:out value="${errorMessage}"/>
-		<br>
 	</c:if>
 
-	<br>
-	<spring:url value="/adduser/" var="adduser" />
-	<a href="${adduser}" title="Add User">Add User</a>
-	<br>
-		
- 	<c:forEach items="${users}" var="user">
-   	 	<br>
-   	 	<spring:url value="/users/${user.id}" var="user" />
-	    <a href="${user}" title="Edit User">Edit User</a>
-   	 	<c:out value="${user}" />
-   	 	<br>
- 	</c:forEach>
+	<table>
+	 <tr>
+	  <td width="50">Id</td>
+	  <td width="150">First Name</td>
+	  <td width="150">Last Name</td>
+	  <td width="150">emailaddress</td>
+	  <td width="100">password</td>
+	  <td width="50">role.id</td>
+	  <td width="100"></td>
+	 </tr>
+	 <c:forEach items="${users}" var="user">
+	  <tr>
+	   <td><c:out value="${user.id}" /></td>
+	   <td><c:out value="${user.firstname}" /></td>
+	   <td><c:out value="${user.lastname}" /></td>
+	   <td><c:out value="${user.emailaddress}" /></td>
+	   <td><c:out value="${user.password}" /></td>
+	   <td><c:out value="${user.role.id}" /></td>
+	   <td><spring:url value="/users/${user.id}" var="user" />
+	    <a href="${user}" title="Edit User">Edit</a></td>
+	  </tr>
+	 </c:forEach>
+	  <tr>
+	   <td colspan="7">
+	 	<spring:url value="/adduser/" var="adduser" />
+	 	<a href="${adduser}" title="Add User">Add User</a>
+	   </td>
+	  </tr>
+	</table>
+	
+	
 	
 </h3>
 </form:form>
