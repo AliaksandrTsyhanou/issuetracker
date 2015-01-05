@@ -1,0 +1,22 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ page session="true"%>
+<html>
+<head>
+<title>Home</title>
+</head>
+<body>
+ <jsp:include page="/WEB-INF/views/header.jsp"/>
+
+	<h1>Hello world!</h1>
+		
+		<br>
+		<spring:url value="/admin/" var="adminUrl" />
+		<a href="${adminUrl}" title="Admin">Admin</a>
+		
+		<br>
+		<spring:url value="/users/" var="users" />
+		<a href="${users}" title="users">users</a>
+	
+</body>
+</html>

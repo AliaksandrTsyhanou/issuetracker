@@ -1,0 +1,43 @@
+@CHARSET "UTF-8";
+.file { display: none; }
+.button {
+    display: inline-block;
+    padding: 2px;
+    background: royalblue;
+    color: yellow;
+    font-weight:bold;
+    border: 1px solid blue;
+    cursor: pointer;
+}
+table{
+    margin-left: auto;
+	margin-right: auto;
+	text-align:left;
+    border-collapse:collapse;
+    /*width:70%;*/
+}
+#checkboxTable{
+	text-align:center;
+	background: springgreen;
+	width:5px;	
+}
+#taskTable{
+	text-align:center;
+	background: springgreen;
+	width:400px;	
+}
+#taskTableField{
+	text-align:left;
+	width:400px;	
+}
+#dateTable{
+	text-align:center;
+	background: springgreen;
+	width:100px;	
+	text-align:center;
+}
+#fileTable{
+	text-align:center;
+	background: springgreen;
+	width:150px;	
+}
