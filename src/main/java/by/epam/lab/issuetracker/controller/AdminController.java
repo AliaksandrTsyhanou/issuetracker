@@ -50,7 +50,7 @@ public class AdminController {
 		System.out.println("id=" + id);
 		User user = userManager.getUserById(id);
 		model.addAttribute("user", user);		
-		return "adduser";
+		return "edituser";
 	}
 	
 	@RequestMapping(value = "/adduser/", method = RequestMethod.GET)
