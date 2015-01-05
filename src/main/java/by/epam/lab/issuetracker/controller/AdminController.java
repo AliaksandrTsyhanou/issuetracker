@@ -4,8 +4,10 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.WebRequest;
@@ -32,6 +34,23 @@ public class AdminController {
 	@RequestMapping(value="/users", method=RequestMethod.GET) 
 	public String getUsers() {
 		return "users";
+	}
+	
+	@RequestMapping(value="/users/{id}", method = RequestMethod.POST) 
+	public String saveEdit(@ModelAttribute("user") User user,
+			BindingResult result) throws Exception {
+		System.out.println("@RequestMapping(value=/users/{id}, method = RequestMethod.POST)");
+		userManager.updateUser(user);
+		return "users";
+	}
+	
+	@RequestMapping(value="/users/{id}", method = RequestMethod.GET) 
+	public String getUser(@PathVariable int id, Model model) throws Exception {
+		System.out.println("@RequestMapping(value=/users/{id}, method = RequestMethod.GET)");
+		System.out.println("id=" + id);
+		User user = userManager.getUserById(id);
+		model.addAttribute("user", user);		
+		return "adduser";
 	}
 	
 	@RequestMapping(value = "/adduser/", method = RequestMethod.GET)

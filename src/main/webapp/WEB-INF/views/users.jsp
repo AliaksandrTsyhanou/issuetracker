@@ -10,7 +10,7 @@
 <style type="text/css"> <%@include file="/resources/css/form.css" %> </style>
 <body>
 <jsp:include page="/WEB-INF/views/header.jsp"/>
-<form:form name="Users" id="UsersForm" method="POST" action="get" modelAttribute="users">
+<form:form name="Users" id="UsersForm" method="get"  modelAttribute="users">
 
 <h3>
 	<c:if test="${not empty errorMessage}">
@@ -24,6 +24,9 @@
 	<br>
 		
  	<c:forEach items="${users}" var="user">
+   	 	<br>
+   	 	<spring:url value="/users/${user.id}" var="user" />
+	    <a href="${user}" title="Edit User">Edit User</a>
    	 	<c:out value="${user}" />
    	 	<br>
  	</c:forEach>

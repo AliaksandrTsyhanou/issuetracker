@@ -51,8 +51,22 @@ public class UserDAO {
 //            System.out.println("++++++++" + user.getRole());
             return user;
         } catch (HibernateException e) {
-            System.out.println("UsernameNotFoundException(User with emailaddress + emailaddress + not found.");
+            System.out.println("UsernameNotFoundException(User with emailaddress " + emailaddress + " not found.)");
         	throw new UsernameNotFoundException("User with emailaddress " + emailaddress + " not found.");
+        }
+    }
+	
+	@Transactional
+	public User getUserById(int id) {
+        try {        	
+//            User user = (User) getSession().load(User.class, id);
+            Query q = getSession().createQuery("from User where id = :id");
+            q.setInteger("id", id);
+            User user = (User) q.uniqueResult();
+            return user;
+        } catch (HibernateException e) {
+            System.out.println("UsernameNotFoundException(User with id " + id + " not found.");
+        	throw new UsernameNotFoundException("User with id " + id + " not found.)");
         }
     }
 
@@ -64,6 +78,16 @@ public class UserDAO {
             throw new Exception("Could not delete user " + user.getUsername(), e);
         }
     }
+	
+	@Transactional
+	public void updateUser(User user) throws Exception {
+        try {
+            getSession().update(user);
+        } catch (HibernateException e) {
+            throw new Exception("Could not update user " + user.getUsername(), e);
+        }
+    }
+	
 	
 	@SuppressWarnings("unchecked")
 	@Transactional

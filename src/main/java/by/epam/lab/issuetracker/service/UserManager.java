@@ -28,4 +28,14 @@ public class UserManager {
 	public List<User> getAllUser() throws Exception{
 		return userDAO.getAllUser();
 	}
+
+	public void updateUser(User user) throws Exception{
+		userDAO.updateUser(user);
+	}
+	
+	public User getUserById(int id) throws UsernameNotFoundException{
+		User user = userDAO.getUserById(id);
+		return user;
+	}
+	
 }
