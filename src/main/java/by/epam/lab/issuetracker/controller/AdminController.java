@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import by.epam.lab.issuetracker.entity.Role;
 import by.epam.lab.issuetracker.entity.User;
 import by.epam.lab.issuetracker.service.RoleManager;
 import by.epam.lab.issuetracker.service.UserManager;
@@ -54,10 +55,8 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value = "/adduser/", method = RequestMethod.GET)
-	public ModelAndView showFormAddUser() {
-		ModelAndView modelAndView = new ModelAndView("adduser");
-		modelAndView.addObject("roles", rolerManager.getAllRole());
-		return modelAndView;
+	public String showFormAddUser() {
+		return "adduser";
 	}
 	
 	@RequestMapping(value = "/adduser/add", method = RequestMethod.POST)
@@ -79,5 +78,10 @@ public class AdminController {
 	@ModelAttribute("users")	
 	public List<User> getAllUser() throws Exception{
 		return userManager.getAllUser();
+	}
+	
+	@ModelAttribute("roles")	
+	public List<Role> getAllRole() throws Exception{
+		return rolerManager.getAllRole();
 	}
 }

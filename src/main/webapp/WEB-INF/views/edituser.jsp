@@ -27,11 +27,11 @@
 	<form:input path="emailaddress"/><br><br>
 	<form:label path="password">password</form:label>
 	<form:input path="password"/><br><br>
-	<form:label path="role.id">role</form:label>
-	<form:input path="role.id"/><br><br>
-<%--     <form:select path="role.id"> --%>
-<%-- 		<form:options items="${roles}" itemValue="id" itemLabel="name"/> --%>
-<%-- 	</form:select><br><br> --%>
+<%-- 	<form:label path="role.id">role</form:label> --%>
+<%-- 	<form:input path="role.id"/><br><br> --%>
+    <form:select path="role.id">
+		<form:options items="${roles}" itemValue="id" itemLabel="name"/>
+	</form:select><br><br>
 	
 	<input type="submit" value="save edit User"/> &nbsp;&nbsp;
 </h3>

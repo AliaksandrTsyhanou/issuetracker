@@ -63,7 +63,7 @@ public class UserDAO {
             Query q = getSession().createQuery("from User where id = :id");
             q.setInteger("id", id);
             User user = (User) q.uniqueResult();
-            System.out.println(user.getRole());
+//            System.out.println(user.getRole());
             return user;
         } catch (HibernateException e) {
             System.out.println("UsernameNotFoundException(User with id " + id + " not found.");
