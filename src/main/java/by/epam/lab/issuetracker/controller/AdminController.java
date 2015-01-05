@@ -45,7 +45,7 @@ public class AdminController {
 	public String addUser(@ModelAttribute("user") User user,
 			BindingResult result, WebRequest request) throws Exception {
 		System.out.println("@RequestMapping(value = /add, method = RequestMethod.POST)");
-		System.out.println("========================");
+		System.out.println("=================");
 		System.out.println("+++User= " + user);
 
 		userManager.addUser(user);
