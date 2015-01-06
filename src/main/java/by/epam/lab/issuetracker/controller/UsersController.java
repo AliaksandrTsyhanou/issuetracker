@@ -72,6 +72,9 @@ public class UsersController {
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public String addUser(@ModelAttribute("user") @Validated User user,
 			BindingResult result, WebRequest request) throws Exception {
+		if (result.hasErrors()){
+			return "adduser";
+		}		
 		System.out.println("@RequestMapping(value = /add, method = RequestMethod.POST)");
 		System.out.println("=================");
 		System.out.println("+++User= " + user);

@@ -7,7 +7,7 @@
     	http://www.springframework.org/schema/beans/spring-beans-4.1.xsd">
 	
 
-	<!-- Файл с настройками ресурсов для работы с данными (Data Access Resources) -->
+	<!-- file with context configuration -->
 	<import resource="classpath:dataconfig.xml" />
 
 </beans>
