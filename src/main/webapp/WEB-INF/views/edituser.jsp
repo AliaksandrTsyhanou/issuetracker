@@ -27,13 +27,16 @@
 	<form:input path="emailaddress"/><br><br>
 	<form:label path="password">password</form:label>
 	<form:input path="password"/><br><br>
-<%-- 	<form:label path="role.id">role</form:label> --%>
-<%-- 	<form:input path="role.id"/><br><br> --%>
+    <form:label path="role.id">role</form:label>
     <form:select path="role.id">
 		<form:options items="${roles}" itemValue="id" itemLabel="name"/>
 	</form:select><br><br>
 	
-	<input type="submit" value="save edit User"/> &nbsp;&nbsp;
+	<input type="submit" value="Save Changes"/> &nbsp;&nbsp;
+	
+
+		<spring:url value="/users/" var="users" />
+		<a href="${users}" title="users">back</a>
 </h3>
 </form:form>
 <jsp:include page="/WEB-INF/views/footer.jsp"/>

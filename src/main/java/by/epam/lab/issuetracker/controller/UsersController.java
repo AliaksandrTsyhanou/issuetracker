@@ -27,20 +27,20 @@ public class UsersController {
 	@Autowired
 	private RoleManager rolerManager;
 	
-	@RequestMapping(value="/users", method=RequestMethod.GET) 
+	@RequestMapping(method=RequestMethod.GET) 
 	public String getUsers() {
 		return "users";
 	}
 	
-	@RequestMapping(value="/users/{id}", method = RequestMethod.POST) 
+	@RequestMapping(value="/{id}", method = RequestMethod.POST) 
 	public String saveEdit(@ModelAttribute("user") User user,
 			BindingResult result) throws Exception {
 		System.out.println("@RequestMapping(value=/users/{id}, method = RequestMethod.POST)");
 		userManager.updateUser(user);
-		return "users";
+		return "redirect:/users";
 	}
 	
-	@RequestMapping(value="/users/{id}", method = RequestMethod.GET) 
+	@RequestMapping(value="/{id}", method = RequestMethod.GET) 
 	public String getUser(@PathVariable long id, Model model) throws Exception {
 		System.out.println("@RequestMapping(value=/users/{id}, method = RequestMethod.GET)");
 		System.out.println("id=" + id);
@@ -49,12 +49,12 @@ public class UsersController {
 		return "edituser";
 	}
 	
-	@RequestMapping(value = "/users/add", method = RequestMethod.GET)
+	@RequestMapping(value = "/add", method = RequestMethod.GET)
 	public String showFormAddUser() {
 		return "adduser";
 	}
 	
-	@RequestMapping(value = "/users/add", method = RequestMethod.POST)
+	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public String addUser(@ModelAttribute("user") User user,
 			BindingResult result, WebRequest request) throws Exception {
 		System.out.println("@RequestMapping(value = /add, method = RequestMethod.POST)");
@@ -62,7 +62,7 @@ public class UsersController {
 		System.out.println("+++User= " + user);
 
 		userManager.addUser(user);
-		return "redirect:/" ;
+		return "redirect:/users" ;
 	}
 	
 	@ModelAttribute("user")	

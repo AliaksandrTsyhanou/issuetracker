@@ -60,6 +60,8 @@ public class UserDAO {
 	public User getUserById(long id) {
 		try {        	
         	User user = (User) getSession().get(User.class, id);
+        	System.out.println("User user = (User) getSession().get(User.class, id);");
+//        	System.out.println("++++++++" + user.getRole());
             return user;
         } catch (HibernateException e) {
             System.out.println("UsernameNotFoundException(User with id " + id + " not found.");
@@ -89,9 +91,9 @@ public class UserDAO {
 	@SuppressWarnings("unchecked")
 	@Transactional
 	public List<User> getAllUser() {    	
-    	List<User> listRole = new ArrayList<User>();
-    	listRole = (List<User>) getSession().createCriteria(User.class).list();
-    	System.out.println(listRole);
-		return listRole;
+    	List<User> listUser = new ArrayList<User>();
+    	listUser = (List<User>) getSession().createCriteria(User.class).list();
+    	System.out.println("listUser= " + listUser);
+		return listUser;
 	}
 }

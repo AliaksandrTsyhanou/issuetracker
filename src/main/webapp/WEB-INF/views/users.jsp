@@ -24,8 +24,9 @@
 	  <td width="150">Last Name</td>
 	  <td width="150">emailaddress</td>
 	  <td width="100">password</td>
-	  <td width="50">role.id</td>
+	  <td width="150">role</td>
 	  <td width="100"></td>
+<!-- 	  <td width="100">role Name</td> -->
 	 </tr>
 	 <c:forEach items="${users}" var="user">
 	  <tr>
@@ -34,14 +35,14 @@
 	   <td><c:out value="${user.lastname}" /></td>
 	   <td><c:out value="${user.emailaddress}" /></td>
 	   <td><c:out value="${user.password}" /></td>
-	   <td><c:out value="${user.role.id}" /></td>
+	   <td><c:out value="${user.role.name}" /></td> 
 	   <td><spring:url value="/users/${user.id}" var="user" />
 	    <a href="${user}" title="Edit User">Edit</a></td>
 	  </tr>
 	 </c:forEach>
 	  <tr>
 	   <td colspan="7">
-	 	<spring:url value="users/add/" var="adduser" />
+	 	<spring:url value="/users/add" var="adduser" />
 	 	<a href="${adduser}" title="Add User">Add User</a>
 	   </td>
 	  </tr>
