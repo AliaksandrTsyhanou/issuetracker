@@ -1,8 +1,14 @@
 @CHARSET "UTF-8";
 body {
-	font-size:18px;
-	font-weight:bold;
+	font-size: 18px;
+	font-weight: bold;
 	background-color: azure;
-	color: black;
+ 	color: black;
+ 	errmsg.color: red; 
 	text-align:center;
+}
+#errmsg {
+	color: #ff0000;
+	font-style: italic;
+	font-size: 17px;
 }

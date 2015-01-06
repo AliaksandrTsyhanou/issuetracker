@@ -14,19 +14,15 @@
 <form:form name="editUser" id="editUserForm" method="POST" action="${saveUrl}" modelAttribute="user">
 
 <h3>
-<c:if test="${not empty errorMessage}">
-<c:out value="${errorMessage}"/>
-<br>
-</c:if>
-	 
 	<form:label path="firstname">firstname</form:label>
-	<form:input path="firstname"/><br><br>
+	<form:input path="firstname"/>
+	<form:errors path="firstname" id="errmsg"/><br><br>
 	<form:label path="lastname">lastname</form:label>
 	<form:input path="lastname"/><br><br>
 	<form:label path="emailaddress">emailaddress</form:label>
 	<form:input path="emailaddress"/><br><br>
 	<form:label path="password">password</form:label>
-	<form:input path="password"/><br><br>
+	<form:input type="password" path="password"/><br><br>
     <form:label path="role.id">role</form:label>
     <form:select path="role.id">
 		<form:options items="${roles}" itemValue="id" itemLabel="name"/>
@@ -41,3 +37,5 @@
 </form:form>
 <jsp:include page="/WEB-INF/views/footer.jsp"/>
 </body></html>
+
+<!-- cssStyle="color:red" -->

@@ -25,7 +25,7 @@
 	<form:label path="emailaddress">emailaddress</form:label>
 	<form:input path="emailaddress"/><br><br>
 	<form:label path="password">password</form:label>
-	<form:input path="password"/><br><br>
+	<form:input type="password" path="password"/><br><br>
 	<form:label path="role.id">role</form:label>
     <form:select path="role.id">
 		<form:options items="${roles}" itemValue="id" itemLabel="name"/>
