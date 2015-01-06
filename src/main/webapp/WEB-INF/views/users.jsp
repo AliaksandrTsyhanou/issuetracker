@@ -41,7 +41,7 @@
 	 </c:forEach>
 	  <tr>
 	   <td colspan="7">
-	 	<spring:url value="/adduser/" var="adduser" />
+	 	<spring:url value="users/add/" var="adduser" />
 	 	<a href="${adduser}" title="Add User">Add User</a>
 	   </td>
 	  </tr>

@@ -57,13 +57,9 @@ public class UserDAO {
     }
 	
 	@Transactional
-	public User getUserById(int id) {
-        try {        	
-//            User user = (User) getSession().load(User.class, id);
-            Query q = getSession().createQuery("from User where id = :id");
-            q.setInteger("id", id);
-            User user = (User) q.uniqueResult();
-//            System.out.println(user.getRole());
+	public User getUserById(long id) {
+		try {        	
+        	User user = (User) getSession().get(User.class, id);
             return user;
         } catch (HibernateException e) {
             System.out.println("UsernameNotFoundException(User with id " + id + " not found.");

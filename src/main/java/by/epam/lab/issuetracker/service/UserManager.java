@@ -33,7 +33,7 @@ public class UserManager {
 		userDAO.updateUser(user);
 	}
 	
-	public User getUserById(int id) throws UsernameNotFoundException{
+	public User getUserById(long id) throws UsernameNotFoundException{
 		User user = userDAO.getUserById(id);
 		return user;
 	}

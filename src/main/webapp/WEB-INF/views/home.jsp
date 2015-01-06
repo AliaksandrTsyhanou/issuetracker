@@ -11,10 +11,6 @@
 	<h1>Hello world!</h1>
 		
 		<br>
-		<spring:url value="/admin/" var="adminUrl" />
-		<a href="${adminUrl}" title="Admin">Admin</a>
-		
-		<br>
 		<spring:url value="/users/" var="users" />
 		<a href="${users}" title="users">users</a>
 	

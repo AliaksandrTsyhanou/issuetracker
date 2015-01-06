@@ -10,7 +10,7 @@
 <style type="text/css"> <%@include file="/resources/css/form.css" %> </style>
 <body>
 <jsp:include page="/WEB-INF/views/header.jsp"/>
-<form:form name="addUser" id="addUserForm" method="POST" action="add" modelAttribute="user">
+<form:form name="addUser" id="addUserForm" method="POST" modelAttribute="user">
 
 <h3>
 <c:if test="${not empty errorMessage}">
