@@ -20,12 +20,22 @@ public class User implements UserDetails{
 		// TODO Auto-generated constructor stub
 	}
 
-	public User(String username, String password, Role role) {
+	public User(String emailaddress, String password,
+			String firstname, String lastname) {
 		super();
-		this.emailaddress = username;
-		this.setRole(role);
+		this.emailaddress = emailaddress;
 		this.password = password;
+		this.role = new Role();
+		this.firstname = firstname;
+		this.lastname = lastname;
 	}
+
+//	public User(String username, String password, Role role) {
+//		super();
+//		this.emailaddress = username;
+//		this.setRole(role);
+//		this.password = password;
+//	}
 	
 	public String getEmailaddress() {
 		return emailaddress;

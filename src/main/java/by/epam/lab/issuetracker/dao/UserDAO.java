@@ -33,7 +33,8 @@ public class UserDAO {
         try {
         	//Role defaultRole = new Role(2, "USER", "ROLE_USER");
             //User user = new User(username, password, defaultRole);
-            getSession().save(user);
+            System.out.println("getSession().save(user);");
+        	getSession().save(user);
             return user;
         } catch (HibernateException e) {
         	throw new Exception("Could not create user " + user, e);        	
@@ -81,7 +82,8 @@ public class UserDAO {
 	@Transactional
 	public void updateUser(User user) throws Exception {
         try {
-            getSession().update(user);
+            System.out.println("getSession().update(user);");
+        	getSession().update(user);
         } catch (HibernateException e) {
             throw new Exception("Could not update user " + user.getUsername(), e);
         }

@@ -10,33 +10,50 @@
 <style type="text/css"> <%@include file="/resources/css/form.css" %> </style>
 <body>
 <jsp:include page="/WEB-INF/views/header.jsp"/>
-<form:form name="addUser" id="addUserForm" method="POST" modelAttribute="user">
 
-<h3>
-<c:if test="${not empty errorMessage}">
-<c:out value="${errorMessage}"/>
-<br>
-</c:if>
-	 
-	<form:label path="firstname">firstname</form:label>
-	<form:input path="firstname"/>
-	<form:errors path="firstname" id="errmsg"/><br><br>
-	<form:label path="lastname">lastname</form:label>
-	<form:input path="lastname"/>
-	<form:errors path="lastname" id="errmsg"/><br><br>
-	<form:label path="emailaddress">emailaddress</form:label>
-	<form:input path="emailaddress"/>
-	<form:errors path="emailaddress" id="errmsg"/><br><br>
-	<form:label path="password">password</form:label>
-	<form:input type="password" path="password"/>
-	<form:errors path="password" id="errmsg"/><br><br>
-	<form:label path="role.id">role</form:label>
-    <form:select path="role.id">
-		<form:options items="${roles}" itemValue="id" itemLabel="name"/>
-	</form:select><br><br>
-	
-	<input type="submit" value="add User"/> &nbsp;&nbsp;
-</h3>
+<form:form name="addUser" id="addUserForm" method="POST" modelAttribute="userAddDto">
+<table>
+	<tr>
+		<td> <form:label path="firstname">First Name</form:label> </td>
+		<td> <form:input path="firstname"/> </td>
+		<td> <form:errors path="firstname" id="errmsg"/> </td>
+	<tr>
+	<tr>
+		<td> <form:label path="lastname">Last Name</form:label> </td>
+		<td> <form:input path="lastname"/> </td>
+		<td> <form:errors path="lastname" id="errmsg"/> </td>
+	<tr>
+	<tr>
+		<td> <form:label path="emailaddress">Email Address</form:label> </td>
+		<td> <form:input path="emailaddress"/> </td>
+		<td> <form:errors path="emailaddress" id="errmsg"/> </td>
+	<tr>
+	<tr>
+		<td> <form:label path="role.id">role</form:label> </td>
+		<td> <form:select path="role.id">
+			 <form:options items="${roles}" itemValue="id" itemLabel="name"/>
+			 </form:select> </td>
+		<td> <form:errors path="role.id" id="errmsg"/> </td>
+	<tr>
+	<tr>
+		<td> <form:label path="password">Password</form:label> </td>
+		<td> <form:input path="password"/> </td>
+		<td> <form:errors path="password" id="errmsg"/> </td>
+	<tr>
+	<tr>
+		<td> <form:label path="passwordConfirmation">Password Confirmation</form:label> </td>
+		<td> <form:input path="passwordConfirmation"/> </td>
+		<td> <form:errors path="passwordConfirmation" id="errmsg"/> </td>
+	<tr>
+	<tr>
+		<td colspan="3"> <input type="submit" value="Add User"/> </td>
+	</tr>
+	<tr>
+		<td colspan="3"> <spring:url value="/users/" var="users" />
+			<a href="${users}" title="users">users</a> </td>
+	</tr>
+</table>
 </form:form>
+
 <jsp:include page="/WEB-INF/views/footer.jsp"/>
 </body></html>

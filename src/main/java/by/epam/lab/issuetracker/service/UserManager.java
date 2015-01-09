@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import by.epam.lab.issuetracker.dao.UserDAO;
+import by.epam.lab.issuetracker.entity.Role;
 import by.epam.lab.issuetracker.entity.User;
 
 @Service
@@ -20,9 +21,15 @@ public class UserManager {
 		return user;
 	}
 	
-	public User addUser(User user) throws Exception{
-		userDAO.addUser(user);
-		return user;		
+	public User addUser(UserAddDto userAddDto) throws Exception{
+		User addUser = new User();
+		addUser.setFirstname(userAddDto.getFirstname());
+		addUser.setLastname(userAddDto.getLastname());
+		addUser.setEmailaddress(userAddDto.getEmailaddress());
+		addUser.setPassword(userAddDto.getPassword());
+		addUser.setRole(userAddDto.getRole());
+		userDAO.addUser(addUser);
+		return addUser;		
 	}
 	
 	public List<User> getAllUser() throws Exception{

@@ -18,7 +18,9 @@ import org.springframework.web.context.request.WebRequest;
 import by.epam.lab.issuetracker.entity.Role;
 import by.epam.lab.issuetracker.entity.User;
 import by.epam.lab.issuetracker.service.RoleManager;
+import by.epam.lab.issuetracker.service.UserAddDto;
 import by.epam.lab.issuetracker.service.UserManager;
+import by.epam.lab.issuetracker.validators.UserAddDtoValidator;
 import by.epam.lab.issuetracker.validators.UserValidator;
 
 @Controller
@@ -33,10 +35,18 @@ public class UsersController {
 	
 	@Autowired
 	private UserValidator userValidator;
-		 
-	@InitBinder
-	private void initBinder(WebDataBinder binder) {
+	
+	@InitBinder("user")
+	private void initUserBinder(WebDataBinder binder) {
 		binder.setValidator(userValidator);
+	}
+	
+	@Autowired
+	private UserAddDtoValidator UserAddDtoValidator;	
+	
+	@InitBinder("userAddDto")
+	private void initUserAddDtoBinder(WebDataBinder binder) {
+		binder.addValidators(userValidator, UserAddDtoValidator);	
 	}
 	
 	@RequestMapping(method=RequestMethod.GET) 
@@ -70,21 +80,21 @@ public class UsersController {
 	}
 	
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public String addUser(@ModelAttribute("user") @Validated User user,
+	public String addUser(@ModelAttribute("userAddDto") @Validated UserAddDto userAddDto,
 			BindingResult result, WebRequest request) throws Exception {
 		if (result.hasErrors()){
 			return "adduser";
 		}		
 		System.out.println("@RequestMapping(value = /add, method = RequestMethod.POST)");
 		System.out.println("=================");
-		System.out.println("+++User= " + user);
+		System.out.println("+++User= " + userAddDto);
 
-		userManager.addUser(user);
+		userManager.addUser(userAddDto);
 		return "redirect:/users" ;
 	}
 	
 	@ModelAttribute("user")	
-	public User inputFormUser(){
+	public User getUser(){
 		return new User();
 	}
 	
@@ -97,4 +107,10 @@ public class UsersController {
 	public List<Role> getAllRole() throws Exception{
 		return rolerManager.getAllRole();
 	}
+	
+	@ModelAttribute("userAddDto")	
+	public UserAddDto getuserAddDto() throws Exception{
+		return new UserAddDto();
+	}
+	
 }
