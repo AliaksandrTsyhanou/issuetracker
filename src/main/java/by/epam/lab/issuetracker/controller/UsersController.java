@@ -18,8 +18,8 @@ import org.springframework.web.context.request.WebRequest;
 import by.epam.lab.issuetracker.entity.Role;
 import by.epam.lab.issuetracker.entity.User;
 import by.epam.lab.issuetracker.service.RoleManager;
-import by.epam.lab.issuetracker.service.UserAddDto;
 import by.epam.lab.issuetracker.service.UserManager;
+import by.epam.lab.issuetracker.service.dto.UserAddDto;
 import by.epam.lab.issuetracker.validators.UserAddDtoValidator;
 import by.epam.lab.issuetracker.validators.UserValidator;
 

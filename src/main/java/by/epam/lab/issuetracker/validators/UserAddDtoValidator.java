@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import by.epam.lab.issuetracker.service.UserAddDto;
+import by.epam.lab.issuetracker.service.dto.UserAddDto;
 
 @Component
 public class UserAddDtoValidator implements Validator {

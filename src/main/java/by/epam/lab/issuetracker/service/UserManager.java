@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import by.epam.lab.issuetracker.dao.UserDAO;
 import by.epam.lab.issuetracker.entity.Role;
 import by.epam.lab.issuetracker.entity.User;
+import by.epam.lab.issuetracker.service.dto.UserAddDto;
 
 @Service
 public class UserManager {
@@ -27,7 +28,9 @@ public class UserManager {
 		addUser.setLastname(userAddDto.getLastname());
 		addUser.setEmailaddress(userAddDto.getEmailaddress());
 		addUser.setPassword(userAddDto.getPassword());
-		addUser.setRole(userAddDto.getRole());
+		Role addRole = new Role();
+		addRole.setId(userAddDto.getRoleId());
+		addUser.setRole(addRole);
 		userDAO.addUser(addUser);
 		return addUser;		
 	}

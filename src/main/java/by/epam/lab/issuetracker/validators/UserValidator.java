@@ -15,6 +15,8 @@ public class UserValidator implements Validator {
 
     private static final String EMAIL_PATTERN = 
     		"^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+    private static final String PASSWORD_PATTERN = 
+    		"^([\\w@%$\\.\\;\\,\\-]){5,}$";
 	
 	@Override
 	public boolean supports(Class<?> clazz) {
@@ -33,7 +35,10 @@ public class UserValidator implements Validator {
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "user.variable.password.required");
 		User validUser = (User) target;
 		if (!validateEmail(validUser.getEmailaddress())){
-			errors.rejectValue("emailaddress", "user.variable.emailaddress.notcorrect");
+			errors.rejectValue("emailaddress", "user.variable.emailaddress.unvalid");
+		};
+		if (!validatePassword(validUser.getPassword())){
+			errors.rejectValue("password", "user.variable.password.unvalid");
 		};
 		
 	}
@@ -41,6 +46,12 @@ public class UserValidator implements Validator {
     private boolean validateEmail(String email) {
     	Pattern pattern = Pattern.compile(EMAIL_PATTERN);
     	Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
+    }
+    
+    private boolean validatePassword(String password) {
+    	Pattern pattern = Pattern.compile(PASSWORD_PATTERN);
+    	Matcher matcher = pattern.matcher(password);
         return matcher.matches();
     }
 }

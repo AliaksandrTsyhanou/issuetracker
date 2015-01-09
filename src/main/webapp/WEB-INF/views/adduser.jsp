@@ -29,11 +29,11 @@
 		<td> <form:errors path="emailaddress" id="errmsg"/> </td>
 	<tr>
 	<tr>
-		<td> <form:label path="role.id">role</form:label> </td>
-		<td> <form:select path="role.id">
+		<td> <form:label path="roleId">role</form:label> </td>
+		<td> <form:select path="roleId">
 			 <form:options items="${roles}" itemValue="id" itemLabel="name"/>
 			 </form:select> </td>
-		<td> <form:errors path="role.id" id="errmsg"/> </td>
+		<td> <form:errors path="roleId" id="errmsg"/> </td>
 	<tr>
 	<tr>
 		<td> <form:label path="password">Password</form:label> </td>
