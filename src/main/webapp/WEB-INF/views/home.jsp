@@ -13,6 +13,10 @@
 		<br>
 		<spring:url value="/users/" var="users" />
 		<a href="${users}" title="users">users</a>
+		
+		<br><br>
+		<spring:url value="/users/changepassword" var="changepassword" />
+		<a href="${changepassword}" title="changepassword">change password</a>
 	
 </body>
 </html>

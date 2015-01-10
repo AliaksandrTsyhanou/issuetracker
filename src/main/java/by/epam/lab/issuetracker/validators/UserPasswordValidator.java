@@ -8,17 +8,18 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
+import by.epam.lab.issuetracker.service.dto.IPasswordConfirmation;
 import by.epam.lab.issuetracker.service.dto.UserAddDto;
 
 @Component
-public class UserPasswordsValidator implements Validator {
+public class UserPasswordValidator implements Validator {
 	
 	 private static final String PASSWORD_PATTERN = "^([\\w@%$\\.\\;\\,\\-]){5,}$";
 
 	@Override
 	public boolean supports(Class<?> clazz) {
 		System.out.println("clazz.getName() = " + clazz.getName());
-		boolean returnValue = UserAddDto.class.isAssignableFrom(clazz);
+		boolean returnValue = IPasswordConfirmation.class.isAssignableFrom(clazz);
 		System.out.println("UserAddDto.class.isAssignableFrom(clazz) =" + returnValue);
 		return returnValue;
 	}
@@ -27,11 +28,11 @@ public class UserPasswordsValidator implements Validator {
 	public void validate(Object target, Errors errors) {
 		System.out.println("++++++password confirmation");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "user.variable.password.required");
-		UserAddDto validUserAddDto = (UserAddDto) target;
-		if (!validatePassword(validUserAddDto.getPassword())){
+		IPasswordConfirmation validPassword = (UserAddDto) target;
+		if (!validatePassword(validPassword.getPassword())){
 			errors.rejectValue("password", "user.variable.password.unvalid");
 		};
-		if (!validUserAddDto.getPassword().equals(validUserAddDto.getPasswordConfirmation())){
+		if (!validPassword.getPassword().equals(validPassword.getPasswordConfirmation())){
 			errors.rejectValue("passwordConfirmation", "user.variable.passwordConfirmation.notEqual");
 		}
 	}   

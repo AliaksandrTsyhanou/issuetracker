@@ -12,12 +12,15 @@
 	<http pattern="/adduser.jsp" security="none" />
 	<http pattern="/users.jsp" security="none" />
 	<http pattern="/edituser.jsp" security="none" />
+	<http pattern="/changepassword.jsp" security="none" />
+	
 	
 	<http auto-config="true" use-expressions="true">
 		<intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')" />
  		<intercept-url pattern="/adduser" access="permitAll" />   
  		<intercept-url pattern="/users/**" access="permitAll" />   
  		<intercept-url pattern="/users" access="permitAll" />  
+ 		<intercept-url pattern="/users/changepassword" access="permitAll" />  
 		<logout logout-url="/logout" />
   		<intercept-url pattern="/login" access="permitAll" />  
  

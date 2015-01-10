@@ -44,6 +44,10 @@
 			<a href="${users}" title="users">back</a> </td>
 	</tr>
 </table>
+
+<spring:url value="/users/${userEditDto.id}/changepassword/" var="changepassword" />
+			<a href="${changepassword}" title="changepassword">Change Password</a>
+			
 </form:form>
 
 <jsp:include page="/WEB-INF/views/footer.jsp"/>

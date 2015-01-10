@@ -19,9 +19,11 @@ import by.epam.lab.issuetracker.entity.Role;
 import by.epam.lab.issuetracker.entity.User;
 import by.epam.lab.issuetracker.service.RoleManager;
 import by.epam.lab.issuetracker.service.UserManager;
+import by.epam.lab.issuetracker.service.dto.ChangePasswordDto;
+import by.epam.lab.issuetracker.service.dto.IPasswordConfirmation;
 import by.epam.lab.issuetracker.service.dto.UserAddDto;
 import by.epam.lab.issuetracker.service.dto.UserEditDto;
-import by.epam.lab.issuetracker.validators.UserPasswordsValidator;
+import by.epam.lab.issuetracker.validators.UserPasswordValidator;
 import by.epam.lab.issuetracker.validators.UserEditValidator;
 
 @Controller
@@ -35,27 +37,23 @@ public class UsersController {
 	@Autowired
 	private UserEditValidator userEditValidator;
 	@Autowired
-	private UserPasswordsValidator userPasswordsValidator;	
+	private UserPasswordValidator userPasswordValidator;	
 	
 
-//	@InitBinder("user")
-//	private void initUserBinder(WebDataBinder binder) {
-//		binder.setValidator(userValidator);
-//	}
 	@InitBinder("userAddDto")
 	private void initUserAddDtoBinder(WebDataBinder binder) {
-		binder.addValidators(userEditValidator, userPasswordsValidator);	
+		binder.addValidators(userEditValidator, userPasswordValidator);	
 	}
 	@InitBinder("userEditDto")
 	private void initUserEditDtoBinder(WebDataBinder binder) {
 		binder.addValidators(userEditValidator);	
 	}
+	@InitBinder("ChangePasswordDto")
+	private void initChangePasswordDtoBinder(WebDataBinder binder) {
+		binder.addValidators(userPasswordValidator);	
+	}
 	
-
-//	@ModelAttribute("user")	
-//	public User getUser(){
-//		return new User();
-//	}
+	
 	@ModelAttribute("users")	
 	public List<User> getAllUser() throws Exception{
 		return userManager.getAllUser();
@@ -71,6 +69,10 @@ public class UsersController {
 	@ModelAttribute("userEditDto")	
 	public UserEditDto getUserEditDto() throws Exception{
 		return new UserEditDto();
+	}	
+	@ModelAttribute("changePasswordDto")	
+	public ChangePasswordDto getPasswordConfirmation() throws Exception{
+		return new ChangePasswordDto();
 	}	
 	
 
@@ -117,4 +119,14 @@ public class UsersController {
 		userManager.addUser(userAddDto);
 		return "redirect:/users" ;
 	}	
+	
+	@RequestMapping(value = "/changepassword", method = RequestMethod.GET)
+	public String showFormChangePassword() {
+		return "changepassword";
+	}
+	
+	@RequestMapping(value = "/{id}/changepassword", method = RequestMethod.GET)
+	public String showFormChangePasswordById() {
+		return "changepassword";
+	}
 }

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import by.epam.lab.issuetracker.dao.UserDAO;
 import by.epam.lab.issuetracker.entity.Role;
 import by.epam.lab.issuetracker.entity.User;
+import by.epam.lab.issuetracker.service.dto.ChangePasswordDto;
 import by.epam.lab.issuetracker.service.dto.UserAddDto;
 import by.epam.lab.issuetracker.service.dto.UserEditDto;
 

@@ -1,18 +1,18 @@
 package by.epam.lab.issuetracker.service.dto;
 
-public class UserAddDto extends UserEditDto implements IPasswordConfirmation {
+public class ChangePasswordDto implements IPasswordConfirmation {
 	
+//	private long UserId;
 	private String password;
 	private String passwordConfirmation;
 	
 
-	public UserAddDto() {
+	public ChangePasswordDto() {
 		super();
 	}
 	
-	public UserAddDto(String firstname, String lastname, String emailaddress,
-			int roleId, String password, String passwordConfirmation) {
-		super(firstname, lastname, emailaddress, roleId);
+	public ChangePasswordDto(String password, String passwordConfirmation) {
+		super();
 		this.password = password;
 		this.passwordConfirmation = passwordConfirmation;
 	}
@@ -36,4 +36,12 @@ public class UserAddDto extends UserEditDto implements IPasswordConfirmation {
 	public void setPasswordConfirmation(String passwordConfirmation) {
 		this.passwordConfirmation = passwordConfirmation;
 	}
+
+//	public long getUserId() {
+//		return UserId;
+//	}
+//
+//	public void setUserId(long userId) {
+//		UserId = userId;
+//	}
 }
