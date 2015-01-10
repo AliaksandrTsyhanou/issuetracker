@@ -10,9 +10,9 @@
 <style type="text/css"> <%@include file="/resources/css/form.css" %> </style>
 <body>
 <jsp:include page="/WEB-INF/views/header.jsp"/>
-<c:url var="saveUrl" value="/users/${user.id}" />
+<c:url var="saveUrl" value="/users/${userEditDto.id}" />
 
-<form:form name="editUser" id="editUserForm" method="POST" action="${saveUrl}" modelAttribute="user">
+<form:form name="editUser" id="editUserForm" method="POST" action="${saveUrl}" modelAttribute="userEditDto">
 <table>
 	<tr>
 		<td> <form:label path="firstname">First Name</form:label> </td>
@@ -30,16 +30,11 @@
 		<td> <form:errors path="emailaddress" id="errmsg"/> </td>
 	<tr>
 	<tr>
-		<td> <form:label path="password">Password</form:label> </td>
-		<td> <form:input path="password"/> </td>
-		<td> <form:errors path="password" id="errmsg"/> </td>
-	<tr>
-	<tr>
-		<td> <form:label path="role.id">role</form:label> </td>
-		<td> <form:select path="role.id">
+		<td> <form:label path="roleId">role</form:label> </td>
+		<td> <form:select path="roleId">
 			 <form:options items="${roles}" itemValue="id" itemLabel="name"/>
 			 </form:select><br><br> </td>
-		<td> <form:errors path="role" id="errmsg"/> </td>
+		<td> <form:errors path="roleId" id="errmsg"/> </td>
 	<tr>
 	<tr>
 		<td colspan="3"> <input type="submit" value="Save Changes"/> </td>

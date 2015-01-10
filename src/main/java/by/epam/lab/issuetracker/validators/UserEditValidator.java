@@ -9,20 +9,20 @@ import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 import by.epam.lab.issuetracker.entity.User;
+import by.epam.lab.issuetracker.service.dto.UserEditDto;
 
 @Component
-public class UserValidator implements Validator {
+public class UserEditValidator implements Validator {
 
     private static final String EMAIL_PATTERN = 
     		"^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
-    private static final String PASSWORD_PATTERN = 
-    		"^([\\w@%$\\.\\;\\,\\-]){5,}$";
-	
+   	
 	@Override
 	public boolean supports(Class<?> clazz) {
 		System.out.println("clazz.getName() = " + clazz.getName());
-		boolean returnValue = User.class.isAssignableFrom(clazz);
-		System.out.println("User.class.isAssignableFrom(clazz) =" + returnValue);
+		boolean returnValue = User.class.isAssignableFrom(clazz) || UserEditDto.class.isAssignableFrom(clazz);
+		System.out.println("User.class.isAssignableFrom(clazz) || UserEditDto.class.isAssignableFrom(clazz) ="
+						+ returnValue);
 		return returnValue;
 	}
 
@@ -32,14 +32,12 @@ public class UserValidator implements Validator {
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "firstname", "user.variable.firstname.required");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "lastname", "user.variable.lastname.required");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "emailaddress", "user.variable.emailaddress.required");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "user.variable.password.required");
-		User validUser = (User) target;
+		
+		UserEditDto validUser = (UserEditDto) target;
 		if (!validateEmail(validUser.getEmailaddress())){
 			errors.rejectValue("emailaddress", "user.variable.emailaddress.unvalid");
 		};
-		if (!validatePassword(validUser.getPassword())){
-			errors.rejectValue("password", "user.variable.password.unvalid");
-		};
+		
 		
 	}
     
@@ -49,9 +47,5 @@ public class UserValidator implements Validator {
         return matcher.matches();
     }
     
-    private boolean validatePassword(String password) {
-    	Pattern pattern = Pattern.compile(PASSWORD_PATTERN);
-    	Matcher matcher = pattern.matcher(password);
-        return matcher.matches();
-    }
+    
 }

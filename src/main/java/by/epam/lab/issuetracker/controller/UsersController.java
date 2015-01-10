@@ -20,8 +20,9 @@ import by.epam.lab.issuetracker.entity.User;
 import by.epam.lab.issuetracker.service.RoleManager;
 import by.epam.lab.issuetracker.service.UserManager;
 import by.epam.lab.issuetracker.service.dto.UserAddDto;
-import by.epam.lab.issuetracker.validators.UserAddDtoValidator;
-import by.epam.lab.issuetracker.validators.UserValidator;
+import by.epam.lab.issuetracker.service.dto.UserEditDto;
+import by.epam.lab.issuetracker.validators.UserPasswordsValidator;
+import by.epam.lab.issuetracker.validators.UserEditValidator;
 
 @Controller
 @RequestMapping(value = "/users")
@@ -29,49 +30,73 @@ public class UsersController {
 	
 	@Autowired
 	private UserManager userManager;
-	
 	@Autowired
 	private RoleManager rolerManager;
-	
 	@Autowired
-	private UserValidator userValidator;
-	
-	@InitBinder("user")
-	private void initUserBinder(WebDataBinder binder) {
-		binder.setValidator(userValidator);
-	}
-	
+	private UserEditValidator userEditValidator;
 	@Autowired
-	private UserAddDtoValidator UserAddDtoValidator;	
+	private UserPasswordsValidator userPasswordsValidator;	
 	
+
+//	@InitBinder("user")
+//	private void initUserBinder(WebDataBinder binder) {
+//		binder.setValidator(userValidator);
+//	}
 	@InitBinder("userAddDto")
 	private void initUserAddDtoBinder(WebDataBinder binder) {
-		binder.addValidators(userValidator, UserAddDtoValidator);	
+		binder.addValidators(userEditValidator, userPasswordsValidator);	
+	}
+	@InitBinder("userEditDto")
+	private void initUserEditDtoBinder(WebDataBinder binder) {
+		binder.addValidators(userEditValidator);	
 	}
 	
+
+//	@ModelAttribute("user")	
+//	public User getUser(){
+//		return new User();
+//	}
+	@ModelAttribute("users")	
+	public List<User> getAllUser() throws Exception{
+		return userManager.getAllUser();
+	}
+	@ModelAttribute("roles")	
+	public List<Role> getAllRole() throws Exception{
+		return rolerManager.getAllRole();
+	}
+	@ModelAttribute("userAddDto")	
+	public UserAddDto getUserAddDto() throws Exception{
+		return new UserAddDto();
+	}
+	@ModelAttribute("userEditDto")	
+	public UserEditDto getUserEditDto() throws Exception{
+		return new UserEditDto();
+	}	
+	
+
 	@RequestMapping(method=RequestMethod.GET) 
 	public String getUsers() {
 		return "users";
-	}
-	
-	@RequestMapping(value="/{id}", method = RequestMethod.POST) 
-	public String saveEdit(@ModelAttribute("user") @Validated User user,
-			BindingResult result) throws Exception {
-		if (result.hasErrors()){
-			return "edituser";
-		}
-		System.out.println("@RequestMapping(value=/users/{id}, method = RequestMethod.POST)");
-		userManager.updateUser(user);
-		return "redirect:/users";
 	}
 	
 	@RequestMapping(value="/{id}", method = RequestMethod.GET) 
 	public String getUser(@PathVariable long id, Model model) throws Exception {
 		System.out.println("@RequestMapping(value=/users/{id}, method = RequestMethod.GET)");
 		System.out.println("id=" + id);
-		User user = userManager.getUserById(id);
-		model.addAttribute("user", user);		
+		UserEditDto userEditDto = userManager.getUserEditDtoById(id);
+		model.addAttribute("userEditDto", userEditDto);		
 		return "edituser";
+	}
+	
+	@RequestMapping(value="/{id}", method = RequestMethod.POST) 
+	public String saveEdit(@ModelAttribute("userEditDto") @Validated UserEditDto userEditDto,
+			BindingResult result) throws Exception {
+		if (result.hasErrors()){
+			return "edituser";
+		}
+		System.out.println("@RequestMapping(value=/users/{id}, method = RequestMethod.POST)");
+		userManager.updateUser(userEditDto);
+		return "redirect:/users";
 	}
 	
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
@@ -91,26 +116,5 @@ public class UsersController {
 
 		userManager.addUser(userAddDto);
 		return "redirect:/users" ;
-	}
-	
-	@ModelAttribute("user")	
-	public User getUser(){
-		return new User();
-	}
-	
-	@ModelAttribute("users")	
-	public List<User> getAllUser() throws Exception{
-		return userManager.getAllUser();
-	}
-	
-	@ModelAttribute("roles")	
-	public List<Role> getAllRole() throws Exception{
-		return rolerManager.getAllRole();
-	}
-	
-	@ModelAttribute("userAddDto")	
-	public UserAddDto getuserAddDto() throws Exception{
-		return new UserAddDto();
-	}
-	
+	}	
 }
