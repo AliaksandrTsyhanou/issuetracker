@@ -2,7 +2,7 @@ package by.epam.lab.issuetracker.service.dto;
 
 public class ChangePasswordDto implements IPasswordConfirmation {
 	
-//	private long UserId;
+	private long UserId;
 	private String password;
 	private String passwordConfirmation;
 	
@@ -37,11 +37,11 @@ public class ChangePasswordDto implements IPasswordConfirmation {
 		this.passwordConfirmation = passwordConfirmation;
 	}
 
-//	public long getUserId() {
-//		return UserId;
-//	}
-//
-//	public void setUserId(long userId) {
-//		UserId = userId;
-//	}
+	public long getUserId() {
+		return UserId;
+	}
+
+	public void setUserId(long userId) {
+		UserId = userId;
+	}
 }

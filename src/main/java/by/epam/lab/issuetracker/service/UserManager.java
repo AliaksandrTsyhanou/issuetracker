@@ -42,7 +42,7 @@ public class UserManager {
 	}
 
 	public void updateUser(UserEditDto userEditDto) throws Exception{
-		User user = userDAO.getUserById(userEditDto.getId());
+		User user = userDAO.getUserById(userEditDto.getUserId());
 		user.setFirstname(userEditDto.getFirstname());
 		user.setLastname(userEditDto.getLastname());
 		user.setEmailaddress(userEditDto.getEmailaddress());
@@ -58,7 +58,7 @@ public class UserManager {
 	public UserEditDto getUserEditDtoById(long id) throws UsernameNotFoundException{
 		User user = userDAO.getUserById(id);
 		UserEditDto userEditDto = new UserEditDto();
-		userEditDto.setId(user.getId());
+		userEditDto.setUserId(user.getId());
 		userEditDto.setFirstname(user.getFirstname());
 		userEditDto.setLastname(user.getLastname());
 		userEditDto.setEmailaddress(user.getEmailaddress());
@@ -66,4 +66,9 @@ public class UserManager {
 		return userEditDto;
 	}
 	
+	public void changePasswordUser(ChangePasswordDto changePasswordDto) throws Exception {
+		User user = userDAO.getUserById(changePasswordDto.getUserId());
+		user.setPassword(changePasswordDto.getPassword());
+		userDAO.updateUser(user);		
+	}
 }

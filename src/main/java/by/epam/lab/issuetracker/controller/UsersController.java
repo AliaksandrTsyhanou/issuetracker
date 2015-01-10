@@ -48,7 +48,7 @@ public class UsersController {
 	private void initUserEditDtoBinder(WebDataBinder binder) {
 		binder.addValidators(userEditValidator);	
 	}
-	@InitBinder("ChangePasswordDto")
+	@InitBinder("changePasswordDto")
 	private void initChangePasswordDtoBinder(WebDataBinder binder) {
 		binder.addValidators(userPasswordValidator);	
 	}
@@ -109,6 +109,7 @@ public class UsersController {
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public String addUser(@ModelAttribute("userAddDto") @Validated UserAddDto userAddDto,
 			BindingResult result, WebRequest request) throws Exception {
+		System.out.println("/add result.hasErrors() = " + result.hasErrors());
 		if (result.hasErrors()){
 			return "adduser";
 		}		
@@ -125,8 +126,32 @@ public class UsersController {
 		return "changepassword";
 	}
 	
+	@RequestMapping(value = "/changepassword", method = RequestMethod.POST)
+	public String changePassword(@ModelAttribute("changePasswordDto") @Validated ChangePasswordDto changePasswordDto,
+			BindingResult result, WebRequest request) throws Exception {
+		System.out.println("result.hasErrors() = " + result.hasErrors());
+		if (result.hasErrors()){
+			return "changepassword";
+		}
+		userManager.changePasswordUser(changePasswordDto);
+		return "redirect:/users";
+	}
+	
 	@RequestMapping(value = "/{id}/changepassword", method = RequestMethod.GET)
-	public String showFormChangePasswordById() {
+	public String showFormChangePasswordById(@ModelAttribute("changePasswordDto") ChangePasswordDto changePasswordDto,
+			@PathVariable long id) {
+		changePasswordDto.setUserId(id);
 		return "changepassword";
+	}
+	
+	@RequestMapping(value = "/{id}/changepassword", method = RequestMethod.POST)
+	public String changePasswordById(@ModelAttribute("changePasswordDto") @Validated ChangePasswordDto changePasswordDto,
+			BindingResult result, WebRequest request) throws Exception {
+		System.out.println("result.hasErrors() = " + result.hasErrors());
+		if (result.hasErrors()){
+			return "changepassword";
+		}
+		userManager.changePasswordUser(changePasswordDto);
+		return "redirect:/users";
 	}
 }

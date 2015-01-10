@@ -10,7 +10,7 @@
 <style type="text/css"> <%@include file="/resources/css/form.css" %> </style>
 <body>
 <jsp:include page="/WEB-INF/views/header.jsp"/>
-<c:url var="saveUrl" value="/users/${userEditDto.id}" />
+<c:url var="saveUrl" value="/users/${userEditDto.userId}" />
 
 <form:form name="editUser" id="editUserForm" method="POST" action="${saveUrl}" modelAttribute="userEditDto">
 <table>
@@ -45,7 +45,7 @@
 	</tr>
 </table>
 
-<spring:url value="/users/${userEditDto.id}/changepassword/" var="changepassword" />
+<spring:url value="/users/${userEditDto.userId}/changepassword/" var="changepassword" />
 			<a href="${changepassword}" title="changepassword">Change Password</a>
 			
 </form:form>

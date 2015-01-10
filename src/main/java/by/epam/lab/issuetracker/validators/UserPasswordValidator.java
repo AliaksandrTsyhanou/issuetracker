@@ -5,11 +5,9 @@ import java.util.regex.Pattern;
 
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
-import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 import by.epam.lab.issuetracker.service.dto.IPasswordConfirmation;
-import by.epam.lab.issuetracker.service.dto.UserAddDto;
 
 @Component
 public class UserPasswordValidator implements Validator {
@@ -27,14 +25,17 @@ public class UserPasswordValidator implements Validator {
 	@Override
 	public void validate(Object target, Errors errors) {
 		System.out.println("++++++password confirmation");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "user.variable.password.required");
-		IPasswordConfirmation validPassword = (UserAddDto) target;
+//		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "user.variable.password.required");
+		IPasswordConfirmation validPassword = (IPasswordConfirmation) target;
 		if (!validatePassword(validPassword.getPassword())){
 			errors.rejectValue("password", "user.variable.password.unvalid");
 		};
 		if (!validPassword.getPassword().equals(validPassword.getPasswordConfirmation())){
 			errors.rejectValue("passwordConfirmation", "user.variable.passwordConfirmation.notEqual");
 		}
+		System.out.println("validPassword.getUserId(); = " + validPassword.getUserId());
+		System.out.println("validate errors.hasErrors() = " + errors.hasErrors());
+		System.out.println("-----password confirmation");
 	}   
 	
 	

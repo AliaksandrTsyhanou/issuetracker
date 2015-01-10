@@ -2,7 +2,7 @@ package by.epam.lab.issuetracker.service.dto;
 
 public class UserEditDto{
 
-	private long id;
+	private long userId;
 	private String firstname;
 	private String lastname;
 	private String emailaddress;
@@ -22,12 +22,12 @@ public class UserEditDto{
 		this.roleId = roleId;
 	}
 	
-	public long getId() {
-		return id;
+	public long getUserId() {
+		return userId;
 	}
 
-	public void setId(long id) {
-		this.id = id;
+	public void setUserId(long id) {
+		this.userId = id;
 	}	
 
 	public String getFirstname() {

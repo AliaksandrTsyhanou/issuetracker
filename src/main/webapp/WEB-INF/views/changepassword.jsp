@@ -10,9 +10,15 @@
 <style type="text/css"> <%@include file="/resources/css/form.css" %> </style>
 <body>
 <jsp:include page="/WEB-INF/views/header.jsp"/>
-
+<%-- <c:url var="saveUrl" value="/users/${changePasswordDto.userId}/changepassword" /> --%>
+<%-- <c:url var="saveUrl" value="/users/15/changepassword" /> --%>
 <form:form name="changePassword" id="changePasswordForm" method="POST" modelAttribute="changePasswordDto">
 <table>
+	<tr>
+		<td> <form:label path="userId">userId</form:label> </td>
+		<td> <form:input path="userId"/> </td>
+		<td> <form:errors path="userId" id="errmsg"/> </td>
+	<tr>
 	<tr>
 		<td> <form:label path="password">New Password</form:label> </td>
 		<td> <form:input path="password"/> </td>
