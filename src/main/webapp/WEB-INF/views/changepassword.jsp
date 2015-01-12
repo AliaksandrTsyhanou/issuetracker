@@ -3,6 +3,7 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ page session="true"%>
+<%@ taglib prefix="sec"	uri="http://www.springframework.org/security/tags"%>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF8">
@@ -26,10 +27,14 @@
 	<tr>
 		<td colspan="3"> <input type="submit" value="Change Password"/> </td>
 	</tr>
-	<tr>
-		<td colspan="3"> <spring:url value="/users/" var="users" />
-			<a href="${users}" title="users">users</a> </td>
-	</tr>
+	<sec:authorize access="hasRole('ROLE_ADMIN')">
+		<tr>
+			<td colspan="3"> <spring:url value="/users/" var="users" />
+				<a href="${users}" title="users">users</a> </td>
+		</tr>
+	</sec:authorize>		
+	
+
 </table>
 </form:form>
 

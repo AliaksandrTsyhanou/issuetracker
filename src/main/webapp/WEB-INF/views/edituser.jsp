@@ -14,6 +14,7 @@
 <%-- <c:url var="saveUrl" value="/users/${userEditDto.userId}" /> --%>
 <%-- action="${saveUrl}" --%>
 <form:form name="editUser" id="editUserForm" method="POST"  modelAttribute="userEditDto">
+	<form:input path="userId" type="hidden"/>
 <table>
 	<tr>
 		<td> <form:label path="firstname">First Name</form:label> </td>
@@ -39,12 +40,12 @@
 				 </form:select> </td>
 			<td> <form:errors path="roleId" id="errmsg"/> </td>
 		<tr>
-	</sec:authorize>
-		
-	<tr>
-		<td colspan="3"> <spring:url value="/users/${userEditDto.userId}/changepassword/" var="changepassword" />
-		<a href="${changepassword}" title="changepassword">Change Password</a> <br><br> </td>
-	</tr>
+		<tr>
+			<td colspan="3"> <spring:url value="/users/${userEditDto.userId}/changepassword/" var="changepassword" />
+			<a href="${changepassword}" title="changepassword">Change Password</a> <br><br> </td>
+		</tr>
+	</sec:authorize>		
+	
 	<tr>
 		<td colspan="3"> <input type="submit" value="Save Changes"/> </td>
 	</tr>
