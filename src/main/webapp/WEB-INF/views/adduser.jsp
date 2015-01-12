@@ -37,12 +37,12 @@
 	<tr>
 	<tr>
 		<td> <form:label path="password">Password</form:label> </td>
-		<td> <form:input path="password"/> </td>
+		<td> <form:input path="password" type="password"/> </td>
 		<td> <form:errors path="password" id="errmsg"/> </td>
 	<tr>
 	<tr>
 		<td> <form:label path="passwordConfirmation">Password Confirmation</form:label> </td>
-		<td> <form:input path="passwordConfirmation"/> </td>
+		<td> <form:input path="passwordConfirmation" type="password"/> </td>
 		<td> <form:errors path="passwordConfirmation" id="errmsg"/> </td>
 	<tr>
 	<tr>

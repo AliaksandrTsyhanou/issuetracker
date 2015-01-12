@@ -41,12 +41,14 @@ public class UserManager {
 		return userDAO.getAllUser();
 	}
 
-	public void updateUser(UserEditDto userEditDto) throws Exception{
+	public void updateUser(UserEditDto userEditDto, boolean isRoleupdated) throws Exception{
 		User user = userDAO.getUserById(userEditDto.getUserId());
 		user.setFirstname(userEditDto.getFirstname());
 		user.setLastname(userEditDto.getLastname());
 		user.setEmailaddress(userEditDto.getEmailaddress());
-		user.getRole().setId(userEditDto.getRoleId());
+		if (isRoleupdated) {
+			user.getRole().setId(userEditDto.getRoleId());
+		}
 		userDAO.updateUser(user);
 	}
 	

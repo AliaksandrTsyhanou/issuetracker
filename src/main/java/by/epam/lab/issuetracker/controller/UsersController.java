@@ -3,6 +3,7 @@ package by.epam.lab.issuetracker.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,7 +21,6 @@ import by.epam.lab.issuetracker.entity.User;
 import by.epam.lab.issuetracker.service.RoleManager;
 import by.epam.lab.issuetracker.service.UserManager;
 import by.epam.lab.issuetracker.service.dto.ChangePasswordDto;
-import by.epam.lab.issuetracker.service.dto.IPasswordConfirmation;
 import by.epam.lab.issuetracker.service.dto.UserAddDto;
 import by.epam.lab.issuetracker.service.dto.UserEditDto;
 import by.epam.lab.issuetracker.validators.UserPasswordValidator;
@@ -81,6 +81,31 @@ public class UsersController {
 		return "users";
 	}
 	
+	@RequestMapping(value="/edit", method = RequestMethod.GET) 
+	public String getEditUser(Model model) throws Exception {
+		System.out.println("@RequestMapping(value=/users/edit}, method = RequestMethod.GET)");
+		String authorizedUserName = SecurityContextHolder.getContext().getAuthentication().getName();
+		User user = userManager.getUser(authorizedUserName);
+		UserEditDto userEditDto = userManager.getUserEditDtoById(user.getId());
+		model.addAttribute("userEditDto", userEditDto);		
+		return "edituser";
+	}
+	
+	@RequestMapping(value="/edit", method = RequestMethod.POST) 
+	public String saveEditUser(@ModelAttribute("userEditDto") @Validated UserEditDto userEditDto,
+			BindingResult result) throws Exception {
+		if (result.hasErrors()){
+			return "edituser";
+		}
+		System.out.println("@RequestMapping(value=/users/edit, method = RequestMethod.POST)");
+		System.out.println("userEditDto = " + userEditDto);
+		String authorizedUserName = SecurityContextHolder.getContext().getAuthentication().getName();
+		User user = userManager.getUser(authorizedUserName);
+		userEditDto.setUserId(user.getId());
+		userManager.updateUser(userEditDto, false);
+		return "redirect:/users";
+	}
+	
 	@RequestMapping(value="/{id}", method = RequestMethod.GET) 
 	public String getUser(@PathVariable long id, Model model) throws Exception {
 		System.out.println("@RequestMapping(value=/users/{id}, method = RequestMethod.GET)");
@@ -97,7 +122,8 @@ public class UsersController {
 			return "edituser";
 		}
 		System.out.println("@RequestMapping(value=/users/{id}, method = RequestMethod.POST)");
-		userManager.updateUser(userEditDto);
+		System.out.println("userEditDto = " + userEditDto);
+		userManager.updateUser(userEditDto, true);
 		return "redirect:/users";
 	}
 	
@@ -133,6 +159,9 @@ public class UsersController {
 		if (result.hasErrors()){
 			return "changepassword";
 		}
+		String authorizedUserName = SecurityContextHolder.getContext().getAuthentication().getName();
+		User user = userManager.getUser(authorizedUserName);
+		changePasswordDto.setUserId(user.getId());
 		userManager.changePasswordUser(changePasswordDto);
 		return "redirect:/users";
 	}
@@ -146,8 +175,8 @@ public class UsersController {
 	
 	@RequestMapping(value = "/{id}/changepassword", method = RequestMethod.POST)
 	public String changePasswordById(@ModelAttribute("changePasswordDto") @Validated ChangePasswordDto changePasswordDto,
-			BindingResult result, WebRequest request) throws Exception {
-		System.out.println("result.hasErrors() = " + result.hasErrors());
+			BindingResult result) throws Exception {
+		System.out.println("ById result.hasErrors() = " + result.hasErrors());
 		if (result.hasErrors()){
 			return "changepassword";
 		}

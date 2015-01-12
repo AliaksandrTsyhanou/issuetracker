@@ -61,4 +61,11 @@ public class UserEditDto{
 	public void setRoleId(int roleId) {
 		this.roleId = roleId;
 	}
+
+	@Override
+	public String toString() {
+		return "UserEditDto [userId=" + userId + ", firstname=" + firstname
+				+ ", lastname=" + lastname + ", emailaddress=" + emailaddress
+				+ ", roleId=" + roleId + "]";
+	}	
 }
