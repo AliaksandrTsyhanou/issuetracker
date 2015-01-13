@@ -22,7 +22,9 @@
   		<intercept-url pattern="/login" access="permitAll" />  
  
 		<form-login login-page="/login"   
-		 authentication-failure-url="/login-failure" default-target-url="/" />
+		 	default-target-url="/"
+            always-use-default-target="true"   
+		 	authentication-failure-url="/login-failure" />
 	</http>
 
 	<authentication-manager>

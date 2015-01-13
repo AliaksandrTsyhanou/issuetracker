@@ -85,32 +85,30 @@ public class UsersController {
 	public String getEditUser(Model model) throws Exception {
 		System.out.println("@RequestMapping(value=/users/edit}, method = RequestMethod.GET)");
 		String authorizedUserName = SecurityContextHolder.getContext().getAuthentication().getName();
-		User user = userManager.getUser(authorizedUserName);
-		UserEditDto userEditDto = userManager.getUserEditDtoById(user.getId());
-		model.addAttribute("userEditDto", userEditDto);		
+		UserEditDto userEditDto = userManager.getUserEditDto(authorizedUserName);
+		model.addAttribute("userEditDto", userEditDto);	
 		return "edituser";
 	}
 	
 	@RequestMapping(value="/edit", method = RequestMethod.POST) 
 	public String saveEditUser(@ModelAttribute("userEditDto") @Validated UserEditDto userEditDto,
-			BindingResult result) throws Exception {
+			BindingResult result, WebRequest webRequest) throws Exception {
 		if (result.hasErrors()){
 			return "edituser";
 		}
-		System.out.println("@RequestMapping(value=/users/edit, method = RequestMethod.POST)");
-		System.out.println("userEditDto = " + userEditDto);
+					System.out.println("@RequestMapping(value=/users/edit, method = RequestMethod.POST)");
+					System.out.println("userEditDto = " + userEditDto);
+		
 		String authorizedUserName = SecurityContextHolder.getContext().getAuthentication().getName();
-		User user = userManager.getUser(authorizedUserName);
-		userEditDto.setUserId(user.getId());
-		userManager.updateUser(userEditDto, false);
-		return "redirect:/users";
+		userManager.updateUser(userEditDto, authorizedUserName);
+		return "redirect:/";
 	}
 	
 	@RequestMapping(value="/{id}", method = RequestMethod.GET) 
 	public String getUser(@PathVariable long id, Model model) throws Exception {
 		System.out.println("@RequestMapping(value=/users/{id}, method = RequestMethod.GET)");
 		System.out.println("id=" + id);
-		UserEditDto userEditDto = userManager.getUserEditDtoById(id);
+		UserEditDto userEditDto = userManager.getUserEditDto(id);
 		model.addAttribute("userEditDto", userEditDto);		
 		return "edituser";
 	}
@@ -123,7 +121,7 @@ public class UsersController {
 		}
 		System.out.println("@RequestMapping(value=/users/{id}, method = RequestMethod.POST)");
 		System.out.println("userEditDto = " + userEditDto);
-		userManager.updateUser(userEditDto, true);
+		userManager.updateUser(userEditDto);
 		return "redirect:/users";
 	}
 	
@@ -163,7 +161,7 @@ public class UsersController {
 		User user = userManager.getUser(authorizedUserName);
 		changePasswordDto.setUserId(user.getId());
 		userManager.changePasswordUser(changePasswordDto);
-		return "redirect:/users";
+		return "redirect:/";
 	}
 	
 	@RequestMapping(value = "/{id}/changepassword", method = RequestMethod.GET)

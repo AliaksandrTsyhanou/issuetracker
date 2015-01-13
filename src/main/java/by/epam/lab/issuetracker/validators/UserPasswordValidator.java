@@ -25,7 +25,6 @@ public class UserPasswordValidator implements Validator {
 	@Override
 	public void validate(Object target, Errors errors) {
 		System.out.println("++++++password confirmation");
-//		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "user.variable.password.required");
 		IPasswordConfirmation validPassword = (IPasswordConfirmation) target;
 		if (!validatePassword(validPassword.getPassword())){
 			errors.rejectValue("password", "user.variable.password.unvalid");

@@ -9,25 +9,16 @@
 <body>
  <jsp:include page="/WEB-INF/views/header.jsp"/>
 
-	<h1>Hello world!</h1>
+	<h1>Issue Tracker!</h1>
 		
-		<sec:authorize access="hasRole('ROLE_ADMIN')">
-			<br>
-			<spring:url value="/users/" var="users" />
-			<a href="${users}" title="users">users</a>
-		</sec:authorize>	
+	<sec:authorize access="hasRole('ROLE_ADMIN')">
+		<br>
+		<spring:url value="/users/" var="users" />
+		<a href="${users}" title="users">users</a>
+	</sec:authorize>	
 
 		
-		<br><br>
-		<spring:url value="/users/changepassword" var="changepassword" />
-		<a href="${changepassword}" title="changepassword">change password</a>
-		
-		
-		<sec:authorize access="isAuthenticated()">
-			<br><br>
-			<spring:url value="/users/edit" var="edit" />
-			<a href="${edit}" title="edit">Edit Profile</a>
-		</sec:authorize>
+	
 
 	
 </body>

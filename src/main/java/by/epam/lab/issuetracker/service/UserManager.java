@@ -3,6 +3,7 @@ package by.epam.lab.issuetracker.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -16,49 +17,73 @@ import by.epam.lab.issuetracker.service.dto.UserEditDto;
 @Service
 public class UserManager {
 	
+	private static final String ROLE_ADMIN = "ROLE_ADMIN";
+	
 	@Autowired
 	private UserDAO userDAO;
 
+	public List<User> getAllUser() throws Exception{
+		return userDAO.getAllUser();
+	}
+	
 	public User getUser(String username) throws UsernameNotFoundException{
 		User user = userDAO.getUser(username);
 		return user;
 	}
+
+	public User getUser(long userId) throws UsernameNotFoundException{
+		User user = userDAO.getUserById(userId);
+		return user;
+	}
+	
+	public UserEditDto getUserEditDto(long id) throws UsernameNotFoundException{
+		User user = userDAO.getUserById(id);
+		UserEditDto userEditDto = convertToUserEditDto(user);
+		return userEditDto;
+	}
+	
+	public UserEditDto getUserEditDto(String username) throws UsernameNotFoundException{
+		User user = userDAO.getUser(username);
+		UserEditDto userEditDto = convertToUserEditDto(user);		
+		return userEditDto;
+	}
 	
 	public User addUser(UserAddDto userAddDto) throws Exception{
-		User addUser = new User();
-		addUser.setFirstname(userAddDto.getFirstname());
-		addUser.setLastname(userAddDto.getLastname());
-		addUser.setEmailaddress(userAddDto.getEmailaddress());
-		addUser.setPassword(userAddDto.getPassword());
-		Role addRole = new Role();
-		addRole.setId(userAddDto.getRoleId());
-		addUser.setRole(addRole);
+		User addUser = convertToUser(userAddDto);
 		userDAO.addUser(addUser);
 		return addUser;		
 	}
 	
-	public List<User> getAllUser() throws Exception{
-		return userDAO.getAllUser();
+	public void updateUser(UserEditDto userEditDto) throws Exception{
+		updateUser(userEditDto, true);		
+	}
+	
+	public void updateUser(UserEditDto userEditDto, String authorizedUserName) throws Exception{
+		User authorizedUser = getUser(authorizedUserName);
+		userEditDto.setUserId(authorizedUser.getId());		
+		updateUser(userEditDto, isUserInRole(authorizedUser, ROLE_ADMIN));		
+	}	
+	
+	public void changePasswordUser(ChangePasswordDto changePasswordDto) throws Exception {
+		User user = userDAO.getUserById(changePasswordDto.getUserId());
+		user.setPassword(changePasswordDto.getPassword());
+		userDAO.updateUser(user);		
+	}
+	
+
+	private User convertToUser(UserAddDto userAddDto){
+		User convertedUser = new User();
+		convertedUser.setFirstname(userAddDto.getFirstname());
+		convertedUser.setLastname(userAddDto.getLastname());
+		convertedUser.setEmailaddress(userAddDto.getEmailaddress());
+		convertedUser.setPassword(userAddDto.getPassword());
+		Role addRole = new Role();
+		addRole.setId(userAddDto.getRoleId());
+		convertedUser.setRole(addRole);
+		return convertedUser;
 	}
 
-	public void updateUser(UserEditDto userEditDto, boolean isRoleupdated) throws Exception{
-		User user = userDAO.getUserById(userEditDto.getUserId());
-		user.setFirstname(userEditDto.getFirstname());
-		user.setLastname(userEditDto.getLastname());
-		user.setEmailaddress(userEditDto.getEmailaddress());
-		if (isRoleupdated) {
-			user.getRole().setId(userEditDto.getRoleId());
-		}
-		userDAO.updateUser(user);
-	}
-	
-	public User getUserById(long id) throws UsernameNotFoundException{
-		User user = userDAO.getUserById(id);
-		return user;
-	}
-	
-	public UserEditDto getUserEditDtoById(long id) throws UsernameNotFoundException{
-		User user = userDAO.getUserById(id);
+	private UserEditDto convertToUserEditDto(User user){
 		UserEditDto userEditDto = new UserEditDto();
 		userEditDto.setUserId(user.getId());
 		userEditDto.setFirstname(user.getFirstname());
@@ -68,9 +93,26 @@ public class UserManager {
 		return userEditDto;
 	}
 	
-	public void changePasswordUser(ChangePasswordDto changePasswordDto) throws Exception {
-		User user = userDAO.getUserById(changePasswordDto.getUserId());
-		user.setPassword(changePasswordDto.getPassword());
-		userDAO.updateUser(user);		
+	private boolean isUserInRole(User user, String role){
+		boolean isUserInRole = false;
+		for (GrantedAuthority grantedAuthority : user.getAuthorities()) {
+			System.out.println("grantedAuthority.getAuthority() = " + grantedAuthority.getAuthority());
+			if (role.equals(grantedAuthority.getAuthority())){
+				isUserInRole = true;
+			}
+		}
+		return isUserInRole;
 	}
+	
+	private void updateUser(UserEditDto userEditDto, boolean isRoleUpdated) throws Exception{
+		User user = userDAO.getUserById(userEditDto.getUserId());
+		user.setFirstname(userEditDto.getFirstname());
+		user.setLastname(userEditDto.getLastname());
+		user.setEmailaddress(userEditDto.getEmailaddress());
+		if (isRoleUpdated) {
+			user.getRole().setId(userEditDto.getRoleId());
+		}
+		userDAO.updateUser(user);
+	}
+	
 }

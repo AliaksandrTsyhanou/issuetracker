@@ -14,15 +14,26 @@
 <body>
 
 	<sec:authorize access="isAuthenticated()">
-		user: <sec:authentication property="principal.username"/> &nbsp;&nbsp; 
-		<a href="<c:url value="/logout"/>">Logout</a>
+		&nbsp;&nbsp; 
+		user: <sec:authentication property="principal.username"/> 
+		
+		&nbsp;&nbsp; 
+		<spring:url value="/users/changepassword" var="changepassword" />
+		<a href="${changepassword}" title="changepassword">change password</a>
+		
+		&nbsp;&nbsp; 
+		<spring:url value="/users/edit" var="edit" />
+		<a href="${edit}" title="edit">Edit Profile</a>
+		
+		&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; 
+		<a href="<c:url value="/logout"/>">Logout</a>		
 	</sec:authorize>
 	
 	<sec:authorize access="isAnonymous()">
+		&nbsp;&nbsp; 
 		<spring:url value="/login" var="loginUrl" />
 		<a href="${loginUrl}" title="Login">Login</a><br />
 	</sec:authorize>
-	
 <hr>	
 </body>
 </html>

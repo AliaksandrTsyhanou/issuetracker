@@ -17,7 +17,6 @@ public class User implements UserDetails{
 	
 	public User() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public User(String emailaddress, String password,
@@ -30,13 +29,6 @@ public class User implements UserDetails{
 		this.lastname = lastname;
 	}
 
-//	public User(String username, String password, Role role) {
-//		super();
-//		this.emailaddress = username;
-//		this.setRole(role);
-//		this.password = password;
-//	}
-	
 	public String getEmailaddress() {
 		return emailaddress;
 	}
