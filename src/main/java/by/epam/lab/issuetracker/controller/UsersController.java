@@ -2,6 +2,8 @@ package by.epam.lab.issuetracker.controller;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -29,6 +31,8 @@ import by.epam.lab.issuetracker.validators.UserEditValidator;
 @Controller
 @RequestMapping(value = "/users")
 public class UsersController {
+	
+	private static final Logger logger = LoggerFactory.getLogger(UsersController.class);
 	
 	@Autowired
 	private UserManager userManager;
@@ -83,7 +87,7 @@ public class UsersController {
 	
 	@RequestMapping(value="/edit", method = RequestMethod.GET) 
 	public String getEditUser(Model model) throws Exception {
-		System.out.println("@RequestMapping(value=/users/edit}, method = RequestMethod.GET)");
+		logger.debug("@RequestMapping(value=/users/edit}, method = RequestMethod.GET)");
 		String authorizedUserName = SecurityContextHolder.getContext().getAuthentication().getName();
 		UserEditDto userEditDto = userManager.getUserEditDto(authorizedUserName);
 		model.addAttribute("userEditDto", userEditDto);	
@@ -96,8 +100,8 @@ public class UsersController {
 		if (result.hasErrors()){
 			return "edituser";
 		}
-					System.out.println("@RequestMapping(value=/users/edit, method = RequestMethod.POST)");
-					System.out.println("userEditDto = " + userEditDto);
+		logger.debug("@RequestMapping(value=/users/edit, method = RequestMethod.POST)");
+		logger.debug("userEditDto = " + userEditDto);
 		
 		String authorizedUserName = SecurityContextHolder.getContext().getAuthentication().getName();
 		userManager.updateUser(userEditDto, authorizedUserName);
@@ -106,8 +110,8 @@ public class UsersController {
 	
 	@RequestMapping(value="/{id}", method = RequestMethod.GET) 
 	public String getUser(@PathVariable long id, Model model) throws Exception {
-		System.out.println("@RequestMapping(value=/users/{id}, method = RequestMethod.GET)");
-		System.out.println("id=" + id);
+		logger.debug("@RequestMapping(value=/users/{id}, method = RequestMethod.GET)");
+		logger.debug("id=" + id);
 		UserEditDto userEditDto = userManager.getUserEditDto(id);
 		model.addAttribute("userEditDto", userEditDto);		
 		return "edituser";
@@ -119,8 +123,8 @@ public class UsersController {
 		if (result.hasErrors()){
 			return "edituser";
 		}
-		System.out.println("@RequestMapping(value=/users/{id}, method = RequestMethod.POST)");
-		System.out.println("userEditDto = " + userEditDto);
+		logger.debug("@RequestMapping(value=/users/{id}, method = RequestMethod.POST)");
+		logger.debug("userEditDto = " + userEditDto);
 		userManager.updateUser(userEditDto);
 		return "redirect:/users";
 	}
@@ -133,13 +137,13 @@ public class UsersController {
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public String addUser(@ModelAttribute("userAddDto") @Validated UserAddDto userAddDto,
 			BindingResult result, WebRequest request) throws Exception {
-		System.out.println("/add result.hasErrors() = " + result.hasErrors());
+		logger.debug("/add result.hasErrors() = " + result.hasErrors());
 		if (result.hasErrors()){
 			return "adduser";
 		}		
-		System.out.println("@RequestMapping(value = /add, method = RequestMethod.POST)");
-		System.out.println("=================");
-		System.out.println("+++User= " + userAddDto);
+		logger.debug("@RequestMapping(value = /add, method = RequestMethod.POST)");
+		logger.debug("=================");
+		logger.debug("+++User= " + userAddDto);
 
 		userManager.addUser(userAddDto);
 		return "redirect:/users" ;
@@ -152,8 +156,8 @@ public class UsersController {
 	
 	@RequestMapping(value = "/changepassword", method = RequestMethod.POST)
 	public String changePassword(@ModelAttribute("changePasswordDto") @Validated ChangePasswordDto changePasswordDto,
-			BindingResult result, WebRequest request) throws Exception {
-		System.out.println("result.hasErrors() = " + result.hasErrors());
+			BindingResult result) throws Exception {
+		logger.debug("result.hasErrors() = " + result.hasErrors());
 		if (result.hasErrors()){
 			return "changepassword";
 		}
@@ -174,7 +178,7 @@ public class UsersController {
 	@RequestMapping(value = "/{id}/changepassword", method = RequestMethod.POST)
 	public String changePasswordById(@ModelAttribute("changePasswordDto") @Validated ChangePasswordDto changePasswordDto,
 			BindingResult result) throws Exception {
-		System.out.println("ById result.hasErrors() = " + result.hasErrors());
+		logger.debug("ById result.hasErrors() = " + result.hasErrors());
 		if (result.hasErrors()){
 			return "changepassword";
 		}

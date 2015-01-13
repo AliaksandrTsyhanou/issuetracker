@@ -3,6 +3,8 @@ package by.epam.lab.issuetracker.validators;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -16,7 +18,8 @@ import by.epam.lab.issuetracker.service.dto.UserEditDto;
 @Component
 public class UserEditValidator implements Validator {
 
-    private static final String EMAIL_PATTERN = 
+	private static final Logger logger = LoggerFactory.getLogger(UserEditValidator.class); 
+	private static final String EMAIL_PATTERN = 
     		"^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
    	
     @Autowired
@@ -24,16 +27,13 @@ public class UserEditValidator implements Validator {
     
     @Override
 	public boolean supports(Class<?> clazz) {
-		System.out.println("clazz.getName() = " + clazz.getName());
 		boolean returnValue = User.class.isAssignableFrom(clazz) || UserEditDto.class.isAssignableFrom(clazz);
-		System.out.println("User.class.isAssignableFrom(clazz) || UserEditDto.class.isAssignableFrom(clazz) ="
-						+ returnValue);
 		return returnValue;
 	}
 
 	@Override
 	public void validate(Object target, Errors errors) {
-		System.out.println("ValidationUtils.rejectIfEmptyOrWhitespace for user");
+		logger.debug("Validation edit field for user");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "firstname", "user.variable.firstname.required");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "lastname", "user.variable.lastname.required");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "emailaddress", "user.variable.emailaddress.required");
