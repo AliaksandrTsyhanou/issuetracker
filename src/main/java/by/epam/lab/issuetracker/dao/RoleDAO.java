@@ -9,7 +9,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import by.epam.lab.issuetracker.entity.Role;
 
@@ -27,7 +26,7 @@ public class RoleDAO {
 	
 	
 	@SuppressWarnings("unchecked")
-	@Transactional
+
 	public List<Role> getAllRole() {
     	
     	List<Role> listRole = new ArrayList<Role>();

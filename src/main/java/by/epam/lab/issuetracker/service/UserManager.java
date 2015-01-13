@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import by.epam.lab.issuetracker.dao.UserDAO;
 import by.epam.lab.issuetracker.entity.Role;
@@ -22,55 +23,56 @@ public class UserManager {
 	@Autowired
 	private UserDAO userDAO;
 
+	@Transactional
 	public List<User> getAllUser() throws Exception{
 		return userDAO.getAllUser();
-	}
-	
+	}	
+	@Transactional
 	public User getUser(String username) throws UsernameNotFoundException{
 		User user = userDAO.getUser(username);
 		return user;
 	}
-
+	@Transactional
 	public User getUser(long userId) throws UsernameNotFoundException{
 		User user = userDAO.getUserById(userId);
 		return user;
 	}
-	
+	@Transactional
 	public UserEditDto getUserEditDto(long id) throws UsernameNotFoundException{
 		User user = userDAO.getUserById(id);
 		UserEditDto userEditDto = convertToUserEditDto(user);
 		return userEditDto;
 	}
-	
+	@Transactional
 	public UserEditDto getUserEditDto(String username) throws UsernameNotFoundException{
 		User user = userDAO.getUser(username);
 		UserEditDto userEditDto = convertToUserEditDto(user);		
 		return userEditDto;
 	}
-	
+	@Transactional
 	public User addUser(UserAddDto userAddDto) throws Exception{
 		User addUser = convertToUser(userAddDto);
 		userDAO.addUser(addUser);
 		return addUser;		
 	}
-	
+	@Transactional
 	public void updateUser(UserEditDto userEditDto) throws Exception{
 		updateUser(userEditDto, true);		
 	}
-	
+	@Transactional
 	public void updateUser(UserEditDto userEditDto, String authorizedUserName) throws Exception{
 		User authorizedUser = getUser(authorizedUserName);
 		userEditDto.setUserId(authorizedUser.getId());		
 		updateUser(userEditDto, isUserInRole(authorizedUser, ROLE_ADMIN));		
 	}	
-	
+	@Transactional
 	public void changePasswordUser(ChangePasswordDto changePasswordDto) throws Exception {
 		User user = userDAO.getUserById(changePasswordDto.getUserId());
 		user.setPassword(changePasswordDto.getPassword());
 		userDAO.updateUser(user);		
-	}
-	
+	}	
 
+	
 	private User convertToUser(UserAddDto userAddDto){
 		User convertedUser = new User();
 		convertedUser.setFirstname(userAddDto.getFirstname());

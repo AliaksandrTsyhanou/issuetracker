@@ -14,7 +14,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import by.epam.lab.issuetracker.entity.User;
 
@@ -32,7 +31,6 @@ public class UserDAO {
 		return session;
 	   }
 	
-	@Transactional
 	public User addUser(User user) throws Exception {
         try {
         	logger.debug("getSession().save(user)");
@@ -43,7 +41,6 @@ public class UserDAO {
         }
     }
 
-	@Transactional
 	public User getUser(String emailaddress) {
         try {
         	Query q = getSession().createQuery("from User where emailaddress = :emailaddress");
@@ -56,7 +53,6 @@ public class UserDAO {
         }
     }
 	
-	@Transactional
 	public User getUserById(long id) {
 		try {        	
         	User user = (User) getSession().get(User.class, id);
@@ -68,7 +64,6 @@ public class UserDAO {
         }
     }
 
-	@Transactional
 	public void deleteUser(User user) throws Exception {
         try {
             getSession().delete(user);
@@ -78,7 +73,6 @@ public class UserDAO {
         }
     }
 	
-	@Transactional
 	public void updateUser(User user) throws Exception {
         try {
         	logger.debug("getSession().update(user), user = " + user);
@@ -91,7 +85,6 @@ public class UserDAO {
 	
 	
 	@SuppressWarnings("unchecked")
-	@Transactional
 	public List<User> getAllUser() {    	
     	List<User> listUser = new ArrayList<User>();
     	listUser = (List<User>) getSession().createCriteria(User.class).list();
