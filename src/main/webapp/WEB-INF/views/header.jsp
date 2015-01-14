@@ -15,7 +15,7 @@
 
 	<sec:authorize access="isAuthenticated()">
 		&nbsp;&nbsp; 
-		user: <sec:authentication property="principal.username"/> 
+		Welcome <sec:authentication property="principal.username"/> 
 		
 		&nbsp;&nbsp; 
 		<spring:url value="/users/changepassword" var="changepassword" />

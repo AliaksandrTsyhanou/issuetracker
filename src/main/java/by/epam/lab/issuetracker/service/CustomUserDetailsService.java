@@ -7,6 +7,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import by.epam.lab.issuetracker.exceptions.DAOException;
+
 @Service
 public class CustomUserDetailsService implements UserDetailsService{
 	
@@ -17,7 +19,11 @@ public class CustomUserDetailsService implements UserDetailsService{
 	public UserDetails loadUserByUsername(String username)
 			throws UsernameNotFoundException {
 		//return new UserDetailsImpl(userManager.getUser(username));
-		return userManager.getUser(username);
+		try {
+			return userManager.getUser(username);
+		} catch (DAOException e) {
+			throw new UsernameNotFoundException(e.getMessage(), e);
+		}
 	}
 
 }

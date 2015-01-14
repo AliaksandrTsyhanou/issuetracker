@@ -4,13 +4,13 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import by.epam.lab.issuetracker.dao.UserDAO;
 import by.epam.lab.issuetracker.entity.Role;
 import by.epam.lab.issuetracker.entity.User;
+import by.epam.lab.issuetracker.exceptions.DAOException;
+import by.epam.lab.issuetracker.interfaces.IUserDAO;
 import by.epam.lab.issuetracker.service.dto.ChangePasswordDto;
 import by.epam.lab.issuetracker.service.dto.UserAddDto;
 import by.epam.lab.issuetracker.service.dto.UserEditDto;
@@ -21,52 +21,52 @@ public class UserManager {
 	private static final String ROLE_ADMIN = "ROLE_ADMIN";
 	
 	@Autowired
-	private UserDAO userDAO;
+	private IUserDAO userDAO;
 
 	@Transactional
-	public List<User> getAllUser() throws Exception{
+	public List<User> getAllUser() throws DAOException{
 		return userDAO.getAllUser();
 	}	
 	@Transactional
-	public User getUser(String username) throws UsernameNotFoundException{
+	public User getUser(String username) throws DAOException{
 		User user = userDAO.getUser(username);
 		return user;
 	}
 	@Transactional
-	public User getUser(long userId) throws UsernameNotFoundException{
+	public User getUser(long userId) throws DAOException{
 		User user = userDAO.getUserById(userId);
 		return user;
 	}
 	@Transactional
-	public UserEditDto getUserEditDto(long id) throws UsernameNotFoundException{
+	public UserEditDto getUserEditDto(long id) throws DAOException{
 		User user = userDAO.getUserById(id);
 		UserEditDto userEditDto = convertToUserEditDto(user);
 		return userEditDto;
 	}
 	@Transactional
-	public UserEditDto getUserEditDto(String username) throws UsernameNotFoundException{
+	public UserEditDto getUserEditDto(String username) throws DAOException{
 		User user = userDAO.getUser(username);
 		UserEditDto userEditDto = convertToUserEditDto(user);		
 		return userEditDto;
 	}
 	@Transactional
-	public User addUser(UserAddDto userAddDto) throws Exception{
+	public User addUser(UserAddDto userAddDto) throws DAOException{
 		User addUser = convertToUser(userAddDto);
 		userDAO.addUser(addUser);
 		return addUser;		
 	}
 	@Transactional
-	public void updateUser(UserEditDto userEditDto) throws Exception{
+	public void updateUser(UserEditDto userEditDto) throws DAOException{
 		updateUser(userEditDto, true);		
 	}
 	@Transactional
-	public void updateUser(UserEditDto userEditDto, String authorizedUserName) throws Exception{
+	public void updateUser(UserEditDto userEditDto, String authorizedUserName) throws DAOException{
 		User authorizedUser = getUser(authorizedUserName);
 		userEditDto.setUserId(authorizedUser.getId());		
 		updateUser(userEditDto, isUserInRole(authorizedUser, ROLE_ADMIN));		
 	}	
 	@Transactional
-	public void changePasswordUser(ChangePasswordDto changePasswordDto) throws Exception {
+	public void changePasswordUser(ChangePasswordDto changePasswordDto) throws DAOException {
 		User user = userDAO.getUserById(changePasswordDto.getUserId());
 		user.setPassword(changePasswordDto.getPassword());
 		userDAO.updateUser(user);		
@@ -106,7 +106,7 @@ public class UserManager {
 		return isUserInRole;
 	}
 	
-	private void updateUser(UserEditDto userEditDto, boolean isRoleUpdated) throws Exception{
+	private void updateUser(UserEditDto userEditDto, boolean isRoleUpdated) throws DAOException{
 		User user = userDAO.getUserById(userEditDto.getUserId());
 		user.setFirstname(userEditDto.getFirstname());
 		user.setLastname(userEditDto.getLastname());

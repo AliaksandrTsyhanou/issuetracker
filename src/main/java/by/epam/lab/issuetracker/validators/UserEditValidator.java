@@ -12,6 +12,7 @@ import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 import by.epam.lab.issuetracker.entity.User;
+import by.epam.lab.issuetracker.exceptions.DAOException;
 import by.epam.lab.issuetracker.service.UserManager;
 import by.epam.lab.issuetracker.service.dto.UserEditDto;
 
@@ -37,21 +38,24 @@ public class UserEditValidator implements Validator {
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "firstname", "user.variable.firstname.required");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "lastname", "user.variable.lastname.required");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "emailaddress", "user.variable.emailaddress.required");
-		
 		UserEditDto validUser = (UserEditDto) target;
 		if (!validateEmail(validUser.getEmailaddress())){
 			errors.rejectValue("emailaddress", "user.variable.emailaddress.unvalid");
 		};
-		
-		User user = userManager.getUser(validUser.getEmailaddress());
-		if (user != null){
-			if (user.getId() != validUser.getUserId()){
-				errors.rejectValue("emailaddress", "user.variable.emailaddress.exist");
+			
+		try {
+			User user = userManager.getUser(validUser.getEmailaddress());
+			if (user != null){
+				if (user.getId() != validUser.getUserId()){
+					errors.rejectValue("emailaddress", "user.variable.emailaddress.exist");
+				}
 			}
-		}
-		
-		
+		} catch (DAOException e) {
+			logger.error(e.getMessage());
+			errors.rejectValue("emailaddress", "user.variable.emailaddress.validationErr");
+		}		
 	}
+	
     
     private boolean validateEmail(String email) {
     	Pattern pattern = Pattern.compile(EMAIL_PATTERN);

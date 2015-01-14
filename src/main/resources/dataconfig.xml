@@ -61,6 +61,7 @@
         <property name="annotatedClasses">
  			<list>
    				<value>by.epam.lab.issuetracker.entity.Role</value>
+   				<value>by.epam.lab.issuetracker.entity.Status</value>
   			</list>
  		</property>
         <property name="hibernateProperties">
@@ -68,6 +69,7 @@
                 <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>                
                 <prop key="hibernate.show_sql">true</prop>
 <!--                 <prop key="hibernate.enable_lazy_load_no_trans">true </prop> -->
+ 				<prop key="javax.persistence.validation.mode">none</prop>
             </props> 
         </property>
         <property name="mappingResources">
@@ -76,9 +78,6 @@
  <!--          <value>/hibernate/Role.hbm.xml</value>   -->
         	</list>
         </property> 
-<!--         <property name="mapping">
-        	<class name="com.sys.power.domain.User"/>  
-        </property>  -->
     </bean>
   
     <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">

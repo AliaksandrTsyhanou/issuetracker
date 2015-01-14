@@ -15,10 +15,14 @@
 		<br>
 		<spring:url value="/users/" var="users" />
 		<a href="${users}" title="users">users</a>
+		
+		
 	</sec:authorize>	
 
 		
-	
+	<br>
+		<spring:url value="/statuses/" var="statuses" />
+		<a href="${statuses}" title="statuses">statuses</a>
 
 	
 </body>
