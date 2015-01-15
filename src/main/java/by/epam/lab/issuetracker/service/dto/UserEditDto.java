@@ -1,10 +1,17 @@
 package by.epam.lab.issuetracker.service.dto;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
+import by.epam.lab.issuetracker.validation.annotation.ValidEmail;
+
 public class UserEditDto{
 
 	private long userId;
+	@NotEmpty(message="{user.firstname.required}")
 	private String firstname;
+	@NotEmpty(message="{user.lastname.required}")
 	private String lastname;
+	@ValidEmail
 	private String emailaddress;
 	private int roleId;
 	

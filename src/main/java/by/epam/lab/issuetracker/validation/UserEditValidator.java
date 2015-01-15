@@ -1,4 +1,4 @@
-package by.epam.lab.issuetracker.validators;
+package by.epam.lab.issuetracker.validation;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -35,13 +35,13 @@ public class UserEditValidator implements Validator {
 	@Override
 	public void validate(Object target, Errors errors) {
 		logger.debug("Validation edit field for user");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "firstname", "user.variable.firstname.required");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "lastname", "user.variable.lastname.required");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "emailaddress", "user.variable.emailaddress.required");
+//		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "firstname", "user.variable.firstname.required");
+//		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "lastname", "user.variable.lastname.required");
+//		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "emailaddress", "user.variable.emailaddress.required");
 		UserEditDto validUser = (UserEditDto) target;
-		if (!validateEmail(validUser.getEmailaddress())){
-			errors.rejectValue("emailaddress", "user.variable.emailaddress.unvalid");
-		};
+//		if (!validateEmail(validUser.getEmailaddress())){
+//			errors.rejectValue("emailaddress", "user.variable.emailaddress.unvalid");
+//		};
 			
 		try {
 			User user = userManager.getUser(validUser.getEmailaddress());

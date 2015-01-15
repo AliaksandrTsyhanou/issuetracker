@@ -2,6 +2,8 @@ package by.epam.lab.issuetracker.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +28,8 @@ import by.epam.lab.issuetracker.service.UserManager;
 import by.epam.lab.issuetracker.service.dto.ChangePasswordDto;
 import by.epam.lab.issuetracker.service.dto.UserAddDto;
 import by.epam.lab.issuetracker.service.dto.UserEditDto;
-import by.epam.lab.issuetracker.validators.UserPasswordValidator;
-import by.epam.lab.issuetracker.validators.UserEditValidator;
+import by.epam.lab.issuetracker.validation.UserEditValidator;
+import by.epam.lab.issuetracker.validation.UserPasswordValidator;
 
 @Controller
 @RequestMapping(value = "/users")
@@ -55,7 +57,7 @@ public class UsersController {
 	}
 	@InitBinder("changePasswordDto")
 	private void initChangePasswordDtoBinder(WebDataBinder binder) {
-		binder.addValidators(userPasswordValidator);	
+		binder.setValidator(userPasswordValidator);	
 	}
 	
 	
@@ -96,7 +98,7 @@ public class UsersController {
 	}
 	
 	@RequestMapping(value="/edit", method = RequestMethod.POST) 
-	public String saveEditUser(@ModelAttribute("userEditDto") @Validated UserEditDto userEditDto,
+	public String saveEditUser(@ModelAttribute("userEditDto") @Valid UserEditDto userEditDto,
 			BindingResult result, WebRequest webRequest) throws DAOException{
 		if (result.hasErrors()){
 			return "edituser";
@@ -119,7 +121,7 @@ public class UsersController {
 	}
 	
 	@RequestMapping(value="/{id}", method = RequestMethod.POST) 
-	public String saveEdit(@ModelAttribute("userEditDto") @Validated UserEditDto userEditDto,
+	public String saveEdit(@ModelAttribute("userEditDto") @Valid UserEditDto userEditDto,
 			BindingResult result) throws DAOException{
 		if (result.hasErrors()){
 			return "edituser";
@@ -136,7 +138,7 @@ public class UsersController {
 	}
 	
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public String addUser(@ModelAttribute("userAddDto") @Validated UserAddDto userAddDto,
+	public String addUser(@ModelAttribute("userAddDto") @Valid UserAddDto userAddDto,
 			BindingResult result, WebRequest request) throws DAOException {
 		logger.debug("/add result.hasErrors() = " + result.hasErrors());
 		if (result.hasErrors()){
@@ -156,7 +158,7 @@ public class UsersController {
 	}
 	
 	@RequestMapping(value = "/changepassword", method = RequestMethod.POST)
-	public String changePassword(@ModelAttribute("changePasswordDto") @Validated ChangePasswordDto changePasswordDto,
+	public String changePassword(@ModelAttribute("changePasswordDto") @Valid ChangePasswordDto changePasswordDto,
 			BindingResult result) throws DAOException {
 		logger.debug("result.hasErrors() = " + result.hasErrors());
 		if (result.hasErrors()){
@@ -177,7 +179,7 @@ public class UsersController {
 	}
 	
 	@RequestMapping(value = "/{id}/changepassword", method = RequestMethod.POST)
-	public String changePasswordById(@ModelAttribute("changePasswordDto") @Validated ChangePasswordDto changePasswordDto,
+	public String changePasswordById(@ModelAttribute("changePasswordDto") @Valid ChangePasswordDto changePasswordDto,
 			BindingResult result) throws DAOException{
 		logger.debug("ById result.hasErrors() = " + result.hasErrors());
 		if (result.hasErrors()){

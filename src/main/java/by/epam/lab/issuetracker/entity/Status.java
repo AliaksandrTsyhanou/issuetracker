@@ -6,9 +6,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name="status")
@@ -39,9 +38,7 @@ public class Status {
 	}
 
 	@Column(name="name")
-	@NotNull
-	@Size(min=1)
-	@Valid
+	@NotEmpty(message = "{status.label}" + "{spase}" + "{notempty}")
 	public String getName() {
 		return name;
 	}

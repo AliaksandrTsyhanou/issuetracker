@@ -1,5 +1,7 @@
 package by.epam.lab.issuetracker.service.dto;
 
+import javax.validation.constraints.Pattern;
+
 public class UserAddDto extends UserEditDto implements IPasswordConfirmation {
 	
 	private String password;
@@ -17,7 +19,9 @@ public class UserAddDto extends UserEditDto implements IPasswordConfirmation {
 		this.passwordConfirmation = passwordConfirmation;
 	}
 
+	
 	@Override
+	@Pattern(regexp="^([\\w@%$\\.\\;\\,\\-]){5,}$", message="{user.password.pattern}")
 	public String getPassword() {
 		return password;
 	}

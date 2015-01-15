@@ -1,4 +1,4 @@
-package by.epam.lab.issuetracker.validators;
+package by.epam.lab.issuetracker.validation;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

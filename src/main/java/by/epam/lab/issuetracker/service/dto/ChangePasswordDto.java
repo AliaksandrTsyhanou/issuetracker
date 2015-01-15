@@ -6,7 +6,6 @@ public class ChangePasswordDto implements IPasswordConfirmation {
 	private String password;
 	private String passwordConfirmation;
 	
-
 	public ChangePasswordDto() {
 		super();
 	}
@@ -16,7 +15,7 @@ public class ChangePasswordDto implements IPasswordConfirmation {
 		this.password = password;
 		this.passwordConfirmation = passwordConfirmation;
 	}
-
+	
 	@Override
 	public String getPassword() {
 		return password;

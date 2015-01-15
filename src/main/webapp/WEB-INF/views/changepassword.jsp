@@ -13,6 +13,7 @@
 <jsp:include page="/WEB-INF/views/header.jsp"/>
 <form:form name="changePassword" id="changePasswordForm" method="POST" modelAttribute="changePasswordDto">
 		<form:input path="userId" type="hidden"/>
+		<form:errors id="errmsg"/>
 <table>
 	<tr>
 		<td> <form:label path="password">New Password</form:label> </td>
