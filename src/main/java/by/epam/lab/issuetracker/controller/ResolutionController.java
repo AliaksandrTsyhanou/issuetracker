@@ -14,13 +14,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.context.request.WebRequest;
 
 import by.epam.lab.issuetracker.entity.Resolution;
 import by.epam.lab.issuetracker.exceptions.DAOException;
-import by.epam.lab.issuetracker.exceptions.EmailExistsException;
 import by.epam.lab.issuetracker.service.ResolutionManager;
-import by.epam.lab.issuetracker.service.dto.UserAddDto;
 
 
 @Controller
