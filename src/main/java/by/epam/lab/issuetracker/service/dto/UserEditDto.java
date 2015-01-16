@@ -5,7 +5,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import by.epam.lab.issuetracker.validation.annotation.ValidEmail;
 
 public class UserEditDto{
-
+	
 	private long userId;
 	@NotEmpty(message="{user.firstname.required}")
 	private String firstname;

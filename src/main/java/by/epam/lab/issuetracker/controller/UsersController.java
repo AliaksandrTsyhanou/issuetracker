@@ -11,7 +11,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -23,12 +22,12 @@ import org.springframework.web.context.request.WebRequest;
 import by.epam.lab.issuetracker.entity.Role;
 import by.epam.lab.issuetracker.entity.User;
 import by.epam.lab.issuetracker.exceptions.DAOException;
+import by.epam.lab.issuetracker.exceptions.EmailExistsException;
 import by.epam.lab.issuetracker.service.RoleManager;
 import by.epam.lab.issuetracker.service.UserManager;
 import by.epam.lab.issuetracker.service.dto.ChangePasswordDto;
 import by.epam.lab.issuetracker.service.dto.UserAddDto;
 import by.epam.lab.issuetracker.service.dto.UserEditDto;
-import by.epam.lab.issuetracker.validation.UserEditValidator;
 import by.epam.lab.issuetracker.validation.UserPasswordValidator;
 
 @Controller
@@ -42,18 +41,12 @@ public class UsersController {
 	@Autowired
 	private RoleManager rolerManager;
 	@Autowired
-	private UserEditValidator userEditValidator;
-	@Autowired
 	private UserPasswordValidator userPasswordValidator;	
 	
 
 	@InitBinder("userAddDto")
 	private void initUserAddDtoBinder(WebDataBinder binder) {
-		binder.addValidators(userEditValidator, userPasswordValidator);	
-	}
-	@InitBinder("userEditDto")
-	private void initUserEditDtoBinder(WebDataBinder binder) {
-		binder.addValidators(userEditValidator);	
+		binder.addValidators(userPasswordValidator);	
 	}
 	@InitBinder("changePasswordDto")
 	private void initChangePasswordDtoBinder(WebDataBinder binder) {
@@ -107,7 +100,12 @@ public class UsersController {
 		logger.debug("userEditDto = " + userEditDto);
 		
 		String authorizedUserName = SecurityContextHolder.getContext().getAuthentication().getName();
-		userManager.updateUser(userEditDto, authorizedUserName);
+		try {
+			userManager.updateUser(userEditDto, authorizedUserName);
+		} catch (EmailExistsException e) {
+			result.rejectValue("emailaddress", "user.emailaddress.exist");
+			return "edituser";
+		}
 		return "redirect:/";
 	}
 	
@@ -128,7 +126,12 @@ public class UsersController {
 		}
 		logger.debug("@RequestMapping(value=/users/{id}, method = RequestMethod.POST)");
 		logger.debug("userEditDto = " + userEditDto);
-		userManager.updateUser(userEditDto);
+		try {
+			userManager.updateUser(userEditDto);
+		} catch (EmailExistsException e) {
+			result.rejectValue("emailaddress", "user.emailaddress.exist");	
+			return "edituser";
+		}
 		return "redirect:/users";
 	}
 	
@@ -148,7 +151,12 @@ public class UsersController {
 		logger.debug("=================");
 		logger.debug("+++User= " + userAddDto);
 
-		userManager.addUser(userAddDto);
+		try {
+			userManager.addUser(userAddDto);
+		} catch (EmailExistsException e) {
+			result.rejectValue("emailaddress", "user.emailaddress.exist");	
+			return "adduser";
+		}		
 		return "redirect:/users" ;
 	}	
 	

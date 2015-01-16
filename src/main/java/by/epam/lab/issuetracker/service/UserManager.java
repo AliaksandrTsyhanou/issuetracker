@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import by.epam.lab.issuetracker.entity.Role;
 import by.epam.lab.issuetracker.entity.User;
 import by.epam.lab.issuetracker.exceptions.DAOException;
+import by.epam.lab.issuetracker.exceptions.EmailExistsException;
 import by.epam.lab.issuetracker.interfaces.IUserDAO;
 import by.epam.lab.issuetracker.service.dto.ChangePasswordDto;
 import by.epam.lab.issuetracker.service.dto.UserAddDto;
@@ -50,17 +51,20 @@ public class UserManager {
 		return userEditDto;
 	}
 	@Transactional
-	public User addUser(UserAddDto userAddDto) throws DAOException{
+	public User addUser(UserAddDto userAddDto) throws DAOException, EmailExistsException{
+		if (exitEmail(userAddDto.getEmailaddress())){
+			throw new EmailExistsException();
+		}
 		User addUser = convertToUser(userAddDto);
 		userDAO.addUser(addUser);
 		return addUser;		
 	}
 	@Transactional
-	public void updateUser(UserEditDto userEditDto) throws DAOException{
+	public void updateUser(UserEditDto userEditDto) throws DAOException, EmailExistsException{
 		updateUser(userEditDto, true);		
 	}
 	@Transactional
-	public void updateUser(UserEditDto userEditDto, String authorizedUserName) throws DAOException{
+	public void updateUser(UserEditDto userEditDto, String authorizedUserName) throws DAOException, EmailExistsException{
 		User authorizedUser = getUser(authorizedUserName);
 		userEditDto.setUserId(authorizedUser.getId());		
 		updateUser(userEditDto, isUserInRole(authorizedUser, ROLE_ADMIN));		
@@ -71,7 +75,11 @@ public class UserManager {
 		user.setPassword(changePasswordDto.getPassword());
 		userDAO.updateUser(user);		
 	}	
-
+	
+	private boolean exitEmail(String email) throws DAOException{
+		User exitedUser = getUser(email);
+		return (exitedUser != null);
+	}
 	
 	private User convertToUser(UserAddDto userAddDto){
 		User convertedUser = new User();
@@ -98,7 +106,6 @@ public class UserManager {
 	private boolean isUserInRole(User user, String role){
 		boolean isUserInRole = false;
 		for (GrantedAuthority grantedAuthority : user.getAuthorities()) {
-			System.out.println("grantedAuthority.getAuthority() = " + grantedAuthority.getAuthority());
 			if (role.equals(grantedAuthority.getAuthority())){
 				isUserInRole = true;
 			}
@@ -106,15 +113,20 @@ public class UserManager {
 		return isUserInRole;
 	}
 	
-	private void updateUser(UserEditDto userEditDto, boolean isRoleUpdated) throws DAOException{
-		User user = userDAO.getUserById(userEditDto.getUserId());
-		user.setFirstname(userEditDto.getFirstname());
-		user.setLastname(userEditDto.getLastname());
-		user.setEmailaddress(userEditDto.getEmailaddress());
-		if (isRoleUpdated) {
-			user.getRole().setId(userEditDto.getRoleId());
+	private void updateUser(UserEditDto userEditDto, boolean isRoleUpdated) throws DAOException, EmailExistsException{
+		User updatedUser = userDAO.getUserById(userEditDto.getUserId());
+		updatedUser.setFirstname(userEditDto.getFirstname());
+		updatedUser.setLastname(userEditDto.getLastname());
+		if (!updatedUser.getEmailaddress().equals(userEditDto.getEmailaddress())){
+			if (exitEmail(userEditDto.getEmailaddress())){
+				throw new EmailExistsException();
+			}
 		}
-		userDAO.updateUser(user);
+		updatedUser.setEmailaddress(userEditDto.getEmailaddress());
+		if (isRoleUpdated) {
+			updatedUser.getRole().setId(userEditDto.getRoleId());
+		}
+		userDAO.updateUser(updatedUser);
 	}
 	
 }

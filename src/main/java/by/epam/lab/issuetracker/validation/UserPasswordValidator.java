@@ -28,14 +28,13 @@ public class UserPasswordValidator implements Validator {
 		logger.debug("password confirmation");
 		IPasswordConfirmation validPassword = (IPasswordConfirmation) target;
 		if (!validatePassword(validPassword.getPassword())){
-			errors.rejectValue("password", "user.variable.password.unvalid");
+			errors.rejectValue("password", "user.password.pattern");
 		};
 		if (!validPassword.getPassword().equals(validPassword.getPasswordConfirmation())){
-			errors.rejectValue("passwordConfirmation", "user.variable.passwordConfirmation.notEqual");
+			errors.rejectValue("passwordConfirmation", "user.passwordConfirmation.notEqual");
 		}		
 	}   
-	
-	
+		
 	private boolean validatePassword(String password) {
     	Pattern pattern = Pattern.compile(PASSWORD_PATTERN);
     	Matcher matcher = pattern.matcher(password);
