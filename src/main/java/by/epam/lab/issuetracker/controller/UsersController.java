@@ -1,5 +1,6 @@
 package by.epam.lab.issuetracker.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -74,7 +75,6 @@ public class UsersController {
 	public ChangePasswordDto getPasswordConfirmation(){
 		return new ChangePasswordDto();
 	}	
-	
 
 	@RequestMapping(method=RequestMethod.GET) 
 	public String getUsers() {

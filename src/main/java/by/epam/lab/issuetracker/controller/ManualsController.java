@@ -32,7 +32,7 @@ public class ManualsController {
 	}	
 	
 	@ModelAttribute("status")	
-	public Status getUserAddDto(){
+	public Status getStatus(){
 		return new Status();
 	}
 	

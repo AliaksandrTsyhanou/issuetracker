@@ -23,6 +23,10 @@
 	<br>
 		<spring:url value="/statuses/" var="statuses" />
 		<a href="${statuses}" title="statuses">statuses</a>
+		
+	<br>
+		<spring:url value="/resolutions/" var="resolutions" />
+		<a href="${resolutions}" title="resolutions">resolutions</a>		
 
 	
 </body>

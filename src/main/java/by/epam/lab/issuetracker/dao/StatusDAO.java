@@ -47,7 +47,7 @@ public class StatusDAO extends AbstractDAO implements IStatusDAO {
         	getSession().update(status);
         } catch (HibernateException e) {
         	logger.error("Could not update status " + status.getName()+ ", " + e);
-        	throw new DAOException("Could not update user " + status.getName(), e);
+        	throw new DAOException("Could not update status " + status.getName(), e);
         }
     }
 }

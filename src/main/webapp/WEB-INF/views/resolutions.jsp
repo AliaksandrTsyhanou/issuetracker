@@ -10,19 +10,25 @@
 <body>
 <jsp:include page="/WEB-INF/views/header.jsp"/>
 
-<form:form name="Status" id="StatusForm" method="get"  modelAttribute="statuses">
+<form:form name="Resolution" id="ResolutionForm" method="get"  modelAttribute="resolutions">
 <table>
 	 <tr>
 	  <td width="50">Id</td>
-	  <td width="150">Status name</td>
+	  <td width="150">name</td>
 	 </tr>
-	 <c:forEach items="${statuses}" var="status">
+	 <c:forEach items="${resolutions}" var="resolution">
 	  <tr>
-	   <td><c:out value="${status.id}" /></td>
-	   <td><spring:url value="/statuses/${status.id}" var="editstatus" />
-	  	   <a href="${editstatus}" title="Edit Status">${status.name}</a></td>
+	   <td><c:out value="${resolution.id}" /></td>
+	   <td><spring:url value="/resolutions/${resolution.id}" var="editresolution" />
+	  	   <a href="${editresolution}" title="Edit Resolution">${resolution.name}</a></td>
 	  </tr>
 	 </c:forEach>
+	 <tr>
+	   <td colspan="2">
+	 	<spring:url value="/resolutions/add" var="addresolution" />
+	 	<a href="${addresolution}" title="Add Resolution">Add Resolution</a>
+	   </td>
+	  </tr>
 	</table>
 </form:form>
 
