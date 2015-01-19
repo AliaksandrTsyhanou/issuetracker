@@ -15,50 +15,60 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import by.epam.lab.issuetracker.entity.Status;
 import by.epam.lab.issuetracker.exceptions.DAOException;
-import by.epam.lab.issuetracker.service.StatusManager;
+import by.epam.lab.issuetracker.interfaces.IManual;
+import by.epam.lab.issuetracker.service.ManualManager;
+import by.epam.lab.issuetracker.service.dto.ManualDto;
+
 
 @Controller
 public class ManualsController {
 	private static final Logger logger = LoggerFactory.getLogger(ManualsController.class);
 	
+
+	
 	@Autowired
-	private StatusManager statusManager;
+	private ManualManager manualManager;
 	
-	@ModelAttribute("statuses")	
-	public List<Status> getAllStatus() throws DAOException {
-		return statusManager.getAllStatus();
-	}	
-	
-	@ModelAttribute("status")	
-	public Status getStatus(){
-		return new Status();
+//	@ModelAttribute("manuals")	
+//	public List<IManual> getAllStatus() throws DAOException {
+//		return manualManager.getAll();
+//	}	
+//	
+	@ModelAttribute("manualDto")	
+	public IManual getStatus(){
+		return new ManualDto();
 	}
 	
-	@RequestMapping(value="/statuses", method = RequestMethod.GET) 
-	public String getUsers() {
-		return "statuses";
+	@RequestMapping(value="/manuals/{manualname}", method = RequestMethod.GET) 
+	public String getUsers(@PathVariable String manualname, Model model) throws DAOException {
+		List<IManual> manuals = manualManager.getAll(manualname);
+		model.addAttribute("manuals", manuals);
+		model.addAttribute("manualname", manualname);
+		return "manuals";
 	}
 	
-	@RequestMapping(value="/statuses/{id}", method = RequestMethod.GET) 
-	public String getUser(@PathVariable int id, Model model) throws DAOException{
-		logger.debug("@RequestMapping(value=/statuses/{id}, method = RequestMethod.GET)");
+	
+	@RequestMapping(value="/manuals/{manualname}/{id}", method = RequestMethod.GET) 
+	public String getUser(@PathVariable String manualname, @PathVariable int id, Model model) throws DAOException{
+		logger.debug("@RequestMapping(value=/manuals/{manualname}/{id}, method = RequestMethod.GET)");
 		logger.debug("id=" + id);
-		Status status = statusManager.getStatus(id);
-		model.addAttribute("status", status);		
-		return "editstatus";
+		IManual manual = manualManager.get(manualname, id);
+		model.addAttribute("manual", manual);		
+		return "editmanual";
 	}
 	
-	@RequestMapping(value="/statuses/{id}", method = RequestMethod.POST) 
-	public String saveEdit(@ModelAttribute("status") @Valid Status status,
-			BindingResult result) throws DAOException{
+	@RequestMapping(value="/manuals/{manualname}/{id}", method = RequestMethod.POST) 
+	public String saveEdit(@ModelAttribute("manualDto") IManual manualDto,
+			@PathVariable String manualname,
+			BindingResult result) throws DAOException, InstantiationException, IllegalAccessException{
 		if (result.hasErrors()){
-			return "editstatus";
+			return "editmanual";
 		}
-		logger.debug("@RequestMapping(value=/statuses/{id}, method = RequestMethod.POST)");
-		logger.debug("status = " + status);
-		statusManager.updateStatus(status);
-		return "redirect:/statuses";
+		logger.debug(manualname);
+		logger.debug("@RequestMapping(/manuals/{manualname}/{id}, method = RequestMethod.POST)");
+		logger.debug("manualDto = " + manualDto);
+		manualManager.update(manualDto, manualname);
+		return "redirect:/manuals/" + manualname;
 	}
 }

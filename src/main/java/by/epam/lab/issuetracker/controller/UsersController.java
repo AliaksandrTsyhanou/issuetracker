@@ -1,6 +1,5 @@
 package by.epam.lab.issuetracker.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;

@@ -27,6 +27,15 @@
 	<br>
 		<spring:url value="/resolutions/" var="resolutions" />
 		<a href="${resolutions}" title="resolutions">resolutions</a>		
+		
+		
+	<br>
+		<spring:url value="/manuals/priority" var="priority" />
+		<a href="${priority}" title="priority">priority</a>				
+		
+	<br>
+		<spring:url value="/manuals/resolution" var="resolution" />
+		<a href="${resolution}" title="resolution">resolution</a>		
 
 	
 </body>
