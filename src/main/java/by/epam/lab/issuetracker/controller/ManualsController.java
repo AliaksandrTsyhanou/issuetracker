@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import by.epam.lab.issuetracker.entity.Resolution;
 import by.epam.lab.issuetracker.exceptions.DAOException;
 import by.epam.lab.issuetracker.interfaces.IManual;
 import by.epam.lab.issuetracker.service.ManualManager;
@@ -36,12 +37,12 @@ public class ManualsController {
 //	}	
 //	
 	@ModelAttribute("manualDto")	
-	public IManual getStatus(){
+	public IManual getManualDto(){
 		return new ManualDto();
 	}
 	
 	@RequestMapping(value="/manuals/{manualname}", method = RequestMethod.GET) 
-	public String getUsers(@PathVariable String manualname, Model model) throws DAOException {
+	public String getManuals(@PathVariable String manualname, Model model) throws DAOException {
 		List<IManual> manuals = manualManager.getAll(manualname);
 		model.addAttribute("manuals", manuals);
 		model.addAttribute("manualname", manualname);
@@ -50,7 +51,7 @@ public class ManualsController {
 	
 	
 	@RequestMapping(value="/manuals/{manualname}/{id}", method = RequestMethod.GET) 
-	public String getUser(@PathVariable String manualname, @PathVariable int id, Model model) throws DAOException{
+	public String getManual(@PathVariable String manualname, @PathVariable int id, Model model) throws DAOException{
 		logger.debug("@RequestMapping(value=/manuals/{manualname}/{id}, method = RequestMethod.GET)");
 		logger.debug("id=" + id);
 		IManual manual = manualManager.get(manualname, id);
@@ -60,8 +61,7 @@ public class ManualsController {
 	
 	@RequestMapping(value="/manuals/{manualname}/{id}", method = RequestMethod.POST) 
 	public String saveEdit(@ModelAttribute("manualDto") IManual manualDto,
-			@PathVariable String manualname,
-			BindingResult result) throws DAOException, InstantiationException, IllegalAccessException{
+			@PathVariable String manualname, BindingResult result) throws DAOException{
 		if (result.hasErrors()){
 			return "editmanual";
 		}
@@ -71,4 +71,19 @@ public class ManualsController {
 		manualManager.update(manualDto, manualname);
 		return "redirect:/manuals/" + manualname;
 	}
+	
+	@RequestMapping(value = "/manuals/{manualname}/add", method = RequestMethod.GET)
+	public String showFormAddManual() {
+		return "addmanual";
+	}
+	
+	@RequestMapping(value = "/manuals/{manualname}/add", method = RequestMethod.POST)
+	public String addManual(@ModelAttribute("manualDto") IManual manualDto,
+			@PathVariable String manualname, BindingResult result) throws DAOException {
+		if (result.hasErrors()){
+			return "addmanual";
+		}		
+		manualManager.add(manualDto, manualname);
+		return ("redirect:/manuals/" + manualname);
+	}	
 }

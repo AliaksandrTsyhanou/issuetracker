@@ -21,21 +21,20 @@
 
 		
 	<br>
-		<spring:url value="/statuses/" var="statuses" />
-		<a href="${statuses}" title="statuses">statuses</a>
-		
-	<br>
-		<spring:url value="/resolutions/" var="resolutions" />
-		<a href="${resolutions}" title="resolutions">resolutions</a>		
-		
-		
-	<br>
 		<spring:url value="/manuals/priority" var="priority" />
 		<a href="${priority}" title="priority">priority</a>				
 		
 	<br>
 		<spring:url value="/manuals/resolution" var="resolution" />
 		<a href="${resolution}" title="resolution">resolution</a>		
+	
+	<br>
+		<spring:url value="/manuals/type" var="type" />
+		<a href="${type}" title="type">type</a>		
+		
+	<br>
+		<spring:url value="/manuals/status" var="status" />
+		<a href="${status}" title="status">status</a>		
 
 	
 </body>

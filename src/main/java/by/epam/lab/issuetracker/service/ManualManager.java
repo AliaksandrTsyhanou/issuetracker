@@ -28,21 +28,35 @@ public class ManualManager {
 	}
 	
 	@Transactional
-	public void update(IManual manualDto, String manualname) throws DAOException, InstantiationException, IllegalAccessException{
-		IManual updatedManual = (IManual) getManualBeanEnum(manualname).getClazz().newInstance();
-		updatedManual.setId(manualDto.getId());
-		updatedManual.setName(manualDto.getName());
+	public void update(IManual manualDto, String manualname) throws DAOException{
+		IManual updatedManual = getManual(manualDto, manualname);
 		manualDAO.update(updatedManual);
 	}
 	
 	@Transactional
-	public IManual add(IManual manual) throws DAOException {
-		return manualDAO.add(manual);		 
+	public IManual add(IManual manualDto, String manualname)  throws DAOException {
+		IManual uaddedManual = getManual(manualDto, manualname);
+		return manualDAO.add(uaddedManual);	
 	}
 	
+
 	private ManualBeanEnum getManualBeanEnum(String manualName){
 		String upperManualName = manualName.toUpperCase();
 		ManualBeanEnum manualBeanEnum = ManualBeanEnum.valueOf(upperManualName);
 		return manualBeanEnum;
 	}
+	
+	private IManual getManual(IManual manualDto, String manualname) throws DAOException{
+		IManual returnManual;
+		try {
+			returnManual = (IManual) getManualBeanEnum(manualname).getClazz().newInstance();
+		} catch (InstantiationException | IllegalAccessException e) {
+			throw new DAOException("Error created Bean", e);
+		}
+		returnManual.setId(manualDto.getId());
+		returnManual.setName(manualDto.getName());
+		return returnManual;
+	}
+
+
 }
