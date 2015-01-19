@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
-import by.epam.lab.issuetracker.entity.Status;
+import by.epam.lab.issuetracker.entity.manuals.Status;
 import by.epam.lab.issuetracker.exceptions.DAOException;
 import by.epam.lab.issuetracker.interfaces.IStatusDAO;
 

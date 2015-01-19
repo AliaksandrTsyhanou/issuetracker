@@ -1,4 +1,4 @@
-package by.epam.lab.issuetracker.entity;
+package by.epam.lab.issuetracker.entity.manuals;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,17 +12,17 @@ import org.hibernate.validator.constraints.NotEmpty;
 import by.epam.lab.issuetracker.interfaces.IManual;
 
 @Entity
-@Table(name="resolution")
-public class Resolution implements IManual {
+@Table(name="priority")
+public class Priority implements IManual{
 
 	private int id;
 	private String name;
 	
-	public Resolution() {
+	public Priority() {
 		super();
 	}
 
-	public Resolution(int id, String name) {
+	public Priority(int id, String name) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -40,7 +40,7 @@ public class Resolution implements IManual {
 	}
 
 	@Column(name="name")
-	@NotEmpty(message = "{resolution.label}" + "{spase}" + "{notempty}")
+	@NotEmpty(message = "{priority.label}" + "{spase}" + "{notempty}")
 	public String getName() {
 		return name;
 	}

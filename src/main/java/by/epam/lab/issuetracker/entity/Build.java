@@ -7,48 +7,33 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.hibernate.validator.constraints.NotEmpty;
-
 @Entity
-@Table(name="status")
-public class Status {
-	
-	private int id;
+@Table(name="projectbuild")
+public class Build {
+
+	private long id;
+	private long idproject;
 	private String name;
 	
-	public Status() {
-		super();
-	}
-
-	public Status(int id, String name) {
-		super();
-		this.id = id;
-		this.name = name;
-	}
-
 	@Id
 	@Column(name="id")
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-	public int getId() {
+	public long getId() {
 		return id;
 	}
-
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
-
-	@Column(name="name")
-	@NotEmpty(message = "{status.label}" + "{spase}" + "{notempty}")
+	public long getIdproject() {
+		return idproject;
+	}
+	public void setIdproject(long idproject) {
+		this.idproject = idproject;
+	}
 	public String getName() {
 		return name;
 	}
-
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	@Override
-	public String toString() {
-		return "Status [id=" + id + ", name=" + name + "]";
-	}	
+	}		
 }

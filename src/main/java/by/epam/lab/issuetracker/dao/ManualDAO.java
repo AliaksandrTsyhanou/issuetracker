@@ -21,6 +21,7 @@ public class ManualDAO extends AbstractDAO implements IManualDAO {
 	private static final Logger logger = LoggerFactory.getLogger(ManualDAO.class);
 	
 	@SuppressWarnings("unchecked")
+	@Override
 	public List<IManual> getAll(ManualBeanEnum manualBeanEnum) throws DAOException {
     	try {
 			List<IManual> listManual = new ArrayList<IManual>();
@@ -32,6 +33,7 @@ public class ManualDAO extends AbstractDAO implements IManualDAO {
 		}
 	}
 	
+	@Override
 	public IManual get(ManualBeanEnum manualBeanEnum, int manualId) throws DAOException{
 		try {
 			IManual resolution = (IManual) getSession().get(manualBeanEnum.getClazz(), manualId);
@@ -41,6 +43,7 @@ public class ManualDAO extends AbstractDAO implements IManualDAO {
 		}
 	}
 	
+	@Override
 	public void update(IManual manual) throws DAOException{
         try {
         	logger.debug("getSession().update(manual), manual = " + manual);

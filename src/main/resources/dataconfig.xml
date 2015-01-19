@@ -61,7 +61,7 @@
         <property name="annotatedClasses">
  			<list>
    				<value>by.epam.lab.issuetracker.entity.Role</value>
-   				<value>by.epam.lab.issuetracker.entity.Status</value>
+<!--    				<value>by.epam.lab.issuetracker.entity.Status</value> -->
   			</list>
  		</property>
         <property name="hibernateProperties">

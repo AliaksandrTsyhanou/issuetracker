@@ -1,9 +1,9 @@
 package by.epam.lab.issuetracker.enums;
 
-import by.epam.lab.issuetracker.entity.Priority;
-import by.epam.lab.issuetracker.entity.Resolution;
-import by.epam.lab.issuetracker.entity.Status;
-import by.epam.lab.issuetracker.entity.Type;
+import by.epam.lab.issuetracker.entity.manuals.Priority;
+import by.epam.lab.issuetracker.entity.manuals.Resolution;
+import by.epam.lab.issuetracker.entity.manuals.Status;
+import by.epam.lab.issuetracker.entity.manuals.Type;
 
 public enum ManualBeanEnum {
 	PRIORITY(Priority.class, true),

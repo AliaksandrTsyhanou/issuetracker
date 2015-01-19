@@ -2,7 +2,7 @@ package by.epam.lab.issuetracker.interfaces;
 
 import java.util.List;
 
-import by.epam.lab.issuetracker.entity.Resolution;
+import by.epam.lab.issuetracker.entity.manuals.Resolution;
 import by.epam.lab.issuetracker.exceptions.DAOException;
 
 public interface IResolutionDAO {

@@ -22,7 +22,7 @@
             <column name="lastname" length="255" not-null="true" unique="false" />
         </property>
 		<many-to-one name="role" class="by.epam.lab.issuetracker.entity.Role" lazy="false"> 
-			<column name="role" not-null="true"/>
+			<column name="idrole" not-null="true"/>
 		</many-to-one>
     </class>
 </hibernate-mapping>

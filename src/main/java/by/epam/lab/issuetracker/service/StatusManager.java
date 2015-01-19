@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import by.epam.lab.issuetracker.entity.Status;
+import by.epam.lab.issuetracker.entity.manuals.Status;
 import by.epam.lab.issuetracker.exceptions.DAOException;
 import by.epam.lab.issuetracker.interfaces.IStatusDAO;
 
