@@ -2,8 +2,6 @@ package by.epam.lab.issuetracker.controller;
 
 import java.util.List;
 
-import javax.validation.Valid;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +13,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import by.epam.lab.issuetracker.entity.Resolution;
 import by.epam.lab.issuetracker.exceptions.DAOException;
+import by.epam.lab.issuetracker.exceptions.ManualNotExistException;
 import by.epam.lab.issuetracker.interfaces.IManual;
 import by.epam.lab.issuetracker.service.ManualManager;
 import by.epam.lab.issuetracker.service.dto.ManualDto;
@@ -26,16 +24,9 @@ import by.epam.lab.issuetracker.service.dto.ManualDto;
 public class ManualsController {
 	private static final Logger logger = LoggerFactory.getLogger(ManualsController.class);
 	
-
-	
 	@Autowired
 	private ManualManager manualManager;
-	
-//	@ModelAttribute("manuals")	
-//	public List<IManual> getAllStatus() throws DAOException {
-//		return manualManager.getAll();
-//	}	
-//	
+
 	@ModelAttribute("manualDto")	
 	public IManual getManualDto(){
 		return new ManualDto();
@@ -46,6 +37,8 @@ public class ManualsController {
 		List<IManual> manuals = manualManager.getAll(manualname);
 		model.addAttribute("manuals", manuals);
 		model.addAttribute("manualname", manualname);
+		boolean isAllowAdditions = manualManager.isAllowAdditions(manualname);
+		model.addAttribute("isAllowAdditions", isAllowAdditions);
 		return "manuals";
 	}
 	
@@ -54,7 +47,7 @@ public class ManualsController {
 	public String getManual(@PathVariable String manualname, @PathVariable int id, Model model) throws DAOException{
 		logger.debug("@RequestMapping(value=/manuals/{manualname}/{id}, method = RequestMethod.GET)");
 		logger.debug("id=" + id);
-		IManual manual = manualManager.get(manualname, id);
+		IManual manual = manualManager.get(manualname, id);		
 		model.addAttribute("manual", manual);		
 		return "editmanual";
 	}
@@ -73,7 +66,10 @@ public class ManualsController {
 	}
 	
 	@RequestMapping(value = "/manuals/{manualname}/add", method = RequestMethod.GET)
-	public String showFormAddManual() {
+	public String showFormAddManual(@PathVariable String manualname) {
+		if (!manualManager.isAllowAdditions(manualname)){
+			throw new ManualNotExistException();
+		}
 		return "addmanual";
 	}
 	

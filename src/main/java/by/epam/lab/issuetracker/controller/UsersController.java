@@ -22,7 +22,7 @@ import org.springframework.web.context.request.WebRequest;
 import by.epam.lab.issuetracker.entity.Role;
 import by.epam.lab.issuetracker.entity.User;
 import by.epam.lab.issuetracker.exceptions.DAOException;
-import by.epam.lab.issuetracker.exceptions.EmailExistsException;
+import by.epam.lab.issuetracker.exceptions.EmailExistException;
 import by.epam.lab.issuetracker.service.RoleManager;
 import by.epam.lab.issuetracker.service.UserManager;
 import by.epam.lab.issuetracker.service.dto.ChangePasswordDto;
@@ -101,7 +101,7 @@ public class UsersController {
 		String authorizedUserName = SecurityContextHolder.getContext().getAuthentication().getName();
 		try {
 			userManager.updateUser(userEditDto, authorizedUserName);
-		} catch (EmailExistsException e) {
+		} catch (EmailExistException e) {
 			result.rejectValue("emailaddress", "user.emailaddress.exist");
 			return "edituser";
 		}
@@ -127,7 +127,7 @@ public class UsersController {
 		logger.debug("userEditDto = " + userEditDto);
 		try {
 			userManager.updateUser(userEditDto);
-		} catch (EmailExistsException e) {
+		} catch (EmailExistException e) {
 			result.rejectValue("emailaddress", "user.emailaddress.exist");	
 			return "edituser";
 		}
@@ -152,7 +152,7 @@ public class UsersController {
 
 		try {
 			userManager.addUser(userAddDto);
-		} catch (EmailExistsException e) {
+		} catch (EmailExistException e) {
 			result.rejectValue("emailaddress", "user.emailaddress.exist");	
 			return "adduser";
 		}		

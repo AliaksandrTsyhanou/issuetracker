@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import by.epam.lab.issuetracker.entity.Role;
 import by.epam.lab.issuetracker.entity.User;
 import by.epam.lab.issuetracker.exceptions.DAOException;
-import by.epam.lab.issuetracker.exceptions.EmailExistsException;
+import by.epam.lab.issuetracker.exceptions.EmailExistException;
 import by.epam.lab.issuetracker.interfaces.IUserDAO;
 import by.epam.lab.issuetracker.service.dto.ChangePasswordDto;
 import by.epam.lab.issuetracker.service.dto.UserAddDto;
@@ -51,20 +51,20 @@ public class UserManager {
 		return userEditDto;
 	}
 	@Transactional
-	public User addUser(UserAddDto userAddDto) throws DAOException, EmailExistsException{
+	public User addUser(UserAddDto userAddDto) throws DAOException, EmailExistException{
 		if (exitEmail(userAddDto.getEmailaddress())){
-			throw new EmailExistsException();
+			throw new EmailExistException();
 		}
 		User addUser = convertToUser(userAddDto);
 		userDAO.addUser(addUser);
 		return addUser;		
 	}
 	@Transactional
-	public void updateUser(UserEditDto userEditDto) throws DAOException, EmailExistsException{
+	public void updateUser(UserEditDto userEditDto) throws DAOException, EmailExistException{
 		updateUser(userEditDto, true);		
 	}
 	@Transactional
-	public void updateUser(UserEditDto userEditDto, String authorizedUserName) throws DAOException, EmailExistsException{
+	public void updateUser(UserEditDto userEditDto, String authorizedUserName) throws DAOException, EmailExistException{
 		User authorizedUser = getUser(authorizedUserName);
 		userEditDto.setUserId(authorizedUser.getId());		
 		updateUser(userEditDto, isUserInRole(authorizedUser, ROLE_ADMIN));		
@@ -113,13 +113,13 @@ public class UserManager {
 		return isUserInRole;
 	}
 	
-	private void updateUser(UserEditDto userEditDto, boolean isRoleUpdated) throws DAOException, EmailExistsException{
+	private void updateUser(UserEditDto userEditDto, boolean isRoleUpdated) throws DAOException, EmailExistException{
 		User updatedUser = userDAO.getUserById(userEditDto.getUserId());
 		updatedUser.setFirstname(userEditDto.getFirstname());
 		updatedUser.setLastname(userEditDto.getLastname());
 		if (!updatedUser.getEmailaddress().equals(userEditDto.getEmailaddress())){
 			if (exitEmail(userEditDto.getEmailaddress())){
-				throw new EmailExistsException();
+				throw new EmailExistException();
 			}
 		}
 		updatedUser.setEmailaddress(userEditDto.getEmailaddress());

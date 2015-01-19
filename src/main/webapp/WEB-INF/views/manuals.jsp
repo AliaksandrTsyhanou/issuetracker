@@ -14,7 +14,7 @@
 <table>
 	 <tr>
 	  <td width="50">Id</td>
-	  <td width="150">name</td>
+	  <td width="150">name ${manualname}</td>
 	 </tr>
 	 <c:forEach items="${manuals}" var="manual">
 	  <tr>
@@ -23,12 +23,14 @@
 	  	   <a href="${editmanual}" title="Edit Manual">${manual.name}</a></td>
 	  </tr>
 	 </c:forEach>
-	 <tr>
-	   <td colspan="2">
-	 	<spring:url value="/manuals/${manualname}/add" var="addmanual" />
-	 	<a href="${addmanual}" title="Add Manual">Add</a>
-	   </td>
-	  </tr>
+	 <c:if test="${isAllowAdditions}">
+		 <tr>
+		   <td colspan="2">
+		 	<spring:url value="/manuals/${manualname}/add" var="addmanual" />
+		 	<a href="${addmanual}" title="Add Manual">Add</a>
+		   </td>
+		  </tr>
+	 </c:if>	 
 	</table>
 </form:form>
 

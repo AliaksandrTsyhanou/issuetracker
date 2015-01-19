@@ -6,22 +6,24 @@ import by.epam.lab.issuetracker.entity.Status;
 import by.epam.lab.issuetracker.entity.Type;
 
 public enum ManualBeanEnum {
-	PRIORITY(Priority.class),
-	RESOLUTION(Resolution.class),
-	TYPE(Type.class),
-	STATUS(Status.class);
+	PRIORITY(Priority.class, true),
+	RESOLUTION(Resolution.class, true),
+	TYPE(Type.class, true),
+	STATUS(Status.class, false);
 	
-	private Class<?> clazz;
+	private final Class<?> clazz;
+	private final boolean isAllowAdditions;
 
-	private ManualBeanEnum(Class<?> clazz) {
+	private ManualBeanEnum(Class<?> clazz, boolean isAllowAdditions) {
 		this.clazz = clazz;
+		this.isAllowAdditions = isAllowAdditions;
 	}
 
 	public Class<?> getClazz() {
 		return clazz;
 	}
-	
-	
-	
-	
+
+	public boolean isAllowAdditions() {
+		return isAllowAdditions;
+	}	
 }

@@ -1,13 +1,13 @@
 package by.epam.lab.issuetracker.exceptions;
 
-public class EmailExistsException extends Throwable {
+public class EmailExistException extends Throwable {
 	private static final long serialVersionUID = 4270149543435575064L;
 
-	public EmailExistsException() {
+	public EmailExistException() {
 		super();
 	}
 	
-	public EmailExistsException(String message) {
+	public EmailExistException(String message) {
 		super(message);
 	}
 }
