@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="projectbuild")
+@Table(name="build")
 public class Build {
 
 	private long id;

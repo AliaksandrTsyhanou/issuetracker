@@ -54,8 +54,8 @@ public class Issue {
 		this.description = description;
 	}
 	
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinColumn(name = "idstatus", unique = true, nullable = false, updatable = false)
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "idstatus", unique = true, nullable = false)
 	public Status getStatus() {
 		return status;
 	}
@@ -63,8 +63,8 @@ public class Issue {
 		this.status = status;
 	}
 	
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinColumn(name = "idtype", unique = true, nullable = false, updatable = false)
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "idtype", unique = true, nullable = false)
 	public Type getType() {
 		return type;
 	}
@@ -72,8 +72,8 @@ public class Issue {
 		this.type = type;
 	}
 	
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinColumn(name = "idpriority", unique = true, nullable = false, updatable = false)
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "idpriority", unique = true, nullable = false)
 	public Priority getPriority() {
 		return priority;
 	}
@@ -81,8 +81,8 @@ public class Issue {
 		this.priority = priority;
 	}
 	
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinColumn(name = "idproject", unique = true, nullable = false, updatable = false)
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "idproject", unique = true, nullable = false)
 	public Project getProject() {
 		return project;
 	}
@@ -90,8 +90,8 @@ public class Issue {
 		this.project = project;
 	}
 	
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinColumn(name = "idbuildfound", unique = true, nullable = false, updatable = false)
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "idbuildfound", unique = true, nullable = false)
 	public Build getBuild() {
 		return build;
 	}
@@ -99,8 +99,8 @@ public class Issue {
 		this.build = build;
 	}
 	
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinColumn(name = "idassignee", unique = true, nullable = false, updatable = false)
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "idassignee", unique = true)
 	public User getUser() {
 		return user;
 	}

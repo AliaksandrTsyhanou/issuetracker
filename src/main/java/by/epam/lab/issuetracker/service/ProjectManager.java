@@ -26,5 +26,15 @@ public class ProjectManager {
 	public Project get(long projectId) throws DAOException{
 		Project project = projectDAO.get(projectId);
 		return project;
-	}		
+	}	
+	
+	@Transactional
+	public void update(Project project) throws DAOException{
+		projectDAO.update(project);
+	}
+	
+	@Transactional
+	public Project add(Project project) throws DAOException {
+		return projectDAO.add(project);		 
+	}
 }

@@ -22,7 +22,7 @@
 	  <tr>
 	   <td><spring:url value="/projects/${project.id}" var="editproject" />
 	       <a href="${editproject}" title="Edit Project">${project.name}</a></td>
-	   	<td><c:out value="${project.idmanager}" /></td>
+	   	<td><c:out value="${project.manager.emailaddress}" /></td>
 	   	<td><c:out value="${project.description}" /></td>	   
 	   	<td><c:out value="${project.build.name}" /></td>
 	  </tr>

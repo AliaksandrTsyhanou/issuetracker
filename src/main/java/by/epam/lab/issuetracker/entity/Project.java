@@ -1,8 +1,8 @@
 package by.epam.lab.issuetracker.entity;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,7 +19,8 @@ public class Project {
 	private String description;
 //	private long idbuild;
 	private Build build;
-	private long idmanager;
+	private User manager;
+//	private long idmanager;
 	
 	@Id
 	@Column(name="id")
@@ -43,21 +44,21 @@ public class Project {
 		this.description = description;
 	}
 	
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "idbuild")
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "idbuild", unique = true, nullable = false, updatable = true)
 	public Build getBuild() {
 		return build;
 	}
 	public void setBuild(Build build) {
 		this.build = build;
 	}
-	public long getIdmanager() {
-		return idmanager;
-	}
-	public void setIdmanager(long idmanager) {
-		this.idmanager = idmanager;
-	}
 	
-	
-
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "idmanager", unique = true, nullable = false, updatable = true)
+	public User getManager() {
+		return manager;
+	}
+	public void setManager(User manager) {
+		this.manager = manager;
+	}
 }
