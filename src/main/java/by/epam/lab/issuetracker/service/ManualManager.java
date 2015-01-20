@@ -24,6 +24,11 @@ public class ManualManager {
 	}
 	
 	@Transactional
+	public List<IManual> getAll(ManualBeanEnum manualBeanEnum) throws DAOException {
+		return manualDAO.getAll(manualBeanEnum);		 
+	}
+	
+	@Transactional
 	public IManual get(String manualName, int manualId) throws DAOException, ManualNotExistException{
 		return manualDAO.get(getManualBeanEnum(manualName), manualId);		 
 	}

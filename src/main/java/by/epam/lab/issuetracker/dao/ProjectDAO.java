@@ -21,6 +21,7 @@ public class ProjectDAO extends AbstractDAO implements IProjectDAO {
 	private static final Logger logger = LoggerFactory.getLogger(ProjectDAO.class);
 	
 	@SuppressWarnings("unchecked")
+	@Override
 	public List<Project> getAll() throws DAOException {
     	try {
 			List<Project> listProject = new ArrayList<Project>();
@@ -32,6 +33,7 @@ public class ProjectDAO extends AbstractDAO implements IProjectDAO {
 		}
 	}
 	
+	@Override
 	public Project get(long id) throws DAOException{
 		try {
 			Project project = (Project) getSession().get(Project.class, id);
@@ -41,6 +43,7 @@ public class ProjectDAO extends AbstractDAO implements IProjectDAO {
 		}
 	}
 	
+	@Override
 	public void update(Project project) throws DAOException{
         try {
         	logger.debug("getSession().update(project), project = " + project);
@@ -51,6 +54,7 @@ public class ProjectDAO extends AbstractDAO implements IProjectDAO {
         }
     }
 
+	@Override
 	public Project add(Project project) throws DAOException {
 		try {
 			getSession().save(project);

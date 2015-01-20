@@ -18,6 +18,7 @@ public class RoleDAO extends AbstractDAO implements IRoleDAO{
 	private static final Logger logger = LoggerFactory.getLogger(RoleDAO.class);
 	
 	@SuppressWarnings("unchecked")
+	@Override
 	public List<Role> getAllRole() {
      	List<Role> listRole = new ArrayList<Role>();
     	listRole = (List<Role>) getSession().createCriteria(Role.class).list();

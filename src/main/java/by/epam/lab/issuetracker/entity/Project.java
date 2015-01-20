@@ -17,10 +17,8 @@ public class Project {
 	private long id;
 	private String name;
 	private String description;
-//	private long idbuild;
 	private Build build;
 	private User manager;
-//	private long idmanager;
 	
 	@Id
 	@Column(name="id")

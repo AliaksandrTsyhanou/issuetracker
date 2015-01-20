@@ -1,6 +1,7 @@
 package by.epam.lab.issuetracker.entity;
 
-import javax.persistence.CascadeType;
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -10,8 +11,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import by.epam.lab.issuetracker.entity.manuals.Priority;
+import by.epam.lab.issuetracker.entity.manuals.Resolution;
 import by.epam.lab.issuetracker.entity.manuals.Status;
 import by.epam.lab.issuetracker.entity.manuals.Type;
 
@@ -23,13 +27,17 @@ public class Issue {
 	private String summary;
 	private String description;
 	private Status status;
+	private Resolution resolution;
 	private Type type;
 	private Priority priority;
 	private Project project;
 	private Build build;
-	private User user;
-	
-	
+	private User assignee;
+	private Date createdate;
+	private User creator;
+	private Date modifydate;
+	private User modifier;
+		
 	@Id
 	@Column(name="id")
     @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -61,6 +69,15 @@ public class Issue {
 	}
 	public void setStatus(Status status) {
 		this.status = status;
+	}
+	
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "idresolution", unique = true, nullable = false)
+	public Resolution getResolution() {
+		return resolution;
+	}
+	public void setResolution(Resolution resolution) {
+		this.resolution = resolution;
 	}
 	
 	@OneToOne(fetch = FetchType.EAGER)
@@ -101,12 +118,43 @@ public class Issue {
 	
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "idassignee", unique = true)
-	public User getUser() {
-		return user;
+	public User getAssignee() {
+		return assignee;
 	}
-	public void setUser(User user) {
-		this.user = user;
+	public void setAssignee(User assignee) {
+		this.assignee = assignee;
 	}
 	
+	@Temporal(TemporalType.DATE)
+	public Date getCreatedate() {
+		return createdate;
+	}
+	public void setCreatedate(Date createdate) {
+		this.createdate = createdate;
+	}
 	
+	@OneToOne()
+	@JoinColumn(name = "idcreator", unique = true, nullable = false)
+	public User getCreator() {
+		return creator;
+	}
+	public void setCreator(User creator) {
+		this.creator = creator;
+	}
+	
+	@Temporal(TemporalType.DATE)
+	public Date getModifydate() {
+		return modifydate;
+	}
+	public void setModifydate(Date modifydate) {
+		this.modifydate = modifydate;
+	}
+	@OneToOne()
+	@JoinColumn(name = "idmodifier", unique = true, nullable = false)
+	public User getModifier() {
+		return modifier;
+	}
+	public void setModifier(User modifier) {
+		this.modifier = modifier;
+	}	
 }

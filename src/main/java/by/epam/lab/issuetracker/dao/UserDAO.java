@@ -20,6 +20,7 @@ public class UserDAO extends AbstractDAO implements IUserDAO{
 
 	private static final Logger logger = LoggerFactory.getLogger(UserDAO.class);
 	
+	@Override
 	public User addUser(User user) throws DAOException {
         try {
         	logger.debug("getSession().save(user)");
@@ -30,6 +31,7 @@ public class UserDAO extends AbstractDAO implements IUserDAO{
         }
     }
 
+	@Override
 	public User getUser(String emailaddress) throws DAOException {
         try {
         	Query q = getSession().createQuery("from User where emailaddress = :emailaddress");
@@ -42,6 +44,7 @@ public class UserDAO extends AbstractDAO implements IUserDAO{
         }
     }
 	
+	@Override
 	public User getUserById(long id) throws DAOException {
 		try {        	
         	User user = (User) getSession().get(User.class, id);
@@ -53,6 +56,7 @@ public class UserDAO extends AbstractDAO implements IUserDAO{
         }
     }
 
+	@Override
 	public void deleteUser(User user) throws DAOException {
         try {
             getSession().delete(user);
@@ -62,6 +66,7 @@ public class UserDAO extends AbstractDAO implements IUserDAO{
         }
     }
 	
+	@Override
 	public void updateUser(User user) throws DAOException {
         try {
         	logger.debug("getSession().update(user), user = " + user);
@@ -73,6 +78,7 @@ public class UserDAO extends AbstractDAO implements IUserDAO{
     }	
 	
 	@SuppressWarnings("unchecked")
+	@Override
 	public List<User> getAllUser() throws DAOException {    	
     	try {
 			List<User> listUser = new ArrayList<User>();

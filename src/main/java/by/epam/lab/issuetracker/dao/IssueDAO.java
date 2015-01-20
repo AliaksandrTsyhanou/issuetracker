@@ -22,6 +22,7 @@ public class IssueDAO extends AbstractDAO implements IIssueDAO{
 	private static final Logger logger = LoggerFactory.getLogger(IssueDAO.class);
 	
 	@SuppressWarnings("unchecked")
+	@Override
 	public List<Issue> getAll() throws DAOException {
     	try {
 			List<Issue> listIssue = new ArrayList<Issue>();
@@ -33,6 +34,7 @@ public class IssueDAO extends AbstractDAO implements IIssueDAO{
 		}
 	}
 	
+	@Override
 	public Issue get(long id) throws DAOException{
 		try {
 			Issue issue = (Issue) getSession().get(Issue.class, id);
@@ -42,6 +44,7 @@ public class IssueDAO extends AbstractDAO implements IIssueDAO{
 		}
 	}
 	
+	@Override
 	public void update(Issue issue) throws DAOException{
         try {
         	logger.debug("getSession().update(project), issue = " + issue);
@@ -52,6 +55,7 @@ public class IssueDAO extends AbstractDAO implements IIssueDAO{
         }
     }
 
+	@Override
 	public Issue add(Issue issue) throws DAOException {
 		try {
 			getSession().save(issue);
