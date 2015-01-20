@@ -19,6 +19,11 @@
 		
 	</sec:authorize>	
 	
+	
+	<br>
+		<spring:url value="/issues/" var="issues" />
+		<a href="${issues}" title="issues">issues</a>	
+		
 	<br>
 		<spring:url value="/projects/" var="projects" />
 		<a href="${projects}" title="projects">projects</a>	
