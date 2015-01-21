@@ -1,0 +1,132 @@
+<html>
+<body>
+<script>
+var Elementi = new Array();
+Elementi[0] = new Object;
+Elementi[0].value = 0;
+Elementi[0].text = 'Option 0_0'
+Elementi[1] = new Object;
+Elementi[1].value = 0;
+Elementi[1].text = 'Option 0_1'
+Elementi[2] = new Object;
+Elementi[2].value = 0;
+Elementi[2].text = 'Option 0_2'
+Elementi[3] = new Object;
+Elementi[3].value = 0;
+Elementi[3].text = 'Option 0_3'
+Elementi[4] = new Object;
+Elementi[4].value = 0;
+Elementi[4].text = 'Option 0_4'
+Elementi[5] = new Object;
+Elementi[5].value = 1;
+Elementi[5].text = 'Option 1_0'
+Elementi[6] = new Object;
+Elementi[6].value = 1;
+Elementi[6].text = 'Option 1_1'
+Elementi[7] = new Object;
+Elementi[7].value = 1;
+Elementi[7].text = 'Option 1_2'
+Elementi[8] = new Object;
+Elementi[8].value = 1;
+Elementi[8].text = 'Option 1_3'
+Elementi[9] = new Object;
+Elementi[9].value = 1;
+Elementi[9].text = 'Option 1_4'
+Elementi[10] = new Object;
+Elementi[10].value = 2;
+Elementi[10].text = 'Option 2_0'
+Elementi[11] = new Object;
+Elementi[11].value = 2;
+Elementi[11].text = 'Option 2_1'
+Elementi[12] = new Object;
+Elementi[12].value = 2;
+Elementi[12].text = 'Option 2_2'
+Elementi[13] = new Object;
+Elementi[13].value = 2;
+Elementi[13].text = 'Option 2_3'
+Elementi[14] = new Object;
+Elementi[14].value = 2;
+Elementi[14].text = 'Option 2_4'
+Elementi[15] = new Object;
+Elementi[15].value = 3;
+Elementi[15].text = 'Option 3_0'
+Elementi[16] = new Object;
+Elementi[16].value = 3;
+Elementi[16].text = 'Option 3_1'
+Elementi[17] = new Object;
+Elementi[17].value = 3;
+Elementi[17].text = 'Option 3_2'
+Elementi[18] = new Object;
+Elementi[18].value = 3;
+Elementi[18].text = 'Option 3_3'
+Elementi[19] = new Object;
+Elementi[19].value = 3;
+Elementi[19].text = 'Option 3_4'
+Elementi[20] = new Object;
+Elementi[20].value = 4;
+Elementi[20].text = 'Option 4_0'
+Elementi[21] = new Object;
+Elementi[21].value = 4;
+Elementi[21].text = 'Option 4_1'
+Elementi[22] = new Object;
+Elementi[22].value = 4;
+Elementi[22].text = 'Option 4_2'
+Elementi[23] = new Object;
+Elementi[23].value = 4;
+Elementi[23].text = 'Option 4_3'
+Elementi[24] = new Object;
+Elementi[24].value = 4;
+Elementi[24].text = 'Option 4_4'
+Elementi[25] = new Object;
+Elementi[25].value = 5;
+Elementi[25].text = 'Option 5_0'
+Elementi[26] = new Object;
+Elementi[26].value = 5;
+Elementi[26].text = 'Option 5_1'
+Elementi[27] = new Object;
+Elementi[27].value = 5;
+Elementi[27].text = 'Option 5_2'
+Elementi[28] = new Object;
+Elementi[28].value = 5;
+Elementi[28].text = 'Option 5_3'
+Elementi[29] = new Object;
+Elementi[29].value = 5;
+Elementi[29].text = 'Option 5_4'
+</script>
+<script>
+function Filter(what) {
+	var i = 0;
+	var k = SelectID.length;
+	for (i=0; i<k; i++)	{
+		SelectID.remove(0);
+	}
+	var oOption = document.createElement('OPTION');
+	for (i=0; i<Elementi.length; i++) {
+		if (Elementi[i].value == what) {
+			var oOption = document.createElement('OPTION');
+			oOption.text = Elementi[i].text;
+			oOption.value = Elementi[i].text;
+			SelectID.options.add(oOption);
+		}
+	}
+	
+	
+}
+</script>
+<select id=SelectID onChange = 'Filter (this.value)'>
+<option value=0>- 0 -
+<option value=1>- 1 -
+<option value=2>- 2 -
+<option value=3>- 3 -
+<option value=4>- 4 -
+<option value=5>- 5 -
+<option value=6>- 6 -
+<option value=7>- 7 -
+<option value=8>- 8 -
+<option value=9>- 9 -
+</select>
+
+	</body>
+	</html>
+	
+	
