@@ -9,73 +9,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF8">
 <title>Edit issue</title></head>
 <style type="text/css"> <%@include file="/resources/css/form.css" %> </style>
-
-<script>  
-	function updateSelect(linkstart, linkend, selectFilter, selectFiltredID) {  
-	  var filterId = selectFilter.options[selectFilter.selectedIndex].value;
-	  var link = linkstart + filterId + linkend;
-	  showContent(link, selectFiltredID);
-	}
-		
-    function showContent(link, selectFiltredID) {  
-        var http = createRequestObject();  
-        if( http )   
-        {    	
-        	http.open('get', link);  
-        	http.onreadystatechange = function ()   
-            {  
-                if(http.readyState == 4)   
-                {  
-                   var xmlSelect = http.responseXML.getElementsByTagName('build');
-                   result = http.responseXML.getElementsByTagName('id')[0].firstChild.nodeValue;
-//                   alert(result);
-//                   alert("xmlSelect[0].firstChild.firstChild.nodeValue=" + xmlSelect[0].firstChild.firstChild.nodeValue);
-                   Filter(selectFiltredID, xmlSelect);
-                }  
-            }  
-            http.send(null);      
-        }  
-        else   
-        {  
-            document.location = link;  
-        }  
-    }  
-  
-    // creat ajax object  
-    function createRequestObject()   
-    {  
-        try { return new XMLHttpRequest() }  
-        catch(e)   
-        {  
-            try { return new ActiveXObject('Msxml2.XMLHTTP') }  
-            catch(e)   
-            {  
-                try { return new ActiveXObject('Microsoft.XMLHTTP') }  
-                catch(e) { return null; }  
-            }  
-        }  
-    }  
-    
-    function Filter(selectFiltredID, xmlSelect) {
-    	var FiltredSelect = document.getElementById(selectFiltredID);
-    	var i = 0;
-    	var k = FiltredSelect.length;
-    	for (i=0; i<k; i++){
-    		FiltredSelect.remove(0);
-    	}
-//    	alert(xmlSelect[0].firstChild.data);
-    	for (i = 0; i < xmlSelect.length; i++) {
-     	   var oOption = document.createElement('OPTION');
-     	   FiltredSelect.options.add(oOption);
-     	   oOption.text = xmlSelect[i].childNodes[2].firstChild.nodeValue;
-     	   alert("oOption.text =" + oOption.text)
-     	   oOption.value = xmlSelect[i].childNodes[0].firstChild.nodeValue;
-     	  alert("oOption.value=" + oOption.value)
-     	}  	
-    	
-    }
-</script>  
-
+<script type="text/javascript"> <%@include file="/resources/js/updateselect.js"%> </script>
 
 <body>
 <jsp:include page="/WEB-INF/views/header.jsp"/>
@@ -85,7 +19,7 @@
 <table>
 	<tr>
 		<td> <form:label path="id">Id</form:label> </td>
-		<td> <form:input path="id" readonly="readonly "/> </td>
+		<td> <form:input path="id" readonly="true"/> </td>
 	</tr>
 	<tr>
 		<td> <form:label path="createdate">Create Date</form:label> </td>
@@ -187,4 +121,4 @@
 </form:form>
 
 <jsp:include page="/WEB-INF/views/footer.jsp"/>
-</body></html>
+</body></html> 
