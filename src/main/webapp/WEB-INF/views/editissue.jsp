@@ -9,6 +9,53 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF8">
 <title>Edit issue</title></head>
 <style type="text/css"> <%@include file="/resources/css/form.css" %> </style>
+
+<script>  
+    function showContent(link, selectProject) {  
+  		alert(link);	
+        var projectId = selectProject.options[selectProject.selectedIndex].value;
+        
+    	var cont = document.getElementById('contentBody');  
+        var loading = document.getElementById('loading');  
+  
+        cont.innerHTML = loading.innerHTML;  
+  
+        var http = createRequestObject();  
+        if( http )   
+        {  
+            http.open('get', link);  
+            http.onreadystatechange = function ()   
+            {  
+                if(http.readyState == 4)   
+                {  
+                    cont.innerHTML = http.responseText;  
+                }  
+            }  
+            http.send(null);      
+        }  
+        else   
+        {  
+            document.location = link;  
+        }  
+    }  
+  
+    // creat ajax object  
+    function createRequestObject()   
+    {  
+        try { return new XMLHttpRequest() }  
+        catch(e)   
+        {  
+            try { return new ActiveXObject('Msxml2.XMLHTTP') }  
+            catch(e)   
+            {  
+                try { return new ActiveXObject('Microsoft.XMLHTTP') }  
+                catch(e) { return null; }  
+            }  
+        }  
+    }  
+</script>  
+
+
 <body>
 <jsp:include page="/WEB-INF/views/header.jsp"/>
 
@@ -75,7 +122,8 @@
 	</tr>	
 	<tr>
 		<td> <form:label path="project.id">Project</form:label> </td>
-		<td> <form:select path="project.id">
+		<td> <spring:url value="/projects/${issue.project.id}/builds/" var="projectbuilds" />
+			 <form:select path="project.id" onchange="showContent('${projectbuilds}', this)">
 			 <form:options items="${projects}" itemValue="id" itemLabel="name"/>
 			 </form:select> </td>
 		<td> <form:errors path="project.id" id="errmsg"/> </td>
@@ -105,6 +153,16 @@
 		<td colspan="3"> <input type="submit" value="Save Changes"/> </td>
 	</tr>	
 </table>
+
+
+<div id="contentBody">  
+    </div>  
+  
+    <div id="loading" style="display: none">  
+    loading...
+    </div>  
+    
+    
 </form:form>
 
 <jsp:include page="/WEB-INF/views/footer.jsp"/>

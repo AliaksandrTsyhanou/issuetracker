@@ -50,7 +50,7 @@ public class ProjectsController {
 	}
 	
 	@RequestMapping(value="/projects/{id}", method = RequestMethod.GET) 
-	public String getManual(@PathVariable int id, Model model) throws DAOException{
+	public String getProject(@PathVariable long id, Model model) throws DAOException{
 		Project project = projectManager.get(id);		
 		model.addAttribute("project", project);
 		List<Build> builds = buildManager.getAll(id);
@@ -61,7 +61,7 @@ public class ProjectsController {
 	}
 	
 	@RequestMapping(value = "/projects/{id}", method = RequestMethod.POST)
-	public String addManual(@ModelAttribute("project") @Valid Project project,
+	public String addProject(@ModelAttribute("project") @Valid Project project,
 			BindingResult result) throws DAOException {
 		if (result.hasErrors()){
 			return "editproject";
@@ -70,4 +70,12 @@ public class ProjectsController {
 		return ("redirect:/projects");
 	}	
 	
+	@RequestMapping(value="/projects/{id}/builds", method = RequestMethod.GET) 
+	public String getBuilds(@PathVariable long id, Model model) throws DAOException{
+		List<Build> builds = buildManager.getAll(id);
+		model.addAttribute("builds", builds);
+		Project project = projectManager.get(id);		
+		model.addAttribute("project", project);
+		return "selectbuilds";
+	}
 }
