@@ -4,7 +4,10 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -29,7 +32,7 @@ import by.epam.lab.issuetracker.service.dto.IssueDto;
 
 @Controller
 public class IssueController {
-//	private static final Logger logger = LoggerFactory.getLogger(IssueController.class);
+	private static final Logger logger = LoggerFactory.getLogger(IssueController.class);
 	
 	@Autowired
 	private IssueManager issueManager;
@@ -86,7 +89,38 @@ public class IssueController {
 		if (result.hasErrors()){
 			return "editissue";
 		}		
-		issueManager.update(issueDto);
+		String authorizedUserName = SecurityContextHolder.getContext().getAuthentication().getName();
+		issueManager.update(issueDto, authorizedUserName);
+		return ("redirect:/issues");
+	}	
+	
+	@RequestMapping(value = "/issues/add", method = RequestMethod.GET)
+	public String showFormAddManual(Model model) throws DAOException {
+		List<Project> projects = projectManager.getAll();
+		model.addAttribute("projects", projects);
+		List<User> assignees = userManager.getAllUser();
+		model.addAttribute("assignees", assignees);
+		
+		List<IManual> statuses = manualManager.getAll(ManualBeanEnum.STATUS);
+		model.addAttribute("statuses", statuses);
+		List<IManual> resulutions = manualManager.getAll(ManualBeanEnum.RESOLUTION);
+		model.addAttribute("resolutions", resulutions);
+		List<IManual> types = manualManager.getAll(ManualBeanEnum.TYPE);
+		model.addAttribute("types", types);
+		List<IManual> priorities = manualManager.getAll(ManualBeanEnum.PRIORITY);
+		model.addAttribute("priorities", priorities);
+		
+		return "addissue";
+	}
+	
+	@RequestMapping(value = "/issues/add", method = RequestMethod.POST)
+	public String addManual(@ModelAttribute("issueDto") @Valid IssueDto issueDto,
+			BindingResult result) throws DAOException {
+		if (result.hasErrors()){
+			return "addissue";
+		}	
+		String authorizedUserName = SecurityContextHolder.getContext().getAuthentication().getName();
+		issueManager.add(issueDto, authorizedUserName);
 		return ("redirect:/issues");
 	}	
 	

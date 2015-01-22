@@ -2,6 +2,7 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ page session="true"%>
+
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF8">
@@ -11,6 +12,7 @@
 <jsp:include page="/WEB-INF/views/header.jsp"/>
 
 <form:form name="addManual" id="addManualForm" method="POST" modelAttribute="manualDto">
+
 <table>
 	<tr>
 		<td> <form:label path="name">Name:</form:label> </td>

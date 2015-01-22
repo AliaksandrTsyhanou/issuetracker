@@ -14,29 +14,9 @@
 <body>
 <jsp:include page="/WEB-INF/views/header.jsp"/>
 
-<form:form name="editIssue" id="editIssueForm" method="POST"  modelAttribute="issueDto">
+<form:form name="addIssue" id="addIssueForm" method="POST"  modelAttribute="issueDto">
 	<form:input path="id" type="hidden"/>
 <table>
-	<tr>
-		<td> <form:label path="id">Id</form:label> </td>
-		<td> <form:input path="id" readonly="true"/> </td>
-	</tr>
-	<tr>
-		<td> <form:label path="createdate">Create Date</form:label> </td>
-		<td><fmt:formatDate value="${issue.createdate}" pattern="yyyy-MM-dd"/> </td>
-	</tr>
-	<tr>
-		<td> <form:label path="creator.emailaddress">Create By</form:label> </td>
-		<td> <c:out value="${issue.creator.emailaddress}"/> </td>
-	</tr>
-	<tr>
-		<td> <form:label path="modifydate">Modify Date</form:label> </td>
-		<td><fmt:formatDate value="${issue.modifydate}" pattern="yyyy-MM-dd"/> </td>
-	</tr>
-	<tr>
-		<td> <form:label path="modifier">Modify By</form:label> </td>
-		<td> <c:out value="${issue.modifier.emailaddress}"/> </td>
-	</tr>
 	<tr>
 		<td> <form:label path="summary">Summary</form:label> </td>
 		<td> <form:input path="summary"/> </td>
@@ -105,19 +85,9 @@
 			
 	
 	<tr>
-		<td colspan="3"> <input type="submit" value="Save Changes"/> </td>
+		<td colspan="3"> <input type="submit" value="Add"/> </td>
 	</tr>	
 </table>
-
-
-<div id="contentBody">  
-    </div>  
-  
-    <div id="loading" style="display: none">  
-    loading...
-    </div>  
-    
-    
 </form:form>
 
 <jsp:include page="/WEB-INF/views/footer.jsp"/>

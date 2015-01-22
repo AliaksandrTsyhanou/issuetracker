@@ -156,5 +156,15 @@ public class Issue {
 	}
 	public void setModifier(User modifier) {
 		this.modifier = modifier;
-	}	
+	}
+	@Override
+	public String toString() {
+		return "Issue [id=" + id + ", summary=" + summary + ", description="
+				+ description + ", status=" + status + ", resolution="
+				+ resolution + ", type=" + type + ", priority=" + priority
+				+ ", project=" + project + ", build=" + build + ", assignee="
+				+ assignee + ", createdate=" + createdate + ", creator="
+				+ creator + ", modifydate=" + modifydate + ", modifier="
+				+ modifier + "]";
+	}		
 }
