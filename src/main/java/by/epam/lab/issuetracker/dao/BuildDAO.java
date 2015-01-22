@@ -47,7 +47,7 @@ public class BuildDAO extends AbstractDAO implements IBuildDAO {
 	}
 	
 	@Override
-	public Build get(int id) throws DAOException{
+	public Build get(long id) throws DAOException{
 		try {
 			Build build = (Build) getSession().get(Build.class, id);
 			return build;

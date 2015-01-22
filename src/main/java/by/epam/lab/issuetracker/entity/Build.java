@@ -6,9 +6,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
 @Table(name="build")
+@XmlRootElement(name = "build")
 public class Build {
 
 	private long id;
@@ -21,18 +24,23 @@ public class Build {
 	public long getId() {
 		return id;
 	}
+	@XmlElement
 	public void setId(long id) {
 		this.id = id;
 	}
+	
 	public long getIdproject() {
 		return idproject;
 	}
+	@XmlElement
 	public void setIdproject(long idproject) {
 		this.idproject = idproject;
 	}
+	
 	public String getName() {
 		return name;
 	}
+	@XmlElement
 	public void setName(String name) {
 		this.name = name;
 	}		

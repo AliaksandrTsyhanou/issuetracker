@@ -6,13 +6,13 @@
 <%@ taglib prefix="sec"	uri="http://www.springframework.org/security/tags"%>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF8">
-<title>Edit issue</title></head>
+<meta http-equiv="Content-Type" content="text/xml">
+<title></title></head>
 
 <body>
-<form:form name="editIssue" id="editIssueForm" method="POST"  modelAttribute="project">
-  <form:select path="id">
-			 <form:options items="${builds}" itemValue="id" itemLabel="name"/>
-			 </form:select>
-</form:form>
+  <select id="buildSelect">
+ 	 <c:forEach items="${builds}" var="build">
+ 	 	<option value="build.id"><c:out value="${build.name}"/></option> 	 	
+ 	 </c:forEach>
+  </select>
 </body></html>

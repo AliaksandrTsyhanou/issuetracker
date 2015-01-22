@@ -27,7 +27,7 @@ public class BuildManager {
 	}
 	
 	@Transactional
-	public Build get(int id) throws DAOException{
+	public Build get(long id) throws DAOException{
 		return buildDAO.get(id);		 
 	}
 	

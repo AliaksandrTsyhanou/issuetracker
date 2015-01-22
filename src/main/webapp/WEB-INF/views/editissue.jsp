@@ -11,24 +11,26 @@
 <style type="text/css"> <%@include file="/resources/css/form.css" %> </style>
 
 <script>  
-    function showContent(link, selectProject) {  
-  		alert(link);	
-        var projectId = selectProject.options[selectProject.selectedIndex].value;
-        
-    	var cont = document.getElementById('contentBody');  
-        var loading = document.getElementById('loading');  
-  
-        cont.innerHTML = loading.innerHTML;  
-  
+	function updateSelect(linkstart, linkend, selectFilter, selectFiltredID) {  
+	  var filterId = selectFilter.options[selectFilter.selectedIndex].value;
+	  var link = linkstart + filterId + linkend;
+	  showContent(link, selectFiltredID);
+	}
+		
+    function showContent(link, selectFiltredID) {  
         var http = createRequestObject();  
         if( http )   
-        {  
-            http.open('get', link);  
-            http.onreadystatechange = function ()   
+        {    	
+        	http.open('get', link);  
+        	http.onreadystatechange = function ()   
             {  
                 if(http.readyState == 4)   
                 {  
-                    cont.innerHTML = http.responseText;  
+                   var xmlSelect = http.responseXML.getElementsByTagName('build');
+                   result = http.responseXML.getElementsByTagName('id')[0].firstChild.nodeValue;
+//                   alert(result);
+//                   alert("xmlSelect[0].firstChild.firstChild.nodeValue=" + xmlSelect[0].firstChild.firstChild.nodeValue);
+                   Filter(selectFiltredID, xmlSelect);
                 }  
             }  
             http.send(null);      
@@ -53,6 +55,25 @@
             }  
         }  
     }  
+    
+    function Filter(selectFiltredID, xmlSelect) {
+    	var FiltredSelect = document.getElementById(selectFiltredID);
+    	var i = 0;
+    	var k = FiltredSelect.length;
+    	for (i=0; i<k; i++){
+    		FiltredSelect.remove(0);
+    	}
+//    	alert(xmlSelect[0].firstChild.data);
+    	for (i = 0; i < xmlSelect.length; i++) {
+     	   var oOption = document.createElement('OPTION');
+     	   FiltredSelect.options.add(oOption);
+     	   oOption.text = xmlSelect[i].childNodes[2].firstChild.nodeValue;
+     	   alert("oOption.text =" + oOption.text)
+     	   oOption.value = xmlSelect[i].childNodes[0].firstChild.nodeValue;
+     	  alert("oOption.value=" + oOption.value)
+     	}  	
+    	
+    }
 </script>  
 
 
@@ -122,15 +143,15 @@
 	</tr>	
 	<tr>
 		<td> <form:label path="project.id">Project</form:label> </td>
-		<td> <spring:url value="/projects/${issue.project.id}/builds/" var="projectbuilds" />
-			 <form:select path="project.id" onchange="showContent('${projectbuilds}', this)">
+		<td> <spring:url value="/projects/" var="projectbuilds" />
+			 <form:select path="project.id" onchange="updateSelect('${projectbuilds}', '/builds/', this, 'selectFiltred')">
 			 <form:options items="${projects}" itemValue="id" itemLabel="name"/>
 			 </form:select> </td>
 		<td> <form:errors path="project.id" id="errmsg"/> </td>
 	</tr>
 	<tr>
 		<td> <form:label path="build.id">Builds</form:label> </td>
-		<td> <form:select path="build.id">
+		<td> <form:select id="selectFiltred" path="build.id">
 			 <form:options items="${builds}" itemValue="id" itemLabel="name"/>
 			 </form:select> </td>
 		<td> <form:errors path="build.id" id="errmsg"/> </td>

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import by.epam.lab.issuetracker.entity.Build;
 import by.epam.lab.issuetracker.entity.Project;
@@ -22,6 +23,7 @@ import by.epam.lab.issuetracker.exceptions.DAOException;
 import by.epam.lab.issuetracker.service.BuildManager;
 import by.epam.lab.issuetracker.service.ProjectManager;
 import by.epam.lab.issuetracker.service.UserManager;
+import by.epam.lab.issuetracker.service.dto.BuildsDto;
 
 @Controller
 public class ProjectsController {
@@ -70,12 +72,21 @@ public class ProjectsController {
 		return ("redirect:/projects");
 	}	
 	
+//	@RequestMapping(value="/projects/{id}/builds", method = RequestMethod.GET) 
+//	public String getBuilds(@PathVariable long id, Model model) throws DAOException{
+//		List<Build> builds = buildManager.getAll(id);
+//		model.addAttribute("builds", builds);
+////		Project project = projectManager.get(id);		
+////		model.addAttribute("project", project);
+//		return "selectbuilds";
+//	}
+	
 	@RequestMapping(value="/projects/{id}/builds", method = RequestMethod.GET) 
-	public String getBuilds(@PathVariable long id, Model model) throws DAOException{
-		List<Build> builds = buildManager.getAll(id);
-		model.addAttribute("builds", builds);
-		Project project = projectManager.get(id);		
-		model.addAttribute("project", project);
-		return "selectbuilds";
+	public @ResponseBody BuildsDto getBuilds(@PathVariable long id, Model model) throws DAOException{
+		BuildsDto builds = new BuildsDto();
+		builds.setBuilds(buildManager.getAll(id));
+		
+//		model.addAttribute("builds", build);
+		return builds;
 	}
 }
