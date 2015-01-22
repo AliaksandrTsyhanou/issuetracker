@@ -2,9 +2,12 @@ package by.epam.lab.issuetracker.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,8 +25,7 @@ import by.epam.lab.issuetracker.service.IssueManager;
 import by.epam.lab.issuetracker.service.ManualManager;
 import by.epam.lab.issuetracker.service.ProjectManager;
 import by.epam.lab.issuetracker.service.UserManager;
-
-
+import by.epam.lab.issuetracker.service.dto.IssueDto;
 
 @Controller
 public class IssueController {
@@ -40,9 +42,9 @@ public class IssueController {
 	@Autowired
 	private ManualManager manualManager;
 
-	@ModelAttribute("issue")	
-	public Issue getIssue(){
-		return new Issue();
+	@ModelAttribute("issueDto")	
+	public IssueDto getIssueDto(){
+		return new IssueDto();
 	}
 	
 	@ModelAttribute("issues")	
@@ -62,7 +64,7 @@ public class IssueController {
 		model.addAttribute("issue", issue);
 		List<Project> projects = projectManager.getAll();
 		model.addAttribute("projects", projects);
-		List<Build> builds = buildManager.getAll();
+		List<Build> builds = buildManager.getAll(issue.getProject().getId());
 		model.addAttribute("builds", builds);
 		List<User> assignees = userManager.getAllUser();
 		model.addAttribute("assignees", assignees);
@@ -77,5 +79,15 @@ public class IssueController {
 		model.addAttribute("priorities", priorities);
 		return "editissue";
 	}
+	
+	@RequestMapping(value = "/issues/{id}", method = RequestMethod.POST)
+	public String UpdateIssie(@ModelAttribute("issueDto") @Valid IssueDto issueDto,
+			BindingResult result) throws DAOException {
+		if (result.hasErrors()){
+			return "editissue";
+		}		
+		issueManager.update(issueDto);
+		return ("redirect:/issues");
+	}	
 	
 }

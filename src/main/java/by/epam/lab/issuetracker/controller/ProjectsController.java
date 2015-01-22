@@ -72,15 +72,6 @@ public class ProjectsController {
 		return ("redirect:/projects");
 	}	
 	
-//	@RequestMapping(value="/projects/{id}/builds", method = RequestMethod.GET) 
-//	public String getBuilds(@PathVariable long id, Model model) throws DAOException{
-//		List<Build> builds = buildManager.getAll(id);
-//		model.addAttribute("builds", builds);
-////		Project project = projectManager.get(id);		
-////		model.addAttribute("project", project);
-//		return "selectbuilds";
-//	}
-	
 	@RequestMapping(value="/projects/{id}/builds", method = RequestMethod.GET) 
 	public @ResponseBody BuildsDto getBuilds(@PathVariable long id, Model model) throws DAOException{
 		BuildsDto builds = new BuildsDto();
