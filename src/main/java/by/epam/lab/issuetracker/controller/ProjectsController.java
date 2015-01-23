@@ -72,12 +72,20 @@ public class ProjectsController {
 		return ("redirect:/projects");
 	}	
 	
+//	@RequestMapping(value="/projects/{id}/builds.xml", method = RequestMethod.GET) 
+//	public @ResponseBody BuildsDto getBuildsXml(@PathVariable long id, Model model) throws DAOException{
+//		BuildsDto builds = new BuildsDto();
+//		builds.setBuilds(buildManager.getAll(id));
+//		
+////		model.addAttribute("builds", build);
+//		return builds;
+//	}
+	
 	@RequestMapping(value="/projects/{id}/builds", method = RequestMethod.GET) 
-	public @ResponseBody BuildsDto getBuilds(@PathVariable long id, Model model) throws DAOException{
+	public String getBuilds(@PathVariable long id, Model model) throws DAOException{
 		BuildsDto builds = new BuildsDto();
 		builds.setBuilds(buildManager.getAll(id));
-		
-//		model.addAttribute("builds", build);
-		return builds;
+		model.addAttribute("builds", builds);
+		return "builds";
 	}
 }
