@@ -70,7 +70,7 @@ public class BuildDAO extends AbstractDAO implements IBuildDAO {
 	@Override
 	public Build add(Build build) throws DAOException {
 		try {
-			getSession().save(build);
+			build.setId((Integer) getSession().save(build));
 		} catch (Exception e) {
 			throw new DAOException("Could not create build " + build, e);    
 		}

@@ -16,6 +16,8 @@ public class ProjectManager {
 	
 	@Autowired
 	private IProjectDAO projectDAO;
+//	@Autowired
+//	private IBuildDAO buildDAO;
 
 	@Transactional
 	public List<Project> getAll() throws DAOException{
@@ -35,6 +37,7 @@ public class ProjectManager {
 	
 	@Transactional
 	public Project add(Project project) throws DAOException {
+//		Project addedProject = projectDAO.add(project);
 		return projectDAO.add(project);		 
 	}
 }

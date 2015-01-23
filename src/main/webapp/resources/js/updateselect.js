@@ -5,7 +5,6 @@ function updateSelect(linkstart, linkend, selectFilter, selectFiltredID) {
 }
 	
 function showContent(link, selectFiltredID) {  
-	alert(link);
     var http = createRequestObject();  
     if( http )   
     {  

@@ -57,10 +57,10 @@ public class ProjectDAO extends AbstractDAO implements IProjectDAO {
 	@Override
 	public Project add(Project project) throws DAOException {
 		try {
-			getSession().save(project);
+			project.setId((Long) getSession().save(project));
 		} catch (Exception e) {
-			throw new DAOException("Could not create manual " + project, e);    
+			throw new DAOException("Could not create project " + project, e);    
 		}
-		return null;
+		return project;
 	}
 }

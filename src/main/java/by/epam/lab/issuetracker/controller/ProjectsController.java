@@ -20,10 +20,13 @@ import by.epam.lab.issuetracker.entity.Build;
 import by.epam.lab.issuetracker.entity.Project;
 import by.epam.lab.issuetracker.entity.User;
 import by.epam.lab.issuetracker.exceptions.DAOException;
+import by.epam.lab.issuetracker.exceptions.ManualNotExistException;
+import by.epam.lab.issuetracker.interfaces.IManual;
 import by.epam.lab.issuetracker.service.BuildManager;
 import by.epam.lab.issuetracker.service.ProjectManager;
 import by.epam.lab.issuetracker.service.UserManager;
 import by.epam.lab.issuetracker.service.dto.BuildsDto;
+import by.epam.lab.issuetracker.service.dto.ManualDto;
 
 @Controller
 public class ProjectsController {
@@ -44,6 +47,10 @@ public class ProjectsController {
 	public List<Project> getAll() throws DAOException{
 		return projectManager.getAll();
 	}
+	@ModelAttribute("manualDto")	
+	public IManual getManualDto(){
+		return new ManualDto();
+	}
 	
 	
 	@RequestMapping(value="/projects", method = RequestMethod.GET) 
@@ -63,7 +70,7 @@ public class ProjectsController {
 	}
 	
 	@RequestMapping(value = "/projects/{id}", method = RequestMethod.POST)
-	public String addProject(@ModelAttribute("project") @Valid Project project,
+	public String updateProject(@ModelAttribute("project") @Valid Project project,
 			BindingResult result) throws DAOException {
 		if (result.hasErrors()){
 			return "editproject";
@@ -88,4 +95,66 @@ public class ProjectsController {
 		model.addAttribute("builds", builds);
 		return "builds";
 	}
+	
+	@RequestMapping(value="/projects/{id}/builds/add", method = RequestMethod.GET) 
+	public String showAddBuild() throws DAOException{
+		return "addmanual";
+	}
+		
+	@RequestMapping(value = "/projects/{id}/builds/add", method = RequestMethod.POST)
+	public String addBuild(@ModelAttribute("manualDto") ManualDto manualDto,
+			@PathVariable int id, BindingResult result) throws DAOException {
+		if (result.hasErrors()){
+			return "addmanual";
+		}	
+		Build build = new Build();
+		build.setId(manualDto.getId());
+		build.setName(manualDto.getName());
+		build.setIdproject(id);
+		buildManager.add(build);
+		return ("redirect:/projects/" + id +"/builds/");
+	}	
+	
+	
+	
+	@RequestMapping(value="/projects/add", method = RequestMethod.GET) 
+	public String showAddProject(Model model) throws DAOException{
+		List<User> mangers = userManager.getAllUser();
+		model.addAttribute("mangers", mangers);
+		return "addproject";
+	}	
+	
+	@RequestMapping(value = "/projects/add", method = RequestMethod.POST)
+	public String addProject(@ModelAttribute("project") Project project,
+			BindingResult result) throws DAOException {
+		if (result.hasErrors()){
+			return "addproject";
+		}	
+		Build addedbuild =  buildManager.add(project.getBuild());
+		project.setBuild(addedbuild);
+		Project addedProject = projectManager.add(project);
+		System.out.println("addedProject.getId()=" + addedProject.getId());
+		addedbuild.setIdproject(addedProject.getId());
+		buildManager.update(addedbuild);
+		return ("redirect:/projects/");
+	}	
+	
+//	@RequestMapping(value = "/manuals/{manualname}/add", method = RequestMethod.GET)
+//	public String showFormAddManual(@PathVariable String manualname) {
+//		if (!manualManager.isAllowAdditions(manualname)){
+//			throw new ManualNotExistException();
+//		}
+//		return "addmanual";
+//	}
+//	
+//	@RequestMapping(value = "/manuals/{manualname}/add", method = RequestMethod.POST)
+//	public String addManual(@ModelAttribute("manualDto") IManual manualDto,
+//			@PathVariable String manualname, BindingResult result) throws DAOException {
+//		if (result.hasErrors()){
+//			return "addmanual";
+//		}		
+//		manualManager.add(manualDto, manualname);
+//		return ("redirect:/manuals/" + manualname);
+//	}	
+	
 }

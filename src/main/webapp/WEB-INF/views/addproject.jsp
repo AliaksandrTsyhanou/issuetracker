@@ -6,12 +6,12 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF8">
-<title>Edit project</title></head>
+<title>add project</title></head>
 <style type="text/css"> <%@include file="/resources/css/form.css" %> </style>
 <body>
 <jsp:include page="/WEB-INF/views/header.jsp"/>
 
-<form:form name="editProject" id="editProjectForm" method="POST"  modelAttribute="project">
+<form:form name="addProject" id="editProjectForm" method="POST"  modelAttribute="project">
 	<form:input path="id" type="hidden"/>
 <table>
 	<tr>
@@ -24,15 +24,13 @@
 		<td> <form:input path="description"/> </td>
 		<td> <form:errors path="description" id="errmsg"/> </td>
 	</tr>
-
-	<tr>
-		<td> <a href="${requestScope['javax.servlet.forward.request_uri']}/builds" title="Builds">Builds</a> </td>
-		<td> <form:select path="build.id">
-			 <form:options items="${builds}" itemValue="id" itemLabel="name"/>
-			 </form:select> </td>
-		<td> <form:errors path="build.id" id="errmsg"/> </td>		
-	</tr>
 	
+	<tr>
+		<td> <form:label path="build.name">Build</form:label> </td>
+		<td> <form:input path="build.name"/> </td>
+		<td> <form:errors path="build.name" id="errmsg"/> </td>
+	</tr>
+
 	<tr>
 		<td> <form:label path="manager.id">Manager</form:label> </td>
 		<td> <form:select path="manager.id">
@@ -48,7 +46,7 @@
 			
 	
 	<tr>
-		<td colspan="3"> <input type="submit" value="Save Changes"/> </td>
+		<td colspan="3"> <input type="submit" value="add"/> </td>
 	</tr>
 	
 </table>

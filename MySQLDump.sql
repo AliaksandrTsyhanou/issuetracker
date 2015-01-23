@@ -16,6 +16,69 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `build`
+--
+
+DROP TABLE IF EXISTS `build`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `build` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `idproject` bigint(20) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `build`
+--
+
+LOCK TABLES `build` WRITE;
+/*!40000 ALTER TABLE `build` DISABLE KEYS */;
+INSERT INTO `build` VALUES (1,1,'1-1'),(2,1,'1-2'),(3,2,'2-3'),(4,2,'2-4'),(5,2,'2-5'),(6,2,'2-6-build'),(7,1,'1-7build'),(8,3,'adadee'),(9,4,'new Build'),(10,5,'3333'),(11,4,'1.111'),(12,4,'5.5.10 build'),(13,3,'333 build');
+/*!40000 ALTER TABLE `build` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `issue`
+--
+
+DROP TABLE IF EXISTS `issue`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `issue` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `summary` varchar(255) NOT NULL,
+  `description` varchar(255) NOT NULL,
+  `idstatus` int(11) NOT NULL,
+  `idresolution` int(11) DEFAULT NULL,
+  `idtype` int(11) NOT NULL,
+  `idpriority` int(11) NOT NULL,
+  `idproject` bigint(20) NOT NULL,
+  `idbuildfound` bigint(20) NOT NULL,
+  `idassignee` bigint(20) NOT NULL,
+  `createdate` datetime NOT NULL,
+  `idcreator` bigint(20) NOT NULL,
+  `modifydate` datetime NOT NULL,
+  `idmodifier` bigint(20) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `issue`
+--
+
+LOCK TABLES `issue` WRITE;
+/*!40000 ALTER TABLE `issue` DISABLE KEYS */;
+INSERT INTO `issue` VALUES (1,'summary1','description1',5,4,4,3,1,2,15,'2015-01-20 00:00:00',1,'2015-01-22 00:00:00',1),(2,'summary2','description2',2,2,2,2,2,3,3,'2015-01-20 00:00:00',1,'2015-01-22 00:00:00',14),(3,'3333','3333',1,1,1,1,1,2,1,'2015-01-22 00:00:00',1,'2015-01-22 00:00:00',1),(4,'4444','4444',1,1,1,1,2,4,1,'2015-01-22 00:00:00',1,'2015-01-22 00:00:00',1);
+/*!40000 ALTER TABLE `issue` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `priority`
 --
 
@@ -41,6 +104,34 @@ INSERT INTO `priority` VALUES (1,'Critical'),(2,'Major'),(3,'Important'),(4,'Min
 UNLOCK TABLES;
 
 --
+-- Table structure for table `project`
+--
+
+DROP TABLE IF EXISTS `project`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `project` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `description` varchar(255) NOT NULL,
+  `idbuild` bigint(20) NOT NULL,
+  `idmanager` bigint(20) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `project`
+--
+
+LOCK TABLES `project` WRITE;
+/*!40000 ALTER TABLE `project` DISABLE KEYS */;
+INSERT INTO `project` VALUES (1,'project1','simple project1',1,3),(2,'project_Name','project_Description',3,4),(3,'addded','aaadeeee',8,11),(4,'new Progect','new Progect',9,16),(5,'333','3333',10,1);
+/*!40000 ALTER TABLE `project` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `resolution`
 --
 
@@ -52,7 +143,7 @@ CREATE TABLE `resolution` (
   `name` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -151,7 +242,7 @@ CREATE TABLE `user` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `emailaddress` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `role` int(255) NOT NULL,
+  `idrole` int(255) NOT NULL,
   `firstname` varchar(255) NOT NULL,
   `lastname` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
@@ -178,4 +269,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-01-16 18:42:51
+-- Dump completed on 2015-01-23 20:20:01

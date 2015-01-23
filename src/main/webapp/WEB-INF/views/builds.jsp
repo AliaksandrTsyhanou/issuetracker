@@ -27,8 +27,7 @@
 	 </c:forEach>
 		 <tr>
 		   <td colspan="2">
-		 	<spring:url value="/manuals/${manualname}/add" var="addmanual" />
-		 	<a href="${addmanual}" title="Add Manual">Add</a>
+		   	<a href="${requestScope['javax.servlet.forward.request_uri']}/add" title="add">Add</a>
 		   </td>
 		  </tr>
 	</table>

@@ -9,23 +9,25 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import by.epam.lab.issuetracker.interfaces.IManual;
+
 @Entity
 @Table(name="build")
 @XmlRootElement(name = "build")
-public class Build {
+public class Build implements IManual{
 
-	private long id;
+	private int id;
 	private long idproject;
 	private String name;
 	
 	@Id
 	@Column(name="id")
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-	public long getId() {
+	public int getId() {
 		return id;
 	}
 	@XmlElement
-	public void setId(long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	
