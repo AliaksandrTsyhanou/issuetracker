@@ -8,6 +8,7 @@
 	
 
 	<!-- file with context configuration -->
-	<import resource="classpath:dataconfig.xml" />
+	<import resource="classpath:app-config.xml" />
+	<import resource="classpath:viewresolver-config.xml" />
 
 </beans>

@@ -14,7 +14,7 @@
 <body>
 <jsp:include page="/WEB-INF/views/header.jsp"/>
 
-<form:form name="editIssue" id="editIssueForm" method="POST"  modelAttribute="issueDto">
+<form:form name="editIssue" id="editIssueForm" method="POST"  modelAttribute="issue">
 	<form:input path="id" type="hidden"/>
 <table>
 	<tr>
@@ -78,7 +78,7 @@
 	<tr>
 		<td> <form:label path="project.id">Project</form:label> </td>
 		<td> <spring:url value="/projects/" var="projectbuilds" />
-			 <form:select path="project.id" onchange="updateSelect('${projectbuilds}', '/builds/', this, 'selectFiltred')">
+			 <form:select path="project.id" onchange="updateSelect('${projectbuilds}', '/builds', this, 'selectFiltred')">
 			 <form:options items="${projects}" itemValue="id" itemLabel="name"/>
 			 </form:select> </td>
 		<td> <form:errors path="project.id" id="errmsg"/> </td>

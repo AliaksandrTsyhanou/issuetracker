@@ -1,11 +1,11 @@
 function updateSelect(linkstart, linkend, selectFilter, selectFiltredID) {  
 	var filterId = selectFilter.options[selectFilter.selectedIndex].value;
-  var link = linkstart + filterId + linkend;
+  var link = linkstart + filterId + linkend + ".xml";
   showContent(link, selectFiltredID);
 }
 	
 function showContent(link, selectFiltredID) {  
-
+	alert(link);
     var http = createRequestObject();  
     if( http )   
     {  
