@@ -10,5 +10,6 @@
 	<!-- file with context configuration -->
 	<import resource="classpath:app-config.xml" />
 	<import resource="classpath:viewresolver-config.xml" />
+	<import resource="classpath:uploadfile-config.xml" />
 
 </beans>
