@@ -47,9 +47,7 @@ public class IssueManager {
 	public void update(IssueDto issueDto, String authorizedUserName) throws DAOException {
 		Issue curentIssue = get(issueDto.getId());
 		int statusId = curentIssue.getStatus().getId();
-		boolean isClosed = (statusId==5);
-		boolean isResorved= (statusId==4);
-		Issue updatedIssue = fillIssue(curentIssue, issueDto, isClosed, isResorved);
+		Issue updatedIssue = fillIssue(curentIssue, issueDto, statusId);
 		updatedIssue.setModifydate(new Date());
 		User mofifier = userManager.getUser(authorizedUserName);
 		updatedIssue.setModifier(mofifier);
@@ -59,29 +57,31 @@ public class IssueManager {
 	@Transactional
 	public Issue add(IssueDto issueDto, String authorizedUserName) throws DAOException {
 		Issue newIssue = new Issue();
-		newIssue = fillIssue(newIssue, issueDto , false, false);
+		newIssue = fillIssue(newIssue, issueDto , 0);
 		Date date = new Date();
 		newIssue.setCreatedate(date);
 		newIssue.setModifydate(date);
 		User authorizedUser = userManager.getUser(authorizedUserName);
 		newIssue.setCreator(authorizedUser);
 		newIssue.setModifier(authorizedUser);
-//		new Resolution();
-//		newIssue.setResolution(new Resolution(-1,""));
 		return issueDAO.add(newIssue);		 
 	}
 
-	private Issue fillIssue(Issue issue, IssueDto issueDto, boolean isClosed, boolean isResolved){
-		if (isClosed){
+	private Issue fillIssue(Issue issue, IssueDto issueDto, int statusId){
+		if (statusId==5){
 			issue.setStatus(issueDto.getStatus());
+//			System.out.println("issueDto.getStatus().getId()= " + issueDto.getStatus().getId());
+			if (issueDto.getStatus().getId() == 6){
+				issue.setResolution(new Resolution(-1,""));
+			}
 			return issue;
 		}
-		if (isResolved){
+		if (statusId==4){
 			issue.setStatus(issueDto.getStatus());
 			issue.setResolution(issueDto.getResolution());
 			return issue;
 		}
-		
+				
 		issue.setSummary(issueDto.getSummary());
 		issue.setDescription(issueDto.getDescription());
 		issue.setStatus(issueDto.getStatus());

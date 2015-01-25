@@ -76,6 +76,10 @@ public class IssueController {
 		model.addAttribute("statuses", getStatusList(statusId));
 		model.addAttribute("isClosed", isClosed(statusId));
 		model.addAttribute("isResolved", isResolved(statusId));
+		if ((issue.getResolution() != null) || isResolved(statusId)){
+			List<IManual> resulutions = manualManager.getAll(ManualBeanEnum.RESOLUTION);
+			model.addAttribute("resolutions", resulutions);
+		}
 		return "editissue";
 	}
 	
@@ -99,6 +103,8 @@ public class IssueController {
 		List<Project> projects = projectManager.getAll();		
 		List<Build> builds = buildManager.getAll(projects.get(0).getId());
 		model.addAttribute("builds", builds);
+		List<IManual> resulutions = manualManager.getAll(ManualBeanEnum.RESOLUTION);
+		model.addAttribute("resolutions", resulutions);
 		return "addissue";
 	}
 	
@@ -118,10 +124,6 @@ public class IssueController {
 		model.addAttribute("projects", projects);
 		List<User> assignees = userManager.getAllUser();
 		model.addAttribute("assignees", assignees);
-		
-	
-		List<IManual> resulutions = manualManager.getAll(ManualBeanEnum.RESOLUTION);
-		model.addAttribute("resolutions", resulutions);
 		List<IManual> types = manualManager.getAll(ManualBeanEnum.TYPE);
 		model.addAttribute("types", types);
 		List<IManual> priorities = manualManager.getAll(ManualBeanEnum.PRIORITY);
