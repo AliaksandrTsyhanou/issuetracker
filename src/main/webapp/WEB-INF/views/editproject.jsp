@@ -41,9 +41,14 @@
 		<td> <form:errors path="manager.id" id="errmsg"/> </td>
 	</tr>
 		
+<!-- 	<tr> -->
+<%-- 		<td colspan="3"> <spring:url value="/projects/" var="projects" /> --%>
+<%-- 		<a href="${projects}" title="projects">projects</a> <br><br> </td> --%>
+<!-- 	</tr> -->
 	<tr>
-		<td colspan="3"> <spring:url value="/projects/" var="projects" />
-		<a href="${projects}" title="projects">projects</a> <br><br> </td>
+		<td colspan="3"> 		
+			<a href="${requestScope['javax.servlet.forward.request_uri']}/.." title="Return for list">Return for list</a>
+	  	</td>
 	</tr>
 			
 	

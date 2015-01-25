@@ -78,11 +78,16 @@
 		<td> <form:errors path="assignee.id" id="errmsg"/> </td>
 	</tr>
 	
-	<tr>
-		<td colspan="3"> <spring:url value="/issues/" var="issues" />
-		<a href="${issues}" title="issues">issues</a> <br><br> </td>
-	</tr>
+<!-- 	<tr> -->
+<%-- 		<td colspan="3"> <spring:url value="/issues/" var="issues" /> --%>
+<%-- 		<a href="${issues}" title="issues">issues</a> <br><br> </td> --%>
+<!-- 	</tr> -->
 			
+	<tr>
+		<td colspan="3"> 		
+			<a href="${requestScope['javax.servlet.forward.request_uri']}/.." title="Return for list">Return for list</a>
+	  	</td>
+	</tr>
 	
 	<tr>
 		<td colspan="3"> <input type="submit" value="Add"/> </td>

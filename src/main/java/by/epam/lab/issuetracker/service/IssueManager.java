@@ -45,7 +45,9 @@ public class IssueManager {
 	@Transactional
 	public void update(IssueDto issueDto, String authorizedUserName) throws DAOException {
 		Issue curentIssue = get(issueDto.getId());
-		Issue updatedIssue = fillIssue(curentIssue, issueDto);
+		int statusId = curentIssue.getStatus().getId();
+		boolean isClosed = (statusId==4 || statusId==5);
+		Issue updatedIssue = fillIssue(curentIssue, issueDto, isClosed);
 		updatedIssue.setModifydate(new Date());
 		User mofifier = userManager.getUser(authorizedUserName);
 		updatedIssue.setModifier(mofifier);
@@ -55,7 +57,7 @@ public class IssueManager {
 	@Transactional
 	public Issue add(IssueDto issueDto, String authorizedUserName) throws DAOException {
 		Issue newIssue = new Issue();
-		newIssue = fillIssue(newIssue, issueDto);
+		newIssue = fillIssue(newIssue, issueDto , false);
 		Date date = new Date();
 		newIssue.setCreatedate(date);
 		newIssue.setModifydate(date);
@@ -66,7 +68,11 @@ public class IssueManager {
 		return issueDAO.add(newIssue);		 
 	}
 
-	private Issue fillIssue(Issue issue, IssueDto issueDto){
+	private Issue fillIssue(Issue issue, IssueDto issueDto, boolean isclosed){
+		if (isclosed){
+			issue.setStatus(issueDto.getStatus());
+			return issue;
+		}
 		issue.setSummary(issueDto.getSummary());
 		issue.setDescription(issueDto.getDescription());
 		issue.setStatus(issueDto.getStatus());

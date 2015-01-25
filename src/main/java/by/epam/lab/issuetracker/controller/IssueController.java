@@ -1,5 +1,6 @@
 package by.epam.lab.issuetracker.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -22,6 +23,7 @@ import by.epam.lab.issuetracker.entity.Project;
 import by.epam.lab.issuetracker.entity.User;
 import by.epam.lab.issuetracker.enums.ManualBeanEnum;
 import by.epam.lab.issuetracker.exceptions.DAOException;
+import by.epam.lab.issuetracker.exceptions.ManualNotExistException;
 import by.epam.lab.issuetracker.interfaces.IManual;
 import by.epam.lab.issuetracker.service.BuildManager;
 import by.epam.lab.issuetracker.service.IssueManager;
@@ -65,21 +67,12 @@ public class IssueController {
 	public String getById(@PathVariable int id, Model model) throws DAOException{
 		Issue issue = issueManager.get(id);		
 		model.addAttribute("issue", issue);
-		List<Project> projects = projectManager.getAll();
-		model.addAttribute("projects", projects);
 		List<Build> builds = buildManager.getAll(issue.getProject().getId());
 		model.addAttribute("builds", builds);
-		List<User> assignees = userManager.getAllUser();
-		model.addAttribute("assignees", assignees);
-		
-		List<IManual> statuses = manualManager.getAll(ManualBeanEnum.STATUS);
-		model.addAttribute("statuses", statuses);
-		List<IManual> resulutions = manualManager.getAll(ManualBeanEnum.RESOLUTION);
-		model.addAttribute("resolutions", resulutions);
-		List<IManual> types = manualManager.getAll(ManualBeanEnum.TYPE);
-		model.addAttribute("types", types);
-		List<IManual> priorities = manualManager.getAll(ManualBeanEnum.PRIORITY);
-		model.addAttribute("priorities", priorities);
+		fillManual(model);
+		int statusId = issue.getStatus().getId();
+		model.addAttribute("statuses", getStatusList(statusId));
+		model.addAttribute("isClosed", isClosed(statusId));
 		return "editissue";
 	}
 	
@@ -89,27 +82,17 @@ public class IssueController {
 		if (result.hasErrors()){
 			return "editissue";
 		}		
+		logger.debug("issueDto= " + issueDto);
+		System.out.println("issueDto= " + issueDto);
 		String authorizedUserName = SecurityContextHolder.getContext().getAuthentication().getName();
 		issueManager.update(issueDto, authorizedUserName);
-		return ("redirect:/issues");
+		return ("redirect:/issues/" + issueDto.getId());
 	}	
 	
 	@RequestMapping(value = "/issues/add", method = RequestMethod.GET)
 	public String showFormAddManual(Model model) throws DAOException {
-		List<Project> projects = projectManager.getAll();
-		model.addAttribute("projects", projects);
-		List<User> assignees = userManager.getAllUser();
-		model.addAttribute("assignees", assignees);
-		
-		List<IManual> statuses = manualManager.getAll(ManualBeanEnum.STATUS);
-		model.addAttribute("statuses", statuses);
-		List<IManual> resulutions = manualManager.getAll(ManualBeanEnum.RESOLUTION);
-		model.addAttribute("resolutions", resulutions);
-		List<IManual> types = manualManager.getAll(ManualBeanEnum.TYPE);
-		model.addAttribute("types", types);
-		List<IManual> priorities = manualManager.getAll(ManualBeanEnum.PRIORITY);
-		model.addAttribute("priorities", priorities);
-		
+		fillManual(model);	
+		model.addAttribute("statuses", getStatusList(0));
 		return "addissue";
 	}
 	
@@ -123,5 +106,45 @@ public class IssueController {
 		issueManager.add(issueDto, authorizedUserName);
 		return ("redirect:/issues");
 	}	
+	
+	private void fillManual(Model model) throws DAOException{
+		List<Project> projects = projectManager.getAll();
+		model.addAttribute("projects", projects);
+		List<User> assignees = userManager.getAllUser();
+		model.addAttribute("assignees", assignees);
+		
+	
+		List<IManual> resulutions = manualManager.getAll(ManualBeanEnum.RESOLUTION);
+		model.addAttribute("resolutions", resulutions);
+		List<IManual> types = manualManager.getAll(ManualBeanEnum.TYPE);
+		model.addAttribute("types", types);
+		List<IManual> priorities = manualManager.getAll(ManualBeanEnum.PRIORITY);
+		model.addAttribute("priorities", priorities);
+	}
+	
+	private List<IManual> getStatusList(int currentStatus) throws ManualNotExistException, DAOException{
+		List<IManual> statusList = new ArrayList<IManual>();
+
+		if(currentStatus==0){
+			statusList.add(manualManager.get("status", 1));
+			statusList.add(manualManager.get("status", 2));
+		}	
+		if(currentStatus==1 || currentStatus==2 || currentStatus==3 || currentStatus==6){
+			statusList.add(manualManager.get("status", 3));
+			statusList.add(manualManager.get("status", 4));
+			statusList.add(manualManager.get("status", 5));
+		}
+		if(currentStatus==4 || currentStatus==5){
+			statusList.add(manualManager.get("status", 4));
+			statusList.add(manualManager.get("status", 5));
+			statusList.add(manualManager.get("status", 6));
+		}		
+		return statusList;
+	}
+	
+	private boolean isClosed(int statusId){
+		boolean isClosed = (statusId==4 || statusId==5);
+		return isClosed;
+	}
 	
 }

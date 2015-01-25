@@ -89,5 +89,13 @@ public class IssueDto {
 	}
 	public void setAssignee(User assignee) {
 		this.assignee = assignee;
-	}	
+	}
+	@Override
+	public String toString() {
+		return "IssueDto [id=" + id + ", summary=" + summary + ", description="
+				+ description + ", status=" + status + ", resolution="
+				+ resolution + ", type=" + type + ", priority=" + priority
+				+ ", project=" + project + ", build=" + build + ", assignee="
+				+ assignee + "]";
+	}
 }
