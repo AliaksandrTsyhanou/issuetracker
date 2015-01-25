@@ -62,6 +62,8 @@ public class IssueController {
 	public String showAlls(){
 		return "issues";
 	}
+	
+	
 		
 	@RequestMapping(value="/issues/{id}", method = RequestMethod.GET) 
 	public String getById(@PathVariable int id, Model model) throws DAOException{
@@ -73,6 +75,7 @@ public class IssueController {
 		int statusId = issue.getStatus().getId();
 		model.addAttribute("statuses", getStatusList(statusId));
 		model.addAttribute("isClosed", isClosed(statusId));
+		model.addAttribute("isResolved", isResolved(statusId));
 		return "editissue";
 	}
 	
@@ -82,17 +85,20 @@ public class IssueController {
 		if (result.hasErrors()){
 			return "editissue";
 		}		
-		logger.debug("issueDto= " + issueDto);
-		System.out.println("issueDto= " + issueDto);
 		String authorizedUserName = SecurityContextHolder.getContext().getAuthentication().getName();
 		issueManager.update(issueDto, authorizedUserName);
 		return ("redirect:/issues/" + issueDto.getId());
 	}	
 	
+	
+	
 	@RequestMapping(value = "/issues/add", method = RequestMethod.GET)
 	public String showFormAddManual(Model model) throws DAOException {
 		fillManual(model);	
 		model.addAttribute("statuses", getStatusList(0));
+		List<Project> projects = projectManager.getAll();		
+		List<Build> builds = buildManager.getAll(projects.get(0).getId());
+		model.addAttribute("builds", builds);
 		return "addissue";
 	}
 	
@@ -134,11 +140,14 @@ public class IssueController {
 			statusList.add(manualManager.get("status", 4));
 			statusList.add(manualManager.get("status", 5));
 		}
-		if(currentStatus==4 || currentStatus==5){
+		if(currentStatus==4){
 			statusList.add(manualManager.get("status", 4));
 			statusList.add(manualManager.get("status", 5));
+		}	
+		if(currentStatus==5){
+			statusList.add(manualManager.get("status", 5));
 			statusList.add(manualManager.get("status", 6));
-		}		
+		}	
 		return statusList;
 	}
 	
@@ -147,4 +156,9 @@ public class IssueController {
 		return isClosed;
 	}
 	
+	private boolean isResolved(int statusId){
+		boolean isResolved = (statusId==4);
+		return isResolved;
+	}
+		
 }

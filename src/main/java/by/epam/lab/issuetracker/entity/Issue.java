@@ -14,6 +14,9 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+
 import by.epam.lab.issuetracker.entity.manuals.Priority;
 import by.epam.lab.issuetracker.entity.manuals.Resolution;
 import by.epam.lab.issuetracker.entity.manuals.Status;
@@ -71,8 +74,9 @@ public class Issue {
 		this.status = status;
 	}
 	
-	@OneToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "idresolution", unique = true, nullable = false)
+	@OneToOne()
+	@JoinColumn(name = "idresolution", unique = true, nullable = true)
+	@NotFound(action=NotFoundAction.IGNORE)
 	public Resolution getResolution() {
 		return resolution;
 	}

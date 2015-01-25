@@ -15,8 +15,6 @@
 <jsp:include page="/WEB-INF/views/header.jsp"/>
 
 <form:form name="editIssue" id="editIssueForm" method="POST"  modelAttribute="issue">
-<%-- 	<c:set var="isClosed" value="true"/> --%>
-<%-- 	<c:if test="${closed}" var="isClosed"/> --%>
 	<form:input path="id" type="hidden"/>
 <table>
 	<tr>
@@ -58,7 +56,7 @@
 	</tr>
 	<tr>
 		<td> <form:label path="resolution.id">Resolution</form:label> </td>
-		<td> <form:select path="resolution.id" disabled="${isClosed}">
+		<td> <form:select path="resolution.id" disabled="${!isResolved}">
 			 <form:options items="${resolutions}" itemValue="id" itemLabel="name"/>
 			 </form:select> </td>
 		<td> <form:errors path="resolution.id" id="errmsg"/> </td>

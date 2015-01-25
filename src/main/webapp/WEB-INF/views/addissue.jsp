@@ -35,13 +35,6 @@
 		<td> <form:errors path="status.id" id="errmsg"/> </td>
 	</tr>
 	<tr>
-		<td> <form:label path="resolution.id">Resolution</form:label> </td>
-		<td> <form:select path="resolution.id">
-			 <form:options items="${resolutions}" itemValue="id" itemLabel="name"/>
-			 </form:select> </td>
-		<td> <form:errors path="resolution.id" id="errmsg"/> </td>
-	</tr>
-	<tr>
 		<td> <form:label path="type.id">Type</form:label> </td>
 		<td> <form:select path="type.id">
 			 <form:options items="${types}" itemValue="id" itemLabel="name"/>
@@ -58,7 +51,7 @@
 	<tr>
 		<td> <form:label path="project.id">Project</form:label> </td>
 		<td> <spring:url value="/projects/" var="projectbuilds" />
-			 <form:select path="project.id" onchange="updateSelect('${projectbuilds}', '/builds/', this, 'selectFiltred')">
+			 <form:select path="project.id" onchange="updateSelect('${projectbuilds}', '/builds', this, 'selectFiltred')">
 			 <form:options items="${projects}" itemValue="id" itemLabel="name"/>
 			 </form:select> </td>
 		<td> <form:errors path="project.id" id="errmsg"/> </td>
@@ -71,7 +64,7 @@
 		<td> <form:errors path="build.id" id="errmsg"/> </td>
 	</tr>	
 	<tr>
-		<td> <form:label path="assignee.id">Manager</form:label> </td>
+		<td> <form:label path="assignee.id">Assignee</form:label> </td>
 		<td> <form:select path="assignee.id">
 			 <form:options items="${assignees}" itemValue="id" itemLabel="emailaddress"/>
 			 </form:select> </td>
