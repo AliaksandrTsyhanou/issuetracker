@@ -20,7 +20,7 @@ import by.epam.lab.issuetracker.entity.Build;
 import by.epam.lab.issuetracker.entity.Project;
 import by.epam.lab.issuetracker.entity.User;
 import by.epam.lab.issuetracker.exceptions.DAOException;
-import by.epam.lab.issuetracker.exceptions.ManualNotExistException;
+import by.epam.lab.issuetracker.exceptions.NotExistException;
 import by.epam.lab.issuetracker.interfaces.IManual;
 import by.epam.lab.issuetracker.service.BuildManager;
 import by.epam.lab.issuetracker.service.ProjectManager;
@@ -138,23 +138,4 @@ public class ProjectsController {
 		buildManager.update(addedbuild);
 		return ("redirect:/projects/");
 	}	
-	
-//	@RequestMapping(value = "/manuals/{manualname}/add", method = RequestMethod.GET)
-//	public String showFormAddManual(@PathVariable String manualname) {
-//		if (!manualManager.isAllowAdditions(manualname)){
-//			throw new ManualNotExistException();
-//		}
-//		return "addmanual";
-//	}
-//	
-//	@RequestMapping(value = "/manuals/{manualname}/add", method = RequestMethod.POST)
-//	public String addManual(@ModelAttribute("manualDto") IManual manualDto,
-//			@PathVariable String manualname, BindingResult result) throws DAOException {
-//		if (result.hasErrors()){
-//			return "addmanual";
-//		}		
-//		manualManager.add(manualDto, manualname);
-//		return ("redirect:/manuals/" + manualname);
-//	}	
-	
 }

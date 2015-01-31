@@ -10,15 +10,17 @@
 	<http pattern="/css/**" security="none" />
 	<http pattern="/js/**"  security="none" />
 	<http pattern="/login.jsp" security="none" />
+
 	
 	<http auto-config="true" use-expressions="true">
-		<intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')" />
  		<intercept-url pattern="/users/add" access="hasRole('ROLE_ADMIN')" />  
  		<intercept-url pattern="/users" access="hasRole('ROLE_ADMIN')" />  
  		<intercept-url pattern="/users/edit" access="isAuthenticated()" />  
  		<intercept-url pattern="/users/changepassword" access="isAuthenticated()" />  
  		<intercept-url pattern="/users/**" access="hasRole('ROLE_ADMIN')" />  
- 		
+		<intercept-url pattern="/projects/**" access="isAuthenticated()" />
+
+		 		
 		<logout logout-url="/logout" />
   		<intercept-url pattern="/login" access="permitAll" />  
  
@@ -33,10 +35,5 @@
 		</authentication-provider>
 	</authentication-manager>
 	
+
 </beans:beans>
-
-
-<!-- 	<http pattern="/adduser.jsp" security="none" /> -->
-<!-- 	<http pattern="/users.jsp" security="none" /> -->
-<!-- 	<http pattern="/edituser.jsp" security="none" /> -->
-<!-- 	<http pattern="/changepassword.jsp" security="none" /> -->   

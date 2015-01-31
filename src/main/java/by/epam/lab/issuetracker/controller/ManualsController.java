@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import by.epam.lab.issuetracker.exceptions.DAOException;
-import by.epam.lab.issuetracker.exceptions.ManualNotExistException;
+import by.epam.lab.issuetracker.exceptions.NotExistException;
 import by.epam.lab.issuetracker.interfaces.IManual;
 import by.epam.lab.issuetracker.service.ManualManager;
 import by.epam.lab.issuetracker.service.dto.ManualDto;
@@ -68,7 +68,7 @@ public class ManualsController {
 	@RequestMapping(value = "/manuals/{manualname}/add", method = RequestMethod.GET)
 	public String showFormAddManual(@PathVariable String manualname) {
 		if (!manualManager.isAllowAdditions(manualname)){
-			throw new ManualNotExistException();
+			throw new NotExistException();
 		}
 		return "addmanual";
 	}

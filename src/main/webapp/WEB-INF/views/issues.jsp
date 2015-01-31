@@ -3,56 +3,37 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ page session="true"%>
+<%@ taglib prefix="sec"	uri="http://www.springframework.org/security/tags"%>
+<%@ taglib uri="http://displaytag.sf.net" prefix="display"%>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF8">
 <title>projects</title></head>
 <style type="text/css"> <%@include file="/resources/css/form.css" %> </style>
+
 <body>
 <jsp:include page="/WEB-INF/views/header.jsp"/>
 
-<form:form name="Issues" id="IssuesForm" method="get"  modelAttribute="issues">
-	<table>
-	 <tr>
-	  	<td width="50">id          </td>
-	  	<td width="150">Summary     </td>
-	  	<td width="150">Description </td>
-	  	<td width="150">Status      </td>
-	  	<td width="150">Type        </td>
-	  	<td width="150">Priority    </td>
-	  	<td width="150">Project     </td>
-	  	<td width="100">Build found </td>
-	  	<td width="150">Assignee    </td>	  	
-	  	<td width="150">created date</td>	 
-	  	<td width="150">modify date</td>
-	 </tr>
-	 
-	 <c:forEach items="${issues}" var="issue">
-	  <tr>
-	   	<td><c:out value="${issue.id}"            /></td>	 
-	    <td><spring:url value="/issues/${issue.id}" var="editissue" />
-	       <a href="${editissue}" title="Edit Issue">${issue.summary}</a></td>
-	   	<td><c:out value="${issue.description}"   /></td>
-	   	<td><c:out value="${issue.status.name}"   /></td>	   
-	   	<td><c:out value="${issue.type.name}"     /></td>
-	   	<td><c:out value="${issue.priority.name}" /></td>
-	   	<td><spring:url value="/projects/${issue.project.id}" var="editproject" />
-	       <a href="${editproject}" title="Edit Project">${issue.project.name}</a></td>
-	   	<td><c:out value="${issue.build.name}" /></td>
-	   	<td><c:out value="${issue.assignee.emailaddress}" /></td>
-	   	<td><fmt:formatDate value="${issue.createdate}" pattern="yyyy-MM-dd"/> </td>
-	   	<td><fmt:formatDate value="${issue.modifydate}" pattern="yyyy-MM-dd"/> </td>
-	  </tr>
-	 </c:forEach>
-	  <tr>
-	   <td colspan="9">
-	 	<spring:url value="/issues/add" var="addissues" />
-	 	<a href="${addissues}" title="Add issues">Add</a>
-	   </td>
-	   
-	  </tr>
-	</table>
-</form:form>
+<div>
+	<spring:url value="/issues/" var="editissue" />
+	             <a href="${editissue}" title="Edit Issue">${issue.summary}</a>
+	<display:table name="issues" sort="list" pagesize="10" id="row" export="true" requestURI="" >
+        	<display:column title="id" sortable="true" group="1" headerClass="sortable">
+			   <a href="${editissue}${row.id}" title="Edit Issue">${row.id}</a>
+			</display:column>
+			<display:column property="summary" title="Summary" group="1" sortable="true" headerClass="sortable" />
+			<display:column property="description" title="Description" group="1" sortable="true" headerClass="sortable" />
+			<display:column property="status.name" title="Status" group="1" sortable="true" headerClass="sortable" />
+			<display:column property="type.name" title="Type" group="1" sortable="true" headerClass="sortable" />
+			<display:column property="priority.name" title="Priority" group="1" sortable="true" headerClass="sortable" />
+			<display:column property="project.name" title="Project" group="1" sortable="true" headerClass="sortable" />
+			<display:column property="build.name" title="Build found" group="1" sortable="true" headerClass="sortable" />
+			<display:column property="assignee.emailaddress" title="Assignee" group="1" sortable="true" headerClass="sortable" />
+			<display:column property="createdate" title="created date" group="1" sortable="true" headerClass="sortable" />		
+			<display:column property="modifydate" title="modify date" group="1" sortable="true" headerClass="sortable" />			
+	</display:table>
+</div>
 
 <jsp:include page="/WEB-INF/views/footer.jsp"/>
+
 </body></html>

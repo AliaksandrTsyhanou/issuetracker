@@ -82,7 +82,6 @@ public class UsersController {
 	
 	@RequestMapping(value="/edit", method = RequestMethod.GET) 
 	public String getEditUser(Model model) throws DAOException{
-		logger.debug("@RequestMapping(value=/users/edit}, method = RequestMethod.GET)");
 		String authorizedUserName = SecurityContextHolder.getContext().getAuthentication().getName();
 		UserEditDto userEditDto = userManager.getUserEditDto(authorizedUserName);
 		model.addAttribute("userEditDto", userEditDto);	
@@ -95,9 +94,6 @@ public class UsersController {
 		if (result.hasErrors()){
 			return "edituser";
 		}
-		logger.debug("@RequestMapping(value=/users/edit, method = RequestMethod.POST)");
-		logger.debug("userEditDto = " + userEditDto);
-		
 		String authorizedUserName = SecurityContextHolder.getContext().getAuthentication().getName();
 		try {
 			userManager.updateUser(userEditDto, authorizedUserName);
@@ -110,8 +106,6 @@ public class UsersController {
 	
 	@RequestMapping(value="/{id}", method = RequestMethod.GET) 
 	public String getUser(@PathVariable long id, Model model) throws DAOException{
-		logger.debug("@RequestMapping(value=/users/{id}, method = RequestMethod.GET)");
-		logger.debug("id=" + id);
 		UserEditDto userEditDto = userManager.getUserEditDto(id);
 		model.addAttribute("userEditDto", userEditDto);		
 		return "edituser";
@@ -123,8 +117,6 @@ public class UsersController {
 		if (result.hasErrors()){
 			return "edituser";
 		}
-		logger.debug("@RequestMapping(value=/users/{id}, method = RequestMethod.POST)");
-		logger.debug("userEditDto = " + userEditDto);
 		try {
 			userManager.updateUser(userEditDto);
 		} catch (EmailExistException e) {
@@ -142,14 +134,9 @@ public class UsersController {
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public String addUser(@ModelAttribute("userAddDto") @Valid UserAddDto userAddDto,
 			BindingResult result, WebRequest request) throws DAOException {
-		logger.debug("/add result.hasErrors() = " + result.hasErrors());
 		if (result.hasErrors()){
 			return "adduser";
 		}		
-		logger.debug("@RequestMapping(value = /add, method = RequestMethod.POST)");
-		logger.debug("=================");
-		logger.debug("+++User= " + userAddDto);
-
 		try {
 			userManager.addUser(userAddDto);
 		} catch (EmailExistException e) {

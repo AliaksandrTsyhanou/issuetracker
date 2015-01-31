@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import by.epam.lab.issuetracker.enums.ManualBeanEnum;
 import by.epam.lab.issuetracker.exceptions.DAOException;
-import by.epam.lab.issuetracker.exceptions.ManualNotExistException;
+import by.epam.lab.issuetracker.exceptions.NotExistException;
 import by.epam.lab.issuetracker.interfaces.IManual;
 import by.epam.lab.issuetracker.interfaces.IManualDAO;
 
@@ -19,7 +19,7 @@ public class ManualManager {
 	private IManualDAO manualDAO;
 	
 	@Transactional
-	public List<IManual> getAll(String manualName) throws DAOException, ManualNotExistException {
+	public List<IManual> getAll(String manualName) throws DAOException, NotExistException {
 		return manualDAO.getAll(getManualBeanEnum(manualName));		 
 	}
 	
@@ -29,22 +29,22 @@ public class ManualManager {
 	}
 	
 	@Transactional
-	public IManual get(String manualName, int manualId) throws DAOException, ManualNotExistException{
+	public IManual get(String manualName, int manualId) throws DAOException, NotExistException{
 		return manualDAO.get(getManualBeanEnum(manualName), manualId);		 
 	}
 	
 	@Transactional
-	public void update(IManual manualDto, String manualName) throws DAOException, ManualNotExistException{
+	public void update(IManual manualDto, String manualName) throws DAOException, NotExistException{
 		ManualBeanEnum manualBeanEnum = getManualBeanEnum(manualName);
 		IManual updatedManual = fillManual(manualDto, manualBeanEnum);
 		manualDAO.update(updatedManual);
 	}
 	
 	@Transactional
-	public IManual add(IManual manualDto, String manualName)  throws DAOException, ManualNotExistException {
+	public IManual add(IManual manualDto, String manualName)  throws DAOException, NotExistException {
 		ManualBeanEnum manualBeanEnum = getManualBeanEnum(manualName);
 		if (!manualBeanEnum.isAllowAdditions()){
-			throw new ManualNotExistException("Addition it is forbidden.");
+			throw new NotExistException("Addition it is forbidden.");
 		}
 		IManual uaddedManual = fillManual(manualDto, manualBeanEnum);
 		
@@ -57,18 +57,18 @@ public class ManualManager {
 	}
 	
 
-	private ManualBeanEnum getManualBeanEnum(String manualName) throws ManualNotExistException{
+	private ManualBeanEnum getManualBeanEnum(String manualName) throws NotExistException{
 		String upperManualName = manualName.toUpperCase();
 		ManualBeanEnum manualBeanEnum;
 		try {
 			manualBeanEnum = ManualBeanEnum.valueOf(upperManualName);
 		} catch (IllegalArgumentException e) {
-			throw new ManualNotExistException(e.getMessage());
+			throw new NotExistException(e.getMessage());
 		}
 		return manualBeanEnum;
 	}
 	
-	private IManual fillManual(IManual manualDto, ManualBeanEnum manualBeanEnum) throws DAOException, ManualNotExistException{
+	private IManual fillManual(IManual manualDto, ManualBeanEnum manualBeanEnum) throws DAOException, NotExistException{
 		IManual returnManual;
 		try {
 			returnManual = (IManual) manualBeanEnum.getClazz().newInstance();

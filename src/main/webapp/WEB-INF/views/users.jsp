@@ -24,14 +24,13 @@
 	 </tr>
 	 <c:forEach items="${users}" var="user">
 	  <tr>
-	   <td><c:out value="${user.id}" /></td>
+	   <td><spring:url value="/users/${user.id}" var="edituser"/>
+	    <a href="${edituser}" title="Edit User">${user.id}</a></td>
 	   <td><c:out value="${user.firstname}" /></td>
 	   <td><c:out value="${user.lastname}" /></td>
 	   <td><c:out value="${user.emailaddress}" /></td>
 	   <td><c:out value="${user.password}" /></td>
 	   <td><c:out value="${user.role.name}" /></td> 
-	   <td><spring:url value="/users/${user.id}" var="user" />
-	    <a href="${user}" title="Edit User">Edit</a></td>
 	  </tr>
 	 </c:forEach>
 	  <tr>

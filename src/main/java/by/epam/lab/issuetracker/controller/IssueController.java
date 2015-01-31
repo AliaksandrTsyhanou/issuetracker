@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,7 +24,7 @@ import by.epam.lab.issuetracker.entity.Project;
 import by.epam.lab.issuetracker.entity.User;
 import by.epam.lab.issuetracker.enums.ManualBeanEnum;
 import by.epam.lab.issuetracker.exceptions.DAOException;
-import by.epam.lab.issuetracker.exceptions.ManualNotExistException;
+import by.epam.lab.issuetracker.exceptions.NotExistException;
 import by.epam.lab.issuetracker.interfaces.IManual;
 import by.epam.lab.issuetracker.service.BuildManager;
 import by.epam.lab.issuetracker.service.IssueManager;
@@ -52,21 +53,22 @@ public class IssueController {
 		return new IssueDto();
 	}
 	
-	@ModelAttribute("issues")	
-	public List<Issue> getAll() throws DAOException{
-		return issueManager.getAll();
-	}
+//	@ModelAttribute("issues")	
+//	public List<Issue> getAll() throws DAOException{
+//		return issueManager.getAll();
+//	}
 	
 	
 	@RequestMapping(value="/issues", method = RequestMethod.GET) 
-	public String showAlls(){
+	public String showAlls(Model model) throws DAOException{
+		model.addAttribute("issues", issueManager.getAll());
 		return "issues";
 	}
 	
 	
 		
 	@RequestMapping(value="/issues/{id}", method = RequestMethod.GET) 
-	public String getById(@PathVariable int id, Model model) throws DAOException{
+	public String getById(@PathVariable long id, Model model) throws DAOException{
 		Issue issue = issueManager.get(id);		
 		model.addAttribute("issue", issue);
 		List<Build> builds = buildManager.getAll(issue.getProject().getId());
@@ -84,6 +86,7 @@ public class IssueController {
 	}
 	
 	@RequestMapping(value = "/issues/{id}", method = RequestMethod.POST)
+	@Secured({"ROLE_REGULAR_USER","ROLE_ADMIN"})
 	public String UpdateIssie(@ModelAttribute("issueDto") @Valid IssueDto issueDto,
 			BindingResult result) throws DAOException {
 		if (result.hasErrors()){
@@ -130,7 +133,7 @@ public class IssueController {
 		model.addAttribute("priorities", priorities);
 	}
 	
-	private List<IManual> getStatusList(int currentStatus) throws ManualNotExistException, DAOException{
+	private List<IManual> getStatusList(int currentStatus) throws NotExistException, DAOException{
 		List<IManual> statusList = new ArrayList<IManual>();
 
 		if(currentStatus==0){

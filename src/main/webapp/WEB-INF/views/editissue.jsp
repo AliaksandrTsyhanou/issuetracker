@@ -110,16 +110,17 @@
 	</tr>	
 </table>
 
+<spring:url value="/files/issue/{id}" var="fileslinks" context="">
+	<spring:param name="id" value="${issue.id}" />
+</spring:url>
+<spring:url value="/files/issue/${issue.id}" var="action"/>
 
-<div id="contentBody">  
-    </div>  
-  
-    <div id="loading" style="display: none">  
-    loading...
-    </div>  
-    
-    
 </form:form>
+
+<jsp:include page="${fileslinks}">
+    <jsp:param name="action" value="${action}"/>
+</jsp:include>
+
 
 <jsp:include page="/WEB-INF/views/footer.jsp"/>
 </body></html> 

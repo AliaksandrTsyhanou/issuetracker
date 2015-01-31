@@ -42,6 +42,34 @@ INSERT INTO `build` VALUES (1,1,'1-1'),(2,1,'1-2'),(3,2,'2-3'),(4,2,'2-4'),(5,2,
 UNLOCK TABLES;
 
 --
+-- Table structure for table `file`
+--
+
+DROP TABLE IF EXISTS `file`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `file` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `size` bigint(20) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `idissue` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=135 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `file`
+--
+
+LOCK TABLES `file` WRITE;
+/*!40000 ALTER TABLE `file` DISABLE KEYS */;
+INSERT INTO `file` VALUES (8,'0EZ_rhGyveE.jpg',322661,'',2),(9,'111.txt',868,'',2),(14,'111.txt',868,'',1),(130,'0EZ_rhGyveE.jpg',322661,'',1),(131,'task 12.png',352702,'adfsdrfhg',1),(132,'MySQLDump.sql',9779,'description',1),(133,'MySQLDump.sql',9779,'321',3),(134,'0EZ_rhGyveE.jpg',322661,'',4);
+/*!40000 ALTER TABLE `file` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `issue`
 --
 
@@ -65,7 +93,7 @@ CREATE TABLE `issue` (
   `idmodifier` bigint(20) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -74,7 +102,7 @@ CREATE TABLE `issue` (
 
 LOCK TABLES `issue` WRITE;
 /*!40000 ALTER TABLE `issue` DISABLE KEYS */;
-INSERT INTO `issue` VALUES (1,'summary1','description1',5,4,4,3,1,2,15,'2015-01-20 00:00:00',1,'2015-01-22 00:00:00',1),(2,'summary2','description2',2,2,2,2,2,3,3,'2015-01-20 00:00:00',1,'2015-01-22 00:00:00',14),(3,'3333','3333',1,1,1,1,1,2,1,'2015-01-22 00:00:00',1,'2015-01-22 00:00:00',1),(4,'4444','4444',1,1,1,1,2,4,1,'2015-01-22 00:00:00',1,'2015-01-22 00:00:00',1);
+INSERT INTO `issue` VALUES (1,'summary1','description1',5,3,4,3,4,11,15,'2015-01-20 00:00:00',1,'2015-01-26 00:00:00',1),(2,'summary2','description2',2,2,2,2,2,3,3,'2015-01-20 00:00:00',1,'2015-01-22 00:00:00',14),(3,'3333','3333',1,1,1,1,1,2,1,'2015-01-22 00:00:00',1,'2015-01-22 00:00:00',1),(4,'4444','4444',3,NULL,1,1,2,4,1,'2015-01-22 00:00:00',1,'2015-01-26 00:00:00',10),(5,'12344','12445',1,NULL,1,1,4,9,3,'2015-01-26 00:00:00',10,'2015-01-26 00:00:00',10);
 /*!40000 ALTER TABLE `issue` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -127,7 +155,7 @@ CREATE TABLE `project` (
 
 LOCK TABLES `project` WRITE;
 /*!40000 ALTER TABLE `project` DISABLE KEYS */;
-INSERT INTO `project` VALUES (1,'project1','simple project1',1,3),(2,'project_Name','project_Description',3,4),(3,'addded','aaadeeee',8,11),(4,'new Progect','new Progect',9,16),(5,'333','3333',10,1);
+INSERT INTO `project` VALUES (1,'project1','simple project1',1,3),(2,'project_Name','project_Description',3,8),(3,'addded','aaadeeee',8,11),(4,'new Progect','new Progect',9,16),(5,'333','3333',10,1);
 /*!40000 ALTER TABLE `project` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -256,7 +284,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'111','111',1,'firstname','lastname'),(2,'bob','1',1,'',''),(3,'John Connor','11111',2,'',''),(4,'222@mail.ru','222',1,'name2','suname2'),(8,'3333@mail.ru','3333',2,'3333','3333'),(9,'444@mail.ru','44444',2,'44','44'),(10,'555','555555',2,'555','555'),(11,'6@6.ru','66666',1,'6_6','6_6'),(12,'12@mail.ru','121212',2,'name3','lost'),(13,'13@mail.ru','131313',2,'1313','1313'),(14,'15@mail.ru','15',2,'15','15'),(15,'16@mail.ru','151515',1,'16','16'),(16,'17@mail.ru','17171717',1,'17','17'),(17,'66@mail.ru','66666',1,'6@mail.ru','6@mail.ru'),(18,'18@18.ru','181818',1,'18','18');
+INSERT INTO `user` VALUES (1,'111','111',1,'firstname','lastname'),(2,'bob','1',1,'',''),(3,'John Connor','11111',2,'',''),(4,'222@mail.ru','222',1,'name2','suname2'),(8,'3333@mail.ru','3333',2,'3333','3333'),(9,'444@mail.ru','44444',2,'44','44'),(10,'555','55555',2,'555','555'),(11,'6@6.ru','66666',1,'6_6','6_6'),(12,'12@mail.ru','121212',2,'name3','lost'),(13,'13@mail.ru','131313',2,'1313','1313'),(14,'15@mail.ru','15',2,'15','15'),(15,'16@mail.ru','151515',1,'16','16'),(16,'17@mail.ru','17171717',1,'17','17'),(17,'66@mail.ru','66666',1,'6@mail.ru','6@mail.ru'),(18,'18@18.ru','181818',1,'18','18');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -269,4 +297,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-01-23 20:20:01
+-- Dump completed on 2015-01-30 18:35:31
