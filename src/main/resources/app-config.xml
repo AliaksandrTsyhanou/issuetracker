@@ -28,6 +28,7 @@
         up static resources in the ${webappRoot}/resources directory 
      -->
 	<mvc:resources mapping="/resources/**" location="/resources/" />
+	<mvc:resources mapping="/images/**" location="/images/"/>
 	<context:component-scan base-package="by.epam.lab.issuetracker" />
 		 
 	
