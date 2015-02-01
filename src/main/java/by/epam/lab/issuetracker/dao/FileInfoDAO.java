@@ -11,7 +11,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import by.epam.lab.issuetracker.entity.FileInfo;
-import by.epam.lab.issuetracker.entity.Project;
 import by.epam.lab.issuetracker.exceptions.DAOException;
 import by.epam.lab.issuetracker.interfaces.IFileInfoDAO;
 

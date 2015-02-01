@@ -26,7 +26,7 @@ public class HomeController {
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model, HttpServletRequest servletRequest) {
-		logger.info("++++++++++++++++++++Welcome home! the client locale is "+ locale.toString());
+		logger.info("Welcome home! the client locale is "+ locale.toString());
 		String realPath = servletRequest.getSession().getServletContext().getRealPath("/"); 
 		logger.debug("realPath = " + realPath);
 		Date date = new Date();

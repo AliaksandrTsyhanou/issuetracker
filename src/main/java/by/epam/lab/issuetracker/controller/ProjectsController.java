@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,13 +15,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import by.epam.lab.issuetracker.entity.Build;
 import by.epam.lab.issuetracker.entity.Project;
 import by.epam.lab.issuetracker.entity.User;
 import by.epam.lab.issuetracker.exceptions.DAOException;
-import by.epam.lab.issuetracker.exceptions.NotExistException;
 import by.epam.lab.issuetracker.interfaces.IManual;
 import by.epam.lab.issuetracker.service.BuildManager;
 import by.epam.lab.issuetracker.service.ProjectManager;
@@ -53,11 +52,13 @@ public class ProjectsController {
 	}
 	
 	
+	@Secured({"ROLE_USER","ROLE_ADMIN"})
 	@RequestMapping(value="/projects", method = RequestMethod.GET) 
 	public String showProjects(){
 		return "projects";
 	}
 	
+	@Secured("ROLE_ADMIN")	
 	@RequestMapping(value="/projects/{id}", method = RequestMethod.GET) 
 	public String getProject(@PathVariable long id, Model model) throws DAOException{
 		Project project = projectManager.get(id);		
@@ -69,6 +70,7 @@ public class ProjectsController {
 		return "editproject";
 	}
 	
+	@Secured("ROLE_ADMIN")
 	@RequestMapping(value = "/projects/{id}", method = RequestMethod.POST)
 	public String updateProject(@ModelAttribute("project") @Valid Project project,
 			BindingResult result) throws DAOException {
@@ -79,14 +81,6 @@ public class ProjectsController {
 		return ("redirect:/projects");
 	}	
 	
-//	@RequestMapping(value="/projects/{id}/builds.xml", method = RequestMethod.GET) 
-//	public @ResponseBody BuildsDto getBuildsXml(@PathVariable long id, Model model) throws DAOException{
-//		BuildsDto builds = new BuildsDto();
-//		builds.setBuilds(buildManager.getAll(id));
-//		
-////		model.addAttribute("builds", build);
-//		return builds;
-//	}
 	
 	@RequestMapping(value="/projects/{id}/builds", method = RequestMethod.GET) 
 	public String getBuilds(@PathVariable long id, Model model) throws DAOException{
@@ -96,11 +90,13 @@ public class ProjectsController {
 		return "builds";
 	}
 	
+	@Secured("ROLE_ADMIN")
 	@RequestMapping(value="/projects/{id}/builds/add", method = RequestMethod.GET) 
 	public String showAddBuild() throws DAOException{
 		return "addmanual";
 	}
-		
+	
+	@Secured({"ROLE_USER","ROLE_ADMIN"})
 	@RequestMapping(value = "/projects/{id}/builds/add", method = RequestMethod.POST)
 	public String addBuild(@ModelAttribute("manualDto") ManualDto manualDto,
 			@PathVariable int id, BindingResult result) throws DAOException {
@@ -116,7 +112,7 @@ public class ProjectsController {
 	}	
 	
 	
-	
+	@Secured("ROLE_ADMIN")
 	@RequestMapping(value="/projects/add", method = RequestMethod.GET) 
 	public String showAddProject(Model model) throws DAOException{
 		List<User> mangers = userManager.getAllUser();
@@ -124,6 +120,7 @@ public class ProjectsController {
 		return "addproject";
 	}	
 	
+	@Secured("ROLE_ADMIN")
 	@RequestMapping(value = "/projects/add", method = RequestMethod.POST)
 	public String addProject(@ModelAttribute("project") Project project,
 			BindingResult result) throws DAOException {

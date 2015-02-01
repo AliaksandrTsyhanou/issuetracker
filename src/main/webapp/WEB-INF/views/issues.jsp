@@ -31,6 +31,10 @@
 			<display:column property="assignee.emailaddress" title="Assignee" sortable="true" headerClass="sortable" />
 	</display:table>
 </div>
+<div class="add">
+  	<spring:url value="/issues/add" var="addissues" />
+	<input type="button" value="Add" onClick='location.href="${addissues}"'>
+</div>
 
 <jsp:include page="/WEB-INF/views/footer.jsp"/>
 

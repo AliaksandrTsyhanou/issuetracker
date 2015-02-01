@@ -7,10 +7,12 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -80,6 +82,7 @@ public class UsersController {
 		return "users";
 	}
 	
+	@Secured({"ROLE_USER","ROLE_ADMIN"})
 	@RequestMapping(value="/edit", method = RequestMethod.GET) 
 	public String getEditUser(Model model) throws DAOException{
 		String authorizedUserName = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -88,6 +91,7 @@ public class UsersController {
 		return "edituser";
 	}
 	
+	@Secured({"ROLE_USER","ROLE_ADMIN"})
 	@RequestMapping(value="/edit", method = RequestMethod.POST) 
 	public String saveEditUser(@ModelAttribute("userEditDto") @Valid UserEditDto userEditDto,
 			BindingResult result, WebRequest webRequest) throws DAOException{
@@ -104,6 +108,7 @@ public class UsersController {
 		return "redirect:/";
 	}
 	
+	@Secured({"ROLE_USER","ROLE_ADMIN"})
 	@RequestMapping(value="/{id}", method = RequestMethod.GET) 
 	public String getUser(@PathVariable long id, Model model) throws DAOException{
 		UserEditDto userEditDto = userManager.getUserEditDto(id);
@@ -111,6 +116,7 @@ public class UsersController {
 		return "edituser";
 	}
 	
+	@Secured({"ROLE_USER","ROLE_ADMIN"})
 	@RequestMapping(value="/{id}", method = RequestMethod.POST) 
 	public String saveEdit(@ModelAttribute("userEditDto") @Valid UserEditDto userEditDto,
 			BindingResult result) throws DAOException{
@@ -126,14 +132,16 @@ public class UsersController {
 		return "redirect:/users";
 	}
 	
+	@Secured("ROLE_ADMIN")
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
 	public String showFormAddUser() {
 		return "adduser";
 	}
 	
+	@Secured("ROLE_ADMIN")
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public String addUser(@ModelAttribute("userAddDto") @Valid UserAddDto userAddDto,
-			BindingResult result, WebRequest request) throws DAOException {
+			BindingResult result) throws DAOException {
 		if (result.hasErrors()){
 			return "adduser";
 		}		
@@ -146,11 +154,13 @@ public class UsersController {
 		return "redirect:/users" ;
 	}	
 	
+	@Secured({"ROLE_USER","ROLE_ADMIN"})
 	@RequestMapping(value = "/changepassword", method = RequestMethod.GET)
 	public String showFormChangePassword() {
 		return "changepassword";
 	}
 	
+	@Secured({"ROLE_USER","ROLE_ADMIN"})
 	@RequestMapping(value = "/changepassword", method = RequestMethod.POST)
 	public String changePassword(@ModelAttribute("changePasswordDto") @Valid ChangePasswordDto changePasswordDto,
 			BindingResult result) throws DAOException {
@@ -165,13 +175,15 @@ public class UsersController {
 		return "redirect:/";
 	}
 	
+	@Secured({"ROLE_USER","ROLE_ADMIN"})
 	@RequestMapping(value = "/{id}/changepassword", method = RequestMethod.GET)
-	public String showFormChangePasswordById(@ModelAttribute("changePasswordDto") ChangePasswordDto changePasswordDto,
+	public String showFormChangePasswordById(@ModelAttribute("changePasswordDto") @Valid ChangePasswordDto changePasswordDto,
 			@PathVariable long id) {
 		changePasswordDto.setUserId(id);
 		return "changepassword";
 	}
 	
+	@Secured({"ROLE_USER","ROLE_ADMIN"})
 	@RequestMapping(value = "/{id}/changepassword", method = RequestMethod.POST)
 	public String changePasswordById(@ModelAttribute("changePasswordDto") @Valid ChangePasswordDto changePasswordDto,
 			BindingResult result) throws DAOException{

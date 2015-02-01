@@ -5,6 +5,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -52,6 +53,7 @@ public class ManualsController {
 		return "editmanual";
 	}
 	
+	@Secured({"ROLE_USER","ROLE_ADMIN"})
 	@RequestMapping(value="/manuals/{manualname}/{id}", method = RequestMethod.POST) 
 	public String saveEdit(@ModelAttribute("manualDto") IManual manualDto,
 			@PathVariable String manualname, BindingResult result) throws DAOException{
@@ -73,6 +75,7 @@ public class ManualsController {
 		return "addmanual";
 	}
 	
+	@Secured("ROLE_ADMIN")
 	@RequestMapping(value = "/manuals/{manualname}/add", method = RequestMethod.POST)
 	public String addManual(@ModelAttribute("manualDto") IManual manualDto,
 			@PathVariable String manualname, BindingResult result) throws DAOException {

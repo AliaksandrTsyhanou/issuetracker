@@ -13,6 +13,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +25,7 @@ import by.epam.lab.issuetracker.entity.Issue;
 import by.epam.lab.issuetracker.entity.Project;
 import by.epam.lab.issuetracker.entity.User;
 import by.epam.lab.issuetracker.enums.ManualBeanEnum;
+import by.epam.lab.issuetracker.enums.StatusEnum;
 import by.epam.lab.issuetracker.exceptions.DAOException;
 import by.epam.lab.issuetracker.exceptions.NotExistException;
 import by.epam.lab.issuetracker.interfaces.IManual;
@@ -32,6 +35,7 @@ import by.epam.lab.issuetracker.service.ManualManager;
 import by.epam.lab.issuetracker.service.ProjectManager;
 import by.epam.lab.issuetracker.service.UserManager;
 import by.epam.lab.issuetracker.service.dto.IssueDto;
+import by.epam.lab.issuetracker.validation.IssueValidator;
 
 @Controller
 public class IssueController {
@@ -47,17 +51,18 @@ public class IssueController {
 	private UserManager userManager;
 	@Autowired
 	private ManualManager manualManager;
+	@Autowired
+	private IssueValidator issueValidator;	
 
+	@InitBinder("issueDto")
+	private void initissueDtoDtoBinder(WebDataBinder binder) {
+		binder.setValidator(issueValidator);	
+	}
+	
 	@ModelAttribute("issueDto")	
 	public IssueDto getIssueDto(){
 		return new IssueDto();
 	}
-	
-//	@ModelAttribute("issues")	
-//	public List<Issue> getAll() throws DAOException{
-//		return issueManager.getAll();
-//	}
-	
 	
 	@RequestMapping(value="/issues", method = RequestMethod.GET) 
 	public String showAlls(Model model) throws DAOException{
@@ -66,7 +71,7 @@ public class IssueController {
 	}
 	
 	
-		
+	@Secured({"ROLE_USER","ROLE_ADMIN"})	
 	@RequestMapping(value="/issues/{id}", method = RequestMethod.GET) 
 	public String getById(@PathVariable long id, Model model) throws DAOException{
 		Issue issue = issueManager.get(id);		
@@ -85,8 +90,8 @@ public class IssueController {
 		return "editissue";
 	}
 	
+	@Secured("ROLE_ADMIN")
 	@RequestMapping(value = "/issues/{id}", method = RequestMethod.POST)
-	@Secured({"ROLE_REGULAR_USER","ROLE_ADMIN"})
 	public String UpdateIssie(@ModelAttribute("issueDto") @Valid IssueDto issueDto,
 			BindingResult result) throws DAOException {
 		if (result.hasErrors()){
@@ -97,10 +102,10 @@ public class IssueController {
 		return ("redirect:/issues/" + issueDto.getId());
 	}	
 	
-	
-	
+		
+	@Secured({"ROLE_USER","ROLE_ADMIN"})	
 	@RequestMapping(value = "/issues/add", method = RequestMethod.GET)
-	public String showFormAddManual(Model model) throws DAOException {
+	public String showFormAdd(Model model) throws DAOException {
 		fillManual(model);	
 		model.addAttribute("statuses", getStatusList(0));
 		List<Project> projects = projectManager.getAll();		
@@ -111,10 +116,11 @@ public class IssueController {
 		return "addissue";
 	}
 	
+	@Secured({"ROLE_USER","ROLE_ADMIN"})
 	@RequestMapping(value = "/issues/add", method = RequestMethod.POST)
-	public String addManual(@ModelAttribute("issueDto") @Valid IssueDto issueDto,
+	public String add(@ModelAttribute("issueDto") @Valid IssueDto issueDto,
 			BindingResult result) throws DAOException {
-		if (result.hasErrors()){
+		if (result.hasErrors() && !isClosed(issueDto.getStatus().getId())){
 			return "addissue";
 		}	
 		String authorizedUserName = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -133,36 +139,42 @@ public class IssueController {
 		model.addAttribute("priorities", priorities);
 	}
 	
+	
+	
 	private List<IManual> getStatusList(int currentStatus) throws NotExistException, DAOException{
 		List<IManual> statusList = new ArrayList<IManual>();
 
 		if(currentStatus==0){
-			statusList.add(manualManager.get("status", 1));
-			statusList.add(manualManager.get("status", 2));
+			statusList.add(manualManager.get("status", StatusEnum.NEW.getId()));
+			statusList.add(manualManager.get("status", StatusEnum.ASSIGNED.getId()));
 		}	
-		if(currentStatus==1 || currentStatus==2 || currentStatus==3 || currentStatus==6){
-			statusList.add(manualManager.get("status", 3));
-			statusList.add(manualManager.get("status", 4));
-			statusList.add(manualManager.get("status", 5));
+		if (currentStatus == StatusEnum.NEW.getId()
+				|| currentStatus == StatusEnum.ASSIGNED.getId()
+				|| currentStatus == StatusEnum.IN_PROGRESS.getId()
+				|| currentStatus == StatusEnum.RESOLVED.getId()) {
+			statusList.add(manualManager.get("status", StatusEnum.IN_PROGRESS.getId()));
+			statusList.add(manualManager.get("status", StatusEnum.RESOLVED.getId()));
+			statusList.add(manualManager.get("status", StatusEnum.CLOSED.getId()));
 		}
-		if(currentStatus==4){
-			statusList.add(manualManager.get("status", 4));
-			statusList.add(manualManager.get("status", 5));
+		if(currentStatus==StatusEnum.RESOLVED.getId()){
+			statusList.add(manualManager.get("status", StatusEnum.RESOLVED.getId()));
+			statusList.add(manualManager.get("status", StatusEnum.CLOSED.getId()));
 		}	
-		if(currentStatus==5){
-			statusList.add(manualManager.get("status", 5));
-			statusList.add(manualManager.get("status", 6));
+		if(currentStatus==StatusEnum.CLOSED.getId()){
+			statusList.add(manualManager.get("status", StatusEnum.RESOLVED.getId()));
+			statusList.add(manualManager.get("status", StatusEnum.CLOSED.getId()));
 		}	
 		return statusList;
 	}
 	
 	private boolean isClosed(int statusId){
-		boolean isClosed = (statusId==4 || statusId==5);
+		boolean isClosed = (statusId == StatusEnum.RESOLVED.getId() 
+				|| statusId == StatusEnum.CLOSED.getId());
 		return isClosed;
 	}
 	
 	private boolean isResolved(int statusId){
-		boolean isResolved = (statusId==4);
+		boolean isResolved = (statusId==StatusEnum.RESOLVED.getId());
 		return isResolved;
 	}
 		

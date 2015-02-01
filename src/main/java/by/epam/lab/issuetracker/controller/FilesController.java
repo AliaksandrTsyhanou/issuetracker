@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,10 +30,11 @@ import by.epam.lab.issuetracker.exceptions.NotExistException;
 import by.epam.lab.issuetracker.service.FileInfoManager;
 import by.epam.lab.issuetracker.service.IssueManager;
 
+@Secured({"ROLE_USER","ROLE_ADMIN"})
 @Controller
 public class FilesController {
 	private static final Logger logger = LoggerFactory.getLogger(FilesController.class);
-
+//	static final String ROOT_PATH = System.getProperty("catalina.home");
 	static final String ROOT_PATH = "D:" + File.separator + "tmpFiles";
 	/* Size of a byte buffer to read/write file */
     private static final int BUFFER_SIZE = 4096;
@@ -47,6 +49,7 @@ public class FilesController {
      * Method for show all  upload files
 	 * @throws DAOException 
      */	
+	
 	@RequestMapping(value="/files", method = RequestMethod.GET) 
 	public String showfiles(Model model) throws DAOException{
 		List<FileInfo> fileList = fileInfoManager.getAll();
@@ -68,52 +71,9 @@ public class FilesController {
 		if (fileInfo == null){
 			throw new NotExistException();
 		}
-		String fileName = fileInfo.getName();
-
-		// Creating the directory to store file
-//		String rootPath = System.getProperty("catalina.home");
-		File dir = new File(ROOT_PATH + File.separator + fileInfo.getIdissue());
-        System.out.println("dir = " + dir);
- 
-        // construct the complete absolute path of the file
-        String fullPath = dir + File.separator + fileName;      
-        File downloadFile = new File(fullPath);
-        FileInputStream inputStream = new FileInputStream(downloadFile);
-
-        // get MIME type of the file
-        String mimeType = new MimetypesFileTypeMap().getContentType(fullPath);
-        if (mimeType == null) {
-            // set to binary type if MIME mapping not found
-            mimeType = "application/octet-stream";
-        }
-        System.out.println("MIME type: " + mimeType);
- 
-        // set content attributes for the response
-        response.setContentType(mimeType);
-        response.setContentLength((int) downloadFile.length());
- 
-        // set headers for the response
-        String headerKey = "Content-Disposition";
-        String headerValue = String.format("attachment; filename=\"%s\"",
-                downloadFile.getName());
-        response.setHeader(headerKey, headerValue);
- 
-        // get output stream of the response
-        OutputStream outStream = response.getOutputStream();
- 
-        byte[] buffer = new byte[BUFFER_SIZE];
-        int bytesRead = -1;
- 
-        // write bytes read from the input stream into the output stream
-        while ((bytesRead = inputStream.read(buffer)) != -1) {
-            outStream.write(buffer, 0, bytesRead);
-        }
- 
-        inputStream.close();
-        outStream.close();
- 
+		downloadfile(fileInfo, request, response);
     }
-	
+
 	
 	/**
      * Method for handling file download request from client by isuueId
@@ -130,7 +90,6 @@ public class FilesController {
 		return "files";
 	}
 	
-	
 	/**
 	 * Upload single file using Spring Controller
 	 * @throws IOException 
@@ -142,8 +101,6 @@ public class FilesController {
 			@RequestParam("file") MultipartFile file, 
 			@RequestParam("description") String description,
 			Model model) throws IOException, DAOException {
-		System.out.println("@RequestMapping(value=/files/issue/{issueId}, method = RequestMethod.POST)");
-		System.out.println("issueId=" + issueId);
 		String filename = file.getOriginalFilename();
 		File dir = new File(ROOT_PATH  + File.separator + issueId);
 		if (uploadfile(file, dir)){
@@ -154,11 +111,55 @@ public class FilesController {
 			fileInfo.setIdissue(issueId);
 			fileInfoManager.add(fileInfo);
 		}		
-//		return showfilesByIssue(issueId, model);
-//		return issueController.getById(issueId, model);
 		return ("redirect:/issues/" + issueId);
 
 	}
+	
+	private void downloadfile(FileInfo fileInfo, HttpServletRequest request,
+            HttpServletResponse response) throws IOException{	
+		String fileName = fileInfo.getName();
+	
+		// Creating the directory to store file
+		File dir = new File(ROOT_PATH + File.separator + fileInfo.getIdissue());
+	    System.out.println("dir = " + dir);
+	
+	    // construct the complete absolute path of the file
+	    String fullPath = dir + File.separator + fileName;      
+	    File downloadFile = new File(fullPath);
+	    FileInputStream inputStream = new FileInputStream(downloadFile);
+	
+	    // get MIME type of the file
+	    String mimeType = new MimetypesFileTypeMap().getContentType(fullPath);
+	    if (mimeType == null) {
+	        // set to binary type if MIME mapping not found
+	        mimeType = "application/octet-stream";
+	    }
+	    System.out.println("MIME type: " + mimeType);
+	
+	    // set content attributes for the response
+	    response.setContentType(mimeType);
+	    response.setContentLength((int) downloadFile.length());
+	
+	    // set headers for the response
+	    String headerKey = "Content-Disposition";
+	    String headerValue = String.format("attachment; filename=\"%s\"",
+	            downloadFile.getName());
+	    response.setHeader(headerKey, headerValue);
+	
+	    // get output stream of the response
+	    OutputStream outStream = response.getOutputStream();
+	
+	    byte[] buffer = new byte[BUFFER_SIZE];
+	    int bytesRead = -1;
+	
+	    // write bytes read from the input stream into the output stream
+	    while ((bytesRead = inputStream.read(buffer)) != -1) {
+	        outStream.write(buffer, 0, bytesRead);
+	    }
+	
+	    inputStream.close();
+	    outStream.close();
+	} 
 	
 	
 	private boolean uploadfile(MultipartFile file, File dir) throws IOException{
@@ -166,7 +167,6 @@ public class FilesController {
 			String filename = file.getOriginalFilename();
 			byte[] bytes = file.getBytes();
 			// Creating the directory to store file
-			// String rootPath = System.getProperty("catalina.home");
 			if (!dir.exists())
 				System.out.println("dir.mkdirs() = " + dir.mkdirs());
 	
