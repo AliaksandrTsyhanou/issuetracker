@@ -16,12 +16,12 @@
 <table>
 	<tr>
 		<td> <form:label path="name">Name</form:label> </td>
-		<td> <form:input path="name"/> </td>
+		<td> <form:input path="name" size="50" /> </td>
 		<td> <form:errors path="name" id="errmsg"/> </td>
 	</tr>
 	<tr>
 		<td> <form:label path="description">Description</form:label> </td>
-		<td> <form:input path="description"/> </td>
+		<td> <form:textarea path="description" cols="50" rows="4"/> </td>
 		<td> <form:errors path="description" id="errmsg"/> </td>
 	</tr>
 

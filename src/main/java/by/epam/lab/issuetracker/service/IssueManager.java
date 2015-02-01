@@ -70,7 +70,6 @@ public class IssueManager {
 	private Issue fillIssue(Issue issue, IssueDto issueDto, int statusId){
 		if (statusId==5){
 			issue.setStatus(issueDto.getStatus());
-//			System.out.println("issueDto.getStatus().getId()= " + issueDto.getStatus().getId());
 			if (issueDto.getStatus().getId() == 6){
 				issue.setResolution(new Resolution(-1,""));
 			}

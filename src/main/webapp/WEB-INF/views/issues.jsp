@@ -2,16 +2,16 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
-<%@ page session="true"%>
 <%@ taglib prefix="sec"	uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="display" uri="http://displaytag.sf.net" %>
+<%@ page session="true"%>
+
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF8">
-<%-- <style type="text/css"> <%@include file="/resources/css/form.css" %> </style> --%>
 <style type="text/css"> <%@include file="/resources/css/displaytag.css" %> </style>
-<!-- <link rel="stylesheet" type="text/css" href="/resources/css/displaytag.css"/> -->
 <title>issues</title></head>
+
 <body>
 <jsp:include page="/WEB-INF/views/header.jsp"/>
 
@@ -21,16 +21,14 @@
         	<display:column title="id" sortable="true" group="1" headerClass="sortable">
 			   <a href="${editissue}${table.id}" title="Edit Issue">${table.id}</a>
 			</display:column>
-			<display:column property="summary" title="Summary" group="1" sortable="true" headerClass="sortable"/>
-			<display:column property="description" title="Description" group="1" sortable="true" headerClass="sortable" />
-			<display:column property="status.name" title="Status" group="1" sortable="true" headerClass="sortable" />
-			<display:column property="type.name" title="Type" group="1" sortable="true" headerClass="sortable" />
-			<display:column property="priority.name" title="Priority" group="1" sortable="true" headerClass="sortable" />
-			<display:column property="project.name" title="Project" group="1" sortable="true" headerClass="sortable" />
-			<display:column property="build.name" title="Build found" group="1" sortable="true" headerClass="sortable" />
-			<display:column property="assignee.emailaddress" title="Assignee" group="1" sortable="true" headerClass="sortable" />
-			<display:column property="createdate" title="created date" group="1" sortable="true" headerClass="sortable" />		
-			<display:column property="modifydate" title="modify date" group="1" sortable="true" headerClass="sortable" />			
+			<display:column property="summary" title="Summary" sortable="true" headerClass="sortable"/>
+			<display:column property="description" title="Description" sortable="true" headerClass="sortable" />
+			<display:column property="status.name" title="Status" sortable="true" headerClass="sortable" />
+			<display:column property="type.name" title="Type" sortable="true" headerClass="sortable" />
+			<display:column property="priority.name" title="Priority" sortable="true" headerClass="sortable" />
+			<display:column property="project.name" title="Project" sortable="true" headerClass="sortable" />
+			<display:column property="build.name" title="Build found" sortable="true" headerClass="sortable" />
+			<display:column property="assignee.emailaddress" title="Assignee" sortable="true" headerClass="sortable" />
 	</display:table>
 </div>
 
@@ -69,5 +67,25 @@
    });
   });
  </script>
+<script type="text/javascript">
+	var table = document.getElementById('table');
+	var tbody = table.getElementsByTagName('tbody')[0];
+	var cells = tbody.getElementsByTagName('td');
+	
+	for (var i=0, len=cells.length; i<len; i++){
+	    if (cells[i].innerHTML == "Critical"){
+	        cells[i].style.backgroundColor = 'OrangeRed';
+	    }
+	    if (cells[i].innerHTML == "Major"){
+	        cells[i].style.backgroundColor = 'SpringGreen';
+	    }
+	    if (cells[i].innerHTML == "Important"){
+	        cells[i].style.backgroundColor = 'Yellow ';
+	    }
+	    if (cells[i].innerHTML == "Minor"){
+	        cells[i].style.backgroundColor = 'LightSkyBlue';
+	    }
+	}
+</script>
 
 </body></html>

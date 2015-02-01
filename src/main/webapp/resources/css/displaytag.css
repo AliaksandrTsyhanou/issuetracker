@@ -2,6 +2,7 @@ table {
 	border: 1px solid #666;
 	width: 80%;
 	margin: 10px 0 5px 0 !important;
+/* 	margin: auto; */
 	background-color: #c7b39b;
 }
 
@@ -61,6 +62,7 @@ div.exportlinks {
 	padding: 2px 4px 2px 4px;
 	margin: 2px 0 10px 0;
 	width: 79%;
+/* 	margin:auto; */
 }
 
 div.exportlinks a {
@@ -156,3 +158,9 @@ table.its thead tr {
 table.its tr.even {
 	background-color: #def;
 }
+
+.add{
+/* 	margin:0 auto; */
+/* 	width: 80%; */
+}
+
