@@ -102,9 +102,7 @@
 	<tr>
 		<td colspan="3"> <spring:url value="/issues/" var="issues" />
 		<a href="${issues}" title="issues">issues</a> <br><br> </td>
-	</tr>
-			
-	
+	</tr>	
 	<tr>
 		<td colspan="3"> <input type="submit" value="Save Changes"/> </td>
 	</tr>	

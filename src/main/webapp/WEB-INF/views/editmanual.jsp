@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF8">
-<title>Edit Status</title></head>
+<title>Edit manual</title></head>
 <style type="text/css"> <%@include file="/resources/css/form.css" %> </style>
 <body>
 <jsp:include page="/WEB-INF/views/header.jsp"/>

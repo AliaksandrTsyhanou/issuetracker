@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF8">
-<title>Edit issue</title></head>
+<title>add issue</title></head>
 <style type="text/css"> <%@include file="/resources/css/form.css" %> </style>
 <script type="text/javascript"> <%@include file="/resources/js/updateselect.js"%> </script>
 
@@ -70,12 +70,6 @@
 			 </form:select> </td>
 		<td> <form:errors path="assignee.id" id="errmsg"/> </td>
 	</tr>
-	
-<!-- 	<tr> -->
-<%-- 		<td colspan="3"> <spring:url value="/issues/" var="issues" /> --%>
-<%-- 		<a href="${issues}" title="issues">issues</a> <br><br> </td> --%>
-<!-- 	</tr> -->
-			
 	<tr>
 		<td colspan="3"> 		
 			<a href="${requestScope['javax.servlet.forward.request_uri']}/.." title="Return for list">Return for list</a>

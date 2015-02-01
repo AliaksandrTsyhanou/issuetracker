@@ -16,46 +16,36 @@
 <table>
 	<tr>
 		<td> <form:label path="name">Name</form:label> </td>
-		<td> <form:input path="name"/> </td>
+		<td> <form:input path="name" size="50" /> </td>
 		<td> <form:errors path="name" id="errmsg"/> </td>
 	</tr>
 	<tr>
 		<td> <form:label path="description">Description</form:label> </td>
-		<td> <form:input path="description"/> </td>
+		<td> <form:textarea path="description" cols="50" rows="4"/> </td>
 		<td> <form:errors path="description" id="errmsg"/> </td>
-	</tr>
-	
+	</tr>	
 	<tr>
 		<td> <form:label path="build.name">Build</form:label> </td>
 		<td> <form:input path="build.name"/> </td>
 		<td> <form:errors path="build.name" id="errmsg"/> </td>
 	</tr>
-
 	<tr>
 		<td> <form:label path="manager.id">Manager</form:label> </td>
 		<td> <form:select path="manager.id">
 			 <form:options items="${mangers}" itemValue="id" itemLabel="emailaddress"/>
 			 </form:select> </td>
 		<td> <form:errors path="manager.id" id="errmsg"/> </td>
-	</tr>
-		
+	</tr>	
 	<tr>
 		<td colspan="3"> <spring:url value="/projects/" var="projects" />
 		<a href="${projects}" title="projects">projects</a> <br><br> </td>
-	</tr>
-			
-	
+	</tr>	
 	<tr>
 		<td colspan="3"> <input type="submit" value="add"/> </td>
-	</tr>
-	
+	</tr>	
 </table>
-
-
 			
 </form:form>
 
 <jsp:include page="/WEB-INF/views/footer.jsp"/>
 </body></html>
-
-<!-- cssStyle="color:red" -->
